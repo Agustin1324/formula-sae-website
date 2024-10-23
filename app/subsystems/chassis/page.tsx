@@ -3,13 +3,95 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect, Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, useGLTF } from "@react-three/drei";
+import { useState, useEffect, Suspense, useRef } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { OrbitControls, useGLTF, Text, PerspectiveCamera, PresentationControls } from "@react-three/drei";
+import * as THREE from 'three';
 
 function ChassisModel() {
+  const groupRef = useRef<THREE.Group>(null);
+  const [modelLoaded, setModelLoaded] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { scene } = useGLTF("/chassis/chassis.gltf");
-  return <primitive object={scene} />;
+  const { camera } = useThree();
+
+  useEffect(() => {
+    if (scene) {
+      try {
+        // Center the model
+        const box = new THREE.Box3().setFromObject(scene);
+        const center = box.getCenter(new THREE.Vector3());
+        scene.position.sub(center);
+
+        // Scale the model to fit the view
+        const size = box.getSize(new THREE.Vector3());
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scale = 2 / maxDim; // Adjust this value if needed
+        scene.scale.setScalar(scale);
+
+        // Position the model above the plane
+        scene.position.y = 1; // Adjust this value to raise or lower the chassis
+
+        if (groupRef.current) {
+          groupRef.current.add(scene);
+          setModelLoaded(true);
+        }
+
+        // Set camera position for isometric view
+        camera.position.set(5, 5, 5);
+        camera.lookAt(0, 1, 0); // Look at the center of the chassis
+
+        console.log("Model loaded successfully");
+        console.log("Model size:", size);
+        console.log("Applied scale:", scale);
+      } catch (err) {
+        console.error("Error processing the model:", err);
+        setError("Error processing the model");
+      }
+    } else {
+      console.error("Scene is undefined");
+      setError("Failed to load 3D model");
+    }
+  }, [scene, camera]);
+
+  if (error) {
+    return <Text color="red" anchorX="center" anchorY="middle">{error}</Text>;
+  }
+
+  return (
+    <group ref={groupRef}>
+      {/* Ground plane */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
+        <planeGeometry args={[10, 10]} />
+        <meshStandardMaterial color="#cccccc" />
+      </mesh>
+      {/* Axes helper */}
+      <axesHelper args={[5]} />
+    </group>
+  );
+}
+
+function ChassisModelContainer() {
+  return (
+    <Canvas>
+      <PerspectiveCamera makeDefault position={[10, 10, 10]} />
+      <ambientLight intensity={0.5} />
+      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+      <pointLight position={[-10, -10, -10]} />
+      <PresentationControls
+        global
+        config={{ mass: 2, tension: 200 }} // Reduced tension for smoother spring
+        snap={{ mass: 4, tension: 400 }}   // Reduced snap tension
+        rotation={[0, -Math.PI / 4, 0]}
+        polar={[-Math.PI / 3, Math.PI / 3]}
+        azimuth={[-Infinity, Infinity]}    // Allow full horizontal rotation
+      >
+        <Suspense fallback={<Text color="white" anchorX="center" anchorY="middle">Loading 3D model...</Text>}>
+          <ChassisModel />
+        </Suspense>
+      </PresentationControls>
+    </Canvas>
+  );
 }
 
 export default function ChassisPage() {
@@ -24,6 +106,8 @@ export default function ChassisPage() {
   }, []);
 
   const closeButtonSize = windowWidth < 768 ? 'text-4xl' : 'text-2xl';
+
+  useGLTF.preload("/chassis/chassis.gltf");
 
   return (
     <div className="min-h-screen bg-white">
@@ -63,15 +147,7 @@ export default function ChassisPage() {
               </div>
             </div>
             <div className="relative h-[400px] bg-gray-200 rounded-lg overflow-hidden">
-              <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
-                <ambientLight intensity={0.5} />
-                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-                <pointLight position={[-10, -10, -10]} />
-                <Suspense fallback={null}>
-                  <ChassisModel />
-                </Suspense>
-                <OrbitControls />
-              </Canvas>
+              <ChassisModelContainer />
             </div>
           </div>
         </div>
