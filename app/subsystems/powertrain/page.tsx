@@ -18,26 +18,6 @@ export default function PowertrainPage() {
         </div>
       </div>
 
-      {/* Navigation */}
-      <nav className="bg-white shadow-lg">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/projects">
-            <Button variant="outline">← Back to Projects</Button>
-          </Link>
-          <div className="flex gap-4">
-            <Link href="/subsystems/chassis">
-              <Button variant="ghost">Chassis</Button>
-            </Link>
-            <Link href="/subsystems/suspension">
-              <Button variant="ghost">Suspension</Button>
-            </Link>
-            <Link href="/subsystems/aero">
-              <Button variant="ghost">Aerodynamics</Button>
-            </Link>
-          </div>
-        </div>
-      </nav>
-
       {/* Main Content */}
       <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto">

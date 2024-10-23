@@ -10,86 +10,52 @@ import * as THREE from 'three';
 
 function ChassisModel() {
   const groupRef = useRef<THREE.Group>(null);
-  const [modelLoaded, setModelLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { scene } = useGLTF("/chassis/chassis.gltf");
-  const { camera } = useThree();
 
   useEffect(() => {
-    if (scene) {
+    if (scene && groupRef.current) {
       try {
-        // Center the model
-        const box = new THREE.Box3().setFromObject(scene);
-        const center = box.getCenter(new THREE.Vector3());
-        scene.position.sub(center);
+        // Reset position and rotation
+        scene.position.set(0, -0.5, 0); // Lowered the model slightly
+        scene.rotation.set(0, Math.PI * 5 / 4, 0); // Rotated 225 degrees around Y-axis
 
-        // Scale the model to fit the view
-        const size = box.getSize(new THREE.Vector3());
-        const maxDim = Math.max(size.x, size.y, size.z);
-        const scale = 2 / maxDim; // Adjust this value if needed
-        scene.scale.setScalar(scale);
+        // Scale the model
+        scene.scale.setScalar(0.015); // Adjusted scale to match the image
 
-        // Position the model above the plane
-        scene.position.y = 1; // Adjust this value to raise or lower the chassis
-
-        if (groupRef.current) {
-          groupRef.current.add(scene);
-          setModelLoaded(true);
-        }
-
-        // Set camera position for isometric view
-        camera.position.set(5, 5, 5);
-        camera.lookAt(0, 1, 0); // Look at the center of the chassis
-
-        console.log("Model loaded successfully");
-        console.log("Model size:", size);
-        console.log("Applied scale:", scale);
+        groupRef.current.add(scene);
       } catch (err) {
         console.error("Error processing the model:", err);
         setError("Error processing the model");
       }
-    } else {
-      console.error("Scene is undefined");
-      setError("Failed to load 3D model");
     }
-  }, [scene, camera]);
+  }, [scene]);
 
   if (error) {
     return <Text color="red" anchorX="center" anchorY="middle">{error}</Text>;
   }
 
-  return (
-    <group ref={groupRef}>
-      {/* Ground plane */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-        <planeGeometry args={[10, 10]} />
-        <meshStandardMaterial color="#cccccc" />
-      </mesh>
-      {/* Axes helper */}
-      <axesHelper args={[5]} />
-    </group>
-  );
+  return <group ref={groupRef} />;
 }
 
 function ChassisModelContainer() {
   return (
-    <Canvas>
-      <PerspectiveCamera makeDefault position={[10, 10, 10]} />
-      <ambientLight intensity={0.5} />
-      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-      <pointLight position={[-10, -10, -10]} />
-      <PresentationControls
-        global
-        config={{ mass: 2, tension: 200 }} // Reduced tension for smoother spring
-        snap={{ mass: 4, tension: 400 }}   // Reduced snap tension
-        rotation={[0, -Math.PI / 4, 0]}
-        polar={[-Math.PI / 3, Math.PI / 3]}
-        azimuth={[-Infinity, Infinity]}    // Allow full horizontal rotation
-      >
-        <Suspense fallback={<Text color="white" anchorX="center" anchorY="middle">Loading 3D model...</Text>}>
-          <ChassisModel />
-        </Suspense>
-      </PresentationControls>
+    <Canvas style={{ height: '500px' }}>
+      <PerspectiveCamera makeDefault position={[3, 2, 3]} />
+      <ambientLight intensity={0.7} />
+      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={0.5} />
+      <pointLight position={[-10, -10, -10]} intensity={0.5} />
+      <OrbitControls
+        enableDamping={true}
+        dampingFactor={0.25}
+        rotateSpeed={0.5}
+        minDistance={2}
+        maxDistance={10}
+        target={[0, -0.5, 0]} // Set the target to match the model's position
+      />
+      <Suspense fallback={<Text color="white" anchorX="center" anchorY="middle">Loading 3D model...</Text>}>
+        <ChassisModel />
+      </Suspense>
     </Canvas>
   );
 }
