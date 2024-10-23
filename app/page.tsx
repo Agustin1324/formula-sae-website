@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { ChassisIcon, PowertrainIcon, SuspensionIcon, AeroIcon } from "@/components/icons";
 import fs from 'fs/promises';
 import path from 'path';
+import { Timeline } from "@/components/ui/timeline";
+import JourneyButton from "@/components/JourneyButton";
 
 async function getSponsors() {
   const sponsorDir = path.join(process.cwd(), 'public', 'sponsors');
@@ -50,14 +52,7 @@ export default async function Home() {
           </p>
           
           <div className="flex gap-4 justify-center animate-slide-up delay-200">
-            <Link href="#about">
-              <Button 
-                size="lg" 
-                className="bg-[#00A3FF] hover:bg-[#0082CC] text-white font-bold text-lg px-8 py-6 transform hover:scale-105 transition-all duration-300 hover:shadow-lg"
-              >
-                Learn More
-              </Button>
-            </Link>
+            <JourneyButton />
             <Link href="/join">
               <Button 
                 size="lg" 
@@ -122,6 +117,14 @@ export default async function Home() {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Our Journey Timeline Section */}
+      <section id="our-journey" className="py-16 px-4 bg-gradient-to-b from-white to-gray-100">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold mb-8 text-center text-gray-800">Our Journey</h2>
+          <Timeline />
         </div>
       </section>
     </div>

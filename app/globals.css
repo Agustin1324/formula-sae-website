@@ -4,6 +4,10 @@
 
 /* Your custom styles here */
 
+html {
+  scroll-behavior: smooth;
+}
+
 .sponsor-carousel {
   overflow: hidden;
   width: 100%;
