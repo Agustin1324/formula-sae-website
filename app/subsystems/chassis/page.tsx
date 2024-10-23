@@ -1,8 +1,30 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useState, useEffect, Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, useGLTF } from "@react-three/drei";
+
+function ChassisModel() {
+  const { scene } = useGLTF("/chassis/chassis.gltf");
+  return <primitive object={scene} />;
+}
 
 export default function ChassisPage() {
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    handleResize(); // Set initial width
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const closeButtonSize = windowWidth < 768 ? 'text-4xl' : 'text-2xl';
+
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -41,9 +63,15 @@ export default function ChassisPage() {
               </div>
             </div>
             <div className="relative h-[400px] bg-gray-200 rounded-lg overflow-hidden">
-              <div className="absolute inset-0 flex items-center justify-center text-gray-500">
-                Chassis CAD Model Placeholder
-              </div>
+              <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+                <ambientLight intensity={0.5} />
+                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+                <pointLight position={[-10, -10, -10]} />
+                <Suspense fallback={null}>
+                  <ChassisModel />
+                </Suspense>
+                <OrbitControls />
+              </Canvas>
             </div>
           </div>
         </div>
@@ -75,13 +103,16 @@ export default function ChassisPage() {
                 racing chassis.
               </p>
             </div>
-            <div className="relative h-[500px] bg-gray-200 rounded-lg overflow-hidden">
+            <div className="relative h-[500px] bg-gray-200 rounded-lg overflow-hidden cursor-pointer" onClick={() => setIsImageModalOpen(true)}>
               <Image
                 src="/chassis/chassis.jpg"
                 alt="Chassis Assembly Process"
                 fill
-                className="object-cover"
+                className="object-contain"
               />
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 hover:bg-opacity-30 transition-opacity duration-300">
+                <span className="text-white text-lg font-semibold opacity-0 hover:opacity-100 transition-opacity duration-300">Click to enlarge</span>
+              </div>
             </div>
           </div>
         </div>
@@ -166,6 +197,31 @@ export default function ChassisPage() {
           </div>
         </div>
       </section>
+
+      {/* Image Modal */}
+      {isImageModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={() => setIsImageModalOpen(false)}>
+          <div className="relative w-full h-full max-w-4xl max-h-4xl p-4">
+            <div className="relative w-full h-full">
+              <Image
+                src="/chassis/chassis.jpg"
+                alt="Chassis Assembly Process"
+                fill
+                className="object-contain"
+              />
+              <button 
+                className={`absolute top-0 right-0 text-white ${closeButtonSize} bg-black bg-opacity-50 w-10 h-10 flex items-center justify-center`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsImageModalOpen(false);
+                }}
+              >
+                ×
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
