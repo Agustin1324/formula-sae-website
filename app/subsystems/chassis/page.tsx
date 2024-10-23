@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function ChassisPage() {
   return (
@@ -47,8 +49,46 @@ export default function ChassisPage() {
         </div>
       </section>
 
-      {/* Technical Details */}
+      {/* Assembly Process Section */}
       <section className="py-16 px-4 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold mb-8 text-gray-900">Chassis Assembly Process</h2>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <p className="text-lg text-gray-700">
+                Our chassis assembly process is a meticulous blend of precision engineering and skilled craftsmanship. 
+                The process begins with the design and fabrication of a custom chassis rig, which serves as the 
+                foundation for accurate and consistent chassis construction.
+              </p>
+              <h3 className="text-xl font-bold text-gray-800">Rig Design and Manufacturing</h3>
+              <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                <li>Designed using Solidworks for precise 3D modeling</li>
+                <li>Manufactured using a combination of manual and CNC routers</li>
+                <li>Wood panels cut to exact specifications</li>
+                <li>Rig assembled to ensure perfect alignment and stability</li>
+              </ul>
+              <h3 className="text-xl font-bold text-gray-800">Chassis Welding</h3>
+              <p className="text-lg text-gray-700">
+                The chassis is welded using the MIG (Metal Inert Gas) welding process, which provides strong, 
+                high-quality welds essential for the structural integrity of the chassis. Our team of skilled 
+                welders ensures that each joint meets the exacting standards required for a high-performance 
+                racing chassis.
+              </p>
+            </div>
+            <div className="relative h-[500px] bg-gray-200 rounded-lg overflow-hidden">
+              <Image
+                src="/chassis/chassis.jpg"
+                alt="Chassis Assembly Process"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Technical Details */}
+      <section className="py-16 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-gray-900">Technical Specifications</h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -95,7 +135,7 @@ export default function ChassisPage() {
       </section>
 
       {/* Analysis & Testing */}
-      <section className="py-16 px-4">
+      <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-gray-900">Analysis & Validation</h2>
           <div className="grid md:grid-cols-2 gap-8">
