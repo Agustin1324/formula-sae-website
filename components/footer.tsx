@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { SiLinktree } from 'react-icons/si';
 
 export default function Footer() {
   return (
@@ -14,7 +15,6 @@ export default function Footer() {
             <h3 className="text-xl font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li><Link href="/" className="hover:text-[#00A3FF] transition-colors duration-300">Home</Link></li>
-              <li><Link href="/join" className="hover:text-[#00A3FF] transition-colors duration-300">Join the Team</Link></li>
               <li><Link href="/contact" className="hover:text-[#00A3FF] transition-colors duration-300">Contact</Link></li>
             </ul>
           </div>
@@ -32,6 +32,11 @@ export default function Footer() {
                 href="https://www.linkedin.com/company/fiuba-racing-team/" 
                 className="text-white hover:text-[#00A3FF] transition-colors duration-300">
                 <FaLinkedin size={24} />
+              </a>
+              <a 
+                href="https://linktr.ee/FiubaRacing" 
+                className="text-white hover:text-[#00A3FF] transition-colors duration-300">
+                <SiLinktree size={24} />
               </a>
             </div>
           </div>
