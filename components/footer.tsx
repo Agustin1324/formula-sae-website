@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaTiktok } from 'react-icons/fa';
+import {FaInstagram, FaLinkedin, FaTiktok } from 'react-icons/fa';
 import { SiLinktree } from 'react-icons/si';
 
 export default function Footer() {
@@ -9,10 +9,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="text-xl font-bold mb-4">FIUBA Racing</h3>
-            <p className="text-sm">Engineering excellence in motion. Join us in our pursuit of innovation and performance.</p>
           </div>
           <div>
-            <h3 className="text-xl font-bold mb-4">Quick Links</h3>
+            <h3 className="text-xl font-bold mb-4">Links de Interes</h3>
             <ul className="space-y-2">
               <li><Link href="/" className="hover:text-[#00A3FF] transition-colors duration-300">Home</Link></li>
               <li><Link href="/contact" className="hover:text-[#00A3FF] transition-colors duration-300">Contact</Link></li>
