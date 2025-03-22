@@ -14,24 +14,23 @@ export default function Footer() {
             <h3 className="text-xl font-bold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li><Link href="/" className="hover:text-[#00A3FF] transition-colors duration-300">Home</Link></li>
-              <li><Link href="/about" className="hover:text-[#00A3FF] transition-colors duration-300">About Us</Link></li>
               <li><Link href="/join" className="hover:text-[#00A3FF] transition-colors duration-300">Join the Team</Link></li>
               <li><Link href="/contact" className="hover:text-[#00A3FF] transition-colors duration-300">Contact</Link></li>
             </ul>
           </div>
           <div>
-            <h3 className="text-xl font-bold mb-4">Connect With Us</h3>
+            <h3 className="text-xl font-bold mb-4">Conectemos</h3>
             <div className="flex space-x-4">
-              <a href="#" className="text-white hover:text-[#00A3FF] transition-colors duration-300">
-                <FaFacebook size={24} />
-              </a>
-              <a href="#" className="text-white hover:text-[#00A3FF] transition-colors duration-300">
-                <FaTwitter size={24} />
-              </a>
-              <a href="#" className="text-white hover:text-[#00A3FF] transition-colors duration-300">
+              <a 
+              href="https://www.instagram.com/fiuba_racing/" 
+              className="text-white hover:text-[#00A3FF] transition-colors duration-300"
+
+              >
                 <FaInstagram size={24} />
               </a>
-              <a href="#" className="text-white hover:text-[#00A3FF] transition-colors duration-300">
+              <a 
+                href="https://www.linkedin.com/company/fiuba-racing-team/" 
+                className="text-white hover:text-[#00A3FF] transition-colors duration-300">
                 <FaLinkedin size={24} />
               </a>
             </div>
