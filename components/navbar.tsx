@@ -9,7 +9,6 @@ import { useLanguage } from "@/contexts/LanguageContext";
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
-  const { language, setLanguage } = useLanguage();
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -20,9 +19,6 @@ export default function Navbar() {
     { name: "Join", href: "/join" },
   ];
 
-  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setLanguage(e.target.value);
-  };
 
   return (
     <nav className="fixed top-0 w-full bg-[#1E2A4A] shadow-lg z-50">
@@ -45,17 +41,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Language Selector */}
-          <div className="hidden lg:flex items-center ml-4">
-            <select 
-              value={language} 
-              onChange={handleLanguageChange}
-              className="bg-[#1E2A4A] text-white border border-white rounded px-2 py-1 text-sm"
-            >
-              <option value="en">English</option>
-              <option value="es">Español</option>
-            </select>
-          </div>
+
 
           {/* Mobile Menu Button */}
           <button
@@ -93,16 +79,7 @@ export default function Navbar() {
                 {item.name}
               </Link>
             ))}
-            <div className="flex items-center px-4 py-3 border-t border-[#1E2A4A]">
-              <select 
-                value={language} 
-                onChange={handleLanguageChange}
-                className="bg-[#2A3B66] text-white border border-white rounded px-2 py-1 flex-grow"
-              >
-                <option value="en">English</option>
-                <option value="es">Español</option>
-              </select>
-            </div>
+
           </div>
         )}
       </div>
