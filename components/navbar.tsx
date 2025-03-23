@@ -12,10 +12,10 @@ export default function Navbar() {
 
   const navItems = [
     { name: "Home", href: "/" },
-    { name: "Chassis", href: "/subsystems/chassis" },
+    { name: "Chasis", href: "/subsystems/chassis" },
     { name: "Powertrain", href: "/subsystems/powertrain" },
     { name: "Suspension", href: "/subsystems/suspension" },
-    { name: "Aerodynamics", href: "/subsystems/aero" },
+    { name: "Aerodinámica", href: "/subsystems/aero" },
     { name: "Join", href: "/join" },
   ];
 
