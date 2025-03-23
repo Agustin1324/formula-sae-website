@@ -2,18 +2,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ChassisIcon, PowertrainIcon, SuspensionIcon, AeroIcon } from "@/components/icons";
-import fs from 'fs/promises';
+import * as fs from 'fs';
 import path from 'path';
 import { Timeline } from "@/components/ui/timeline";
 import JourneyButton from "@/components/JourneyButton";
 
+
 async function getSponsors() {
-  const sponsorDir = path.join(process.cwd(), 'public', 'sponsors');
-  const sponsorFiles = await fs.readdir(sponsorDir);
-  return sponsorFiles.map(file => ({
-    name: path.parse(file).name,
-    logo: `/sponsors/${file}`
-  }));
+
+  const jsonFile = fs.readFileSync(path.join(process.cwd(), 'data', 'sponsors.json'), 'utf-8');
+  const jsonData = JSON.parse(jsonFile);
+  
+  return jsonData.sponsors;
 }
 
 export default async function Home() {
@@ -74,13 +74,15 @@ export default async function Home() {
             <div className="sponsor-track">
               {[...sponsors, ...sponsors].map((sponsor, index) => (
                 <div key={index} className="sponsor-item">
-                  <Image 
-                    src={sponsor.logo} 
-                    alt={`${sponsor.name} logo`} 
-                    width={150}
-                    height={80} 
-                    className="object-contain h-20"
-                  />
+                    <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
+                      <Image 
+                      src={sponsor.logo} 
+                      alt={`${sponsor.name} logo`} 
+                      width={150}
+                      height={80} 
+                      className="object-contain h-20"
+                    />
+                    </a>
                 </div>
               ))}
             </div>

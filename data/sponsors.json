@@ -1,0 +1,20 @@
+{
+    "sponsors": [
+        {
+        "name": "Catia",
+        "logo": "/sponsors/catia.png",
+        "url": "https://www.fi.uba.ar/"
+        },
+        {
+        "name": "Ferrazzi",
+        "logo": "/sponsors/ferrazzi.png",
+        "url": "https://www.ferrazzishop.com.ar/"
+        },
+        {
+        "name": "Fiuba",
+        "logo": "/sponsors/fiuba.png",   
+        "url": "https://www.ingenieria.uba.ar/"
+        }
+
+    ]
+}
