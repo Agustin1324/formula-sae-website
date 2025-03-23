@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import Values from "@/components/values";
 import { Montserrat } from 'next/font/google'
 import { LanguageProvider } from "@/contexts/LanguageContext";
 

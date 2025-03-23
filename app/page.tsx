@@ -6,6 +6,7 @@ import * as fs from 'fs';
 import path from 'path';
 import { Timeline } from "@/components/ui/timeline";
 import JourneyButton from "@/components/JourneyButton";
+import Values from "@/components/values";
 
 
 async function getSponsors() {
@@ -69,7 +70,7 @@ export default async function Home() {
       {/* Sponsor Carousel */}
       <section className="py-12 bg-gray-100 overflow-hidden">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">Nuestros Sponsors</h2>
+          <h2 className="text-3xl font-bold mb-8 text-center text-[#1E2A4A] font-montserrat">Nuestros Sponsors</h2>
           <div className="sponsor-carousel">
             <div className="sponsor-track">
               {[...sponsors, ...sponsors].map((sponsor, index) => (
@@ -89,7 +90,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
       {/* About Section */}
       <section id="about" className="py-16 px-4 bg-gradient-to-b from-white to-gray-100">
         <div className="max-w-6xl mx-auto">
@@ -98,25 +98,9 @@ export default async function Home() {
           Buscamos como equipo fomentar la <strong>creatividad</strong> y la <strong>innovación</strong> en la ingeniería para tener una <strong>visión integral</strong> del proyecto. 
           Esto incluye el control de costos, la calidad ingenieril y la búsqueda de términos de efectividad económica <strong>sin excluir el rendimiento.</strong>
           </p>
-
-          <h3 className="text-3xl font-bold mb-10 text-center text-gray-800">Our Subsystems</h3>
+          <Values />
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {subsystems.map((subsystem, index) => (
-              <Link href={subsystem.link} key={index}>
-                <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 group">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="mb-4 text-5xl text-blue-500 group-hover:text-blue-600 transition-colors duration-300">
-                      <subsystem.icon />
-                    </div>
-                    <h4 className="text-2xl font-bold mb-2 text-gray-800 group-hover:text-blue-600 transition-colors duration-300">{subsystem.name}</h4>
-                    <p className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300">{subsystem.desc}</p>
-                    <span className="mt-4 inline-block bg-blue-500 text-white text-sm py-1 px-3 rounded-full group-hover:bg-blue-600 transition-colors duration-300">
-                      Learn More
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
+
           </div>
         </div>
       </section>

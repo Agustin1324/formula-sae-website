@@ -102,7 +102,7 @@ export const Timeline = () => {
       </div>
 
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
-        <h3 className="text-2xl font-bold mb-8 text-center">Nuestros Logros</h3>
+        <h3 className="text-3xl font-bold text-center tracking-tighter sm:text-4xl md:text-5xl text-[#1E2A4A] font-montserrat">Nuestros Logros</h3>
         {achievements.map((item, index) => (
           <div
             key={index}
