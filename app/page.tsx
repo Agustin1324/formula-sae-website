@@ -69,7 +69,7 @@ export default async function Home() {
       {/* Sponsor Carousel */}
       <section className="py-12 bg-gray-100 overflow-hidden">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">Our Sponsors</h2>
+          <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">Nuestros Sponsors</h2>
           <div className="sponsor-carousel">
             <div className="sponsor-track">
               {[...sponsors, ...sponsors].map((sponsor, index) => (

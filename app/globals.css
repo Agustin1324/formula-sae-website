@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Your custom styles here */
-
 html {
   scroll-behavior: smooth;
 }
@@ -21,6 +19,7 @@ html {
 .sponsor-item {
   flex: 0 0 auto;
   margin-right: 2rem;
+
 }
 
 @keyframes scroll {
@@ -35,4 +34,9 @@ html {
 /* Pause animation on hover */
 .sponsor-track:hover {
   animation-play-state: paused;
+}
+
+.sponsor-item:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
