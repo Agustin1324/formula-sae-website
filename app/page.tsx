@@ -18,10 +18,10 @@ async function getSponsors() {
 
 export default async function Home() {
   const subsystems = [
-    { name: "Chassis", link: "/subsystems/chassis", desc: "The backbone of our race car", icon: ChassisIcon },
+    { name: "Chasis", link: "/subsystems/chassis", desc: "The backbone of our race car", icon: ChassisIcon },
     { name: "Powertrain", link: "/subsystems/powertrain", desc: "Delivering power efficiently", icon: PowertrainIcon },
     { name: "Suspension", link: "/subsystems/suspension", desc: "Optimizing handling and performance", icon: SuspensionIcon },
-    { name: "Aerodynamics", link: "/subsystems/aero", desc: "Maximizing downforce, minimizing drag", icon: AeroIcon },
+    { name: "Aerodinámica", link: "/subsystems/aero", desc: "Maximizing downforce, minimizing drag", icon: AeroIcon },
   ];
 
   const sponsors = await getSponsors();
@@ -93,11 +93,10 @@ export default async function Home() {
       {/* About Section */}
       <section id="about" className="py-16 px-4 bg-gradient-to-b from-white to-gray-100">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold mb-8 text-center text-gray-800">About FIUBA Racing</h2>
+          <h2 className="text-4xl font-bold mb-8 text-center text-gray-800">Nuestra Visión</h2>
           <p className="text-xl mb-12 text-center text-gray-600">
-            FIUBA Racing is a Formula Student team dedicated to designing, building, and racing 
-            high-performance vehicles. Our team of passionate engineering students works tirelessly 
-            to push the boundaries of automotive technology and innovation.
+          Buscamos como equipo fomentar la <strong>creatividad</strong> y la <strong>innovación</strong> en la ingeniería para tener una <strong>visión integral</strong> del proyecto. 
+          Esto incluye el control de costos, la calidad ingenieril y la búsqueda de términos de efectividad económica <strong>sin excluir el rendimiento.</strong>
           </p>
 
           <h3 className="text-3xl font-bold mb-10 text-center text-gray-800">Our Subsystems</h3>
