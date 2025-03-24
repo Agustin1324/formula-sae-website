@@ -16,6 +16,8 @@ export default function Contacto() {
   
   const [showDropdown, setShowDropdown] = useState(false);
   const [enviado, setEnviado] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -33,21 +35,49 @@ export default function Contacto() {
     setShowDropdown(false);
   };
   
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Formulario enviado:", formData);
-    setEnviado(true);
+    setIsLoading(true);
+    setError(null);
     
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setFormData({
-        nombre: '',
-        email: '',
-        tipoConsulta: 'Consulta general',
-        mensaje: ''
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nombre: formData.nombre,
+          email: formData.email,
+          tipo_consulta: formData.tipoConsulta,
+          mensaje: formData.mensaje
+        }),
       });
-      setEnviado(false);
-    }, 3000);
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Error al enviar el formulario');
+      }
+      
+      setEnviado(true);
+      
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setFormData({
+          nombre: '',
+          email: '',
+          tipoConsulta: 'Consulta general',
+          mensaje: ''
+        });
+        setEnviado(false);
+      }, 3000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al enviar el formulario');
+      console.error('Error al enviar el formulario:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -85,6 +115,12 @@ export default function Contacto() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
+                {error && (
+                  <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+                    <span className="block sm:inline">{error}</span>
+                  </div>
+                )}
+                
                 <div>
                   <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
                   <input
@@ -167,8 +203,9 @@ export default function Contacto() {
                   <Button 
                     type="submit" 
                     className="w-full bg-[#1E2A4A] hover:bg-[#00A3FF] text-white font-semibold py-3 rounded-md transition-colors duration-300 transform hover:scale-[1.02]"
+                    disabled={isLoading}
                   >
-                    Enviar mensaje
+                    {isLoading ? 'Enviando...' : 'Enviar mensaje'}
                   </Button>
                 </div>
               </form>
