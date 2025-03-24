@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { crearMensajeContacto, obtenerMensajesContacto, marcarMensajeComoLeido } from '@/lib/services/contactService';
+import { enviarNotificacionMensajeContacto } from '@/lib/services/emailService';
 
 // POST: Crear un nuevo mensaje de contacto
 export async function POST(request: NextRequest) {
@@ -14,22 +15,37 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    const result = await crearMensajeContacto({
+    const mensajeContacto = {
       nombre: body.nombre,
       email: body.email,
       tipo_consulta: body.tipo_consulta,
       mensaje: body.mensaje
-    });
+    };
     
-    if (!result.success) {
+    // Crear el mensaje en la base de datos
+    const resultDB = await crearMensajeContacto(mensajeContacto);
+    
+    if (!resultDB.success) {
+      console.error('Error al crear el mensaje en la base de datos:', resultDB.error);
       return NextResponse.json(
         { error: 'Error al crear el mensaje de contacto' },
         { status: 500 }
       );
     }
     
+    // Enviar notificación por correo electrónico
+    const resultEmail = await enviarNotificacionMensajeContacto(mensajeContacto);
+    
+    if (!resultEmail.success) {
+      console.warn('Se creó el mensaje de contacto pero hubo un error al enviar la notificación por correo electrónico:', resultEmail.error);
+    }
+    
     return NextResponse.json(
-      { message: 'Mensaje de contacto creado exitosamente', data: result.data },
+      { 
+        message: 'Mensaje de contacto creado exitosamente', 
+        data: resultDB.data,
+        emailSent: resultEmail.success 
+      },
       { status: 201 }
     );
   } catch (error) {

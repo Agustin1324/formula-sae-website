@@ -16,6 +16,7 @@ export default function Contacto() {
   
   const [showDropdown, setShowDropdown] = useState(false);
   const [enviado, setEnviado] = useState(false);
+  const [emailEnviado, setEmailEnviado] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -61,8 +62,9 @@ export default function Contacto() {
       }
       
       setEnviado(true);
+      setEmailEnviado(data.emailSent || false);
       
-      // Reset form after 3 seconds
+      // Reset form after 5 seconds
       setTimeout(() => {
         setFormData({
           nombre: '',
@@ -71,7 +73,8 @@ export default function Contacto() {
           mensaje: ''
         });
         setEnviado(false);
-      }, 3000);
+        setEmailEnviado(false);
+      }, 5000);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al enviar el formulario');
       console.error('Error al enviar el formulario:', err);
@@ -111,7 +114,17 @@ export default function Contacto() {
                   </svg>
                 </div>
                 <h3 className="text-2xl font-bold text-[#1E2A4A] mb-2">¡Mensaje Enviado!</h3>
-                <p className="text-gray-600">Gracias por contactarnos. Te responderemos a la brevedad.</p>
+                <p className="text-gray-600 mb-4">Gracias por contactarnos. Te responderemos a la brevedad.</p>
+                {emailEnviado ? (
+                  <div className="bg-blue-50 text-blue-700 px-4 py-2 rounded-md text-sm">
+                    Se ha enviado una notificación automática por correo electrónico a nuestro equipo.
+                  </div>
+                ) : (
+                  <div className="bg-yellow-50 text-yellow-700 px-4 py-2 rounded-md text-sm">
+                    Tu mensaje ha sido guardado, pero hubo un problema al enviar la notificación por correo electrónico. 
+                    Aún así, revisaremos tu consulta pronto.
+                  </div>
+                )}
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
