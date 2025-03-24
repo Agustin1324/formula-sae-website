@@ -1,6 +1,6 @@
 'use client';  // Add this line at the top of the file
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from 'next/navigation';
@@ -8,23 +8,40 @@ import { usePathname } from 'next/navigation';
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   
   // Cerrar el menú cuando cambia la ruta
   useEffect(() => {
     setIsMenuOpen(false);
   }, [pathname]);
 
-  // Prevenir scroll cuando el menú está abierto
+  // Cerrar el menú al hacer clic fuera de él
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) && isMenuOpen) {
+        setIsMenuOpen(false);
+        // Asegurar que el botón pierda el foco cuando se cierra el menú
+        if (buttonRef.current) {
+          buttonRef.current.blur();
+        }
+      }
     }
+
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.body.style.overflow = 'auto';
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isMenuOpen]);
+
+  // Manejar la apertura/cierre del menú
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+    // Si el menú se está cerrando, quitar el foco del botón
+    if (isMenuOpen && buttonRef.current) {
+      buttonRef.current.blur();
+    }
+  };
 
   const navItems = [
     { name: "Inicio", href: "/" },
@@ -41,20 +58,20 @@ export default function Navbar() {
       {/* Navbar principal */}
       <nav className="fixed top-0 w-full bg-[#1E2A4A]/80 backdrop-blur-md shadow-lg z-50 overflow-x-hidden">
         <div className="max-w-6xl mx-auto px-2 sm:px-4">
-          <div className="flex justify-between items-center py-2 sm:py-3">
+          <div className="flex justify-between items-center py-3 sm:py-4">
             <Link href="/" className="flex items-center">
               <Image 
                 src="/logo.png" 
                 alt="FIUBA Racing Logo" 
                 width={180} 
                 height={90} 
-                className="w-auto h-[3.5rem] sm:h-[4.5rem] max-w-[120px] sm:max-w-[180px] hover:opacity-80 transition-opacity duration-300 object-contain" 
+                className="w-auto h-[3.8rem] sm:h-[5rem] max-w-[120px] sm:max-w-[180px] hover:opacity-80 transition-opacity duration-300 object-contain" 
                 priority
               />
             </Link>
 
             {/* Desktop Menu */}
-            <div className="hidden lg:flex items-center ml-auto">
+            <div className="hidden lg:flex items-center">
               {navItems.map((item, index) => (
                 <React.Fragment key={item.name}>
                   <Link
@@ -69,101 +86,89 @@ export default function Navbar() {
                 </React.Fragment>
               ))}
             </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              className="lg:hidden text-white hover:text-[#00A3FF] transition-colors duration-300 ml-2"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            
+            {/* Mobile Menu Button - Alineado a la derecha con más padding */}
+            <div className="lg:hidden relative" ref={dropdownRef}>
+              <button
+                ref={buttonRef}
+                className="text-white hover:text-[#00A3FF] transition-colors duration-300 p-2 rounded-md hover:bg-white/10 mr-1 focus:outline-none"
+                onClick={toggleMenu}
+                aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                aria-expanded={isMenuOpen}
+                aria-controls="mobile-menu"
               >
-                {isMenuOpen ? (
-                  <path d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
+                <svg
+                  className="w-8 h-8"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  {isMenuOpen ? (
+                    <path d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path d="M4 6h16M4 12h16M4 18h16" />
+                  )}
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </nav>
-
-      {/* Mobile Menu Overlay */}
-      <div 
-        className={`fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden transition-opacity duration-300 ${
-          isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
-        onClick={() => setIsMenuOpen(false)}
-      />
       
-      {/* Mobile Menu Panel */}
+      {/* Dropdown Menu - Fullwidth */}
       <div 
-        className={`fixed top-0 right-0 w-[80%] max-w-[300px] h-full bg-[#1E2A4A] shadow-lg z-50 lg:hidden overflow-y-auto transform transition-transform duration-300 ease-in-out ${
-          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        id="mobile-menu"
+        className={`fixed left-0 top-[4.2rem] sm:top-[5.4rem] w-full bg-[#1E2A4A] shadow-lg z-40 lg:hidden transition-all duration-300 ease-in-out overflow-hidden ${
+          isMenuOpen 
+            ? 'max-h-[calc(100vh-4.2rem)] sm:max-h-[calc(100vh-5.4rem)] opacity-100' 
+            : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="flex flex-col h-full">
-          {/* Cabecera del menú móvil */}
-          <div className="flex items-center justify-between p-4 border-b border-white/10">
-            <Image 
-              src="/logo.png" 
-              alt="FIUBA Racing Logo" 
-              width={120} 
-              height={60} 
-              className="w-auto h-10 object-contain" 
-              priority
-            />
-            <button
-              className="text-white hover:text-[#00A3FF] transition-colors duration-300"
-              onClick={() => setIsMenuOpen(false)}
-              aria-label="Cerrar menú"
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+        <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col">
+          {navItems.map((item, index) => (
+            <div key={item.name} className="py-1">
+              <Link
+                href={item.href}
+                className={`block py-3 px-4 text-white text-lg font-semibold hover:bg-[#00A3FF]/20 rounded-md transition-colors duration-300 ${
+                  pathname === item.href ? 'bg-[#00A3FF]/20 text-[#00A3FF] border-l-4 border-[#00A3FF] pl-3' : ''
+                }`}
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  // Asegurar que el botón pierda el foco cuando se hace clic en un enlace
+                  if (buttonRef.current) {
+                    buttonRef.current.blur();
+                  }
+                }}
               >
-                <path d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-          
-          {/* Enlaces del menú */}
-          <div className="flex-1 overflow-y-auto py-4">
-            {navItems.map((item, index) => (
-              <div key={item.name}>
-                <Link
-                  href={item.href}
-                  className={`block py-3 px-6 text-white hover:bg-[#00A3FF]/20 transition-colors duration-300 ${
-                    pathname === item.href ? 'bg-[#00A3FF]/20 text-[#00A3FF] border-l-4 border-[#00A3FF]' : ''
-                  }`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-                {index < navItems.length - 1 && (
-                  <div className="border-b border-white/10 mx-4" />
-                )}
-              </div>
-            ))}
-          </div>
+                {item.name}
+              </Link>
+              {index < navItems.length - 1 && (
+                <div className="border-b border-white/10 my-1 mx-2" />
+              )}
+            </div>
+          ))}
         </div>
       </div>
       
+      {/* Overlay para el fondo cuando el menú está abierto */}
+      <div
+        className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-30 lg:hidden transition-opacity duration-300 ${
+          isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={() => {
+          setIsMenuOpen(false);
+          // Asegurar que el botón pierda el foco cuando se hace clic en el overlay
+          if (buttonRef.current) {
+            buttonRef.current.blur();
+          }
+        }}
+      />
+      
       {/* Espaciador para compensar la altura del navbar fijo */}
-      <div className="h-[3.5rem] sm:h-[4.5rem] w-full"></div>
+      <div className="h-[4.2rem] sm:h-[5.4rem] w-full"></div>
     </>
   );
 }
