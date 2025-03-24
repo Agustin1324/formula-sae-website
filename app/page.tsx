@@ -93,14 +93,8 @@ export default async function Home() {
       {/* About Section */}
       <section id="about" className="py-16 px-4 bg-gradient-to-b from-white to-gray-100">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold mb-8 text-center text-gray-800">Nuestra Visión</h2>
-          <p className="text-xl mb-12 text-center text-gray-600">
-          Buscamos como equipo fomentar la <strong>creatividad</strong> y la <strong>innovación</strong> en la ingeniería para tener una <strong>visión integral</strong> del proyecto. 
-          Esto incluye el control de costos, la calidad ingenieril y la búsqueda de términos de efectividad económica <strong>sin excluir el rendimiento.</strong>
-          </p>
           <Values />
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-
           </div>
         </div>
       </section>
@@ -108,7 +102,13 @@ export default async function Home() {
       {/* Our Journey Timeline Section */}
       <section id="our-journey" className="py-16 px-4 bg-gradient-to-b from-white to-gray-100">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold mb-8 text-center text-gray-800">Our Journey</h2>
+          <div className="flex flex-col items-center justify-center space-y-2 text-center mb-1">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#1E2A4A] font-montserrat">
+              Nuestro recorrido
+            </h2>
+            <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base max-w-sm">
+            Desde nuestros inicios, esta es la evolución de nuestro proyecto a lo largo del tiempo.            </p>
+          </div>
           <Timeline />
         </div>
       </section>

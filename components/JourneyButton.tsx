@@ -20,7 +20,7 @@ const JourneyButton: React.FC = () => {
         size="lg" 
         className="bg-[#00A3FF] hover:bg-[#0082CC] text-white font-bold text-lg px-8 py-6 transform hover:scale-105 transition-all duration-300 hover:shadow-lg"
       >
-        Our Journey
+        Nuestro recorrido
       </Button>
     </a>
   );
