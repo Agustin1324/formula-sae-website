@@ -22,7 +22,7 @@ export default function Navbar() {
 
 
   return (
-    <nav className="fixed top-0 w-full bg-[#1E2A4A] shadow-lg z-50">
+    <nav className="fixed top-0 w-full bg-[#1E2A4A]/90 backdrop-blur-sm shadow-lg z-50">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between items-center py-3">
           <Link href="/" className="flex items-center space-x-2">
@@ -69,7 +69,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden bg-[#2A3B66] rounded-b-lg shadow-lg">
+          <div className="lg:hidden bg-[#2A3B66]/95 backdrop-blur-sm rounded-b-lg shadow-lg">
             {navItems.map((item) => (
               <Link
                 key={item.name}
