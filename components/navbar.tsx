@@ -11,12 +11,13 @@ export default function Navbar() {
   const pathname = usePathname();
 
   const navItems = [
-    { name: "Home", href: "/" },
-    { name: "Chasis", href: "/subsystems/chassis" },
-    { name: "Powertrain", href: "/subsystems/powertrain" },
-    { name: "Suspension", href: "/subsystems/suspension" },
+    { name: "Inicio", href: "/" },
     { name: "Aerodinámica", href: "/subsystems/aero" },
-    { name: "Join", href: "/join" },
+    { name: "Chasis", href: "/subsystems/chassis" },
+    { name: "Dinámica", href: "/subsystems/suspension" },
+    { name: "Motor & Transmisión", href: "/subsystems/powertrain" },
+    { name: "Electrónica", href: "/subsystems/electronics" },
+    { name: "Contacto", href: "/join" },
   ];
 
 
