@@ -2,11 +2,15 @@
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { FaInstagram, FaLinkedin } from 'react-icons/fa';
 import Link from "next/link";
+import ReCAPTCHA from "react-google-recaptcha";
+import useRecaptcha from "@/lib/hooks/useRecaptcha";
 
 export default function Contacto() {
+  const { captchaToken, recaptchaRef, handleRecaptchaChange, executeRecaptcha, resetRecaptcha } = useRecaptcha();
+  
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
@@ -42,6 +46,15 @@ export default function Contacto() {
     setError(null);
     
     try {
+      // Ejecutar reCAPTCHA invisible antes de enviar el formulario
+      const token = await executeRecaptcha();
+      
+      if (!token) {
+        setError('Error al verificar reCAPTCHA. Por favor, inténtalo de nuevo.');
+        setIsLoading(false);
+        return;
+      }
+      
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -51,7 +64,8 @@ export default function Contacto() {
           nombre: formData.nombre,
           email: formData.email,
           tipo_consulta: formData.tipoConsulta,
-          mensaje: formData.mensaje
+          mensaje: formData.mensaje,
+          recaptchaToken: token
         }),
       });
       
@@ -74,10 +88,12 @@ export default function Contacto() {
         });
         setEnviado(false);
         setEmailEnviado(false);
+        resetRecaptcha();
       }, 5000);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al enviar el formulario');
       console.error('Error al enviar el formulario:', err);
+      resetRecaptcha();
     } finally {
       setIsLoading(false);
     }
@@ -211,6 +227,14 @@ export default function Contacto() {
                     className="w-full p-3 border border-gray-300 rounded-md focus:ring-[#00A3FF] focus:border-[#00A3FF] transition-colors duration-300"
                   ></textarea>
                 </div>
+                
+                {/* reCAPTCHA invisible */}
+                <ReCAPTCHA
+                  ref={recaptchaRef}
+                  size="invisible"
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
+                  onChange={handleRecaptchaChange}
+                />
                 
                 <div>
                   <Button 

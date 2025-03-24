@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { crearMensajeContacto, obtenerMensajesContacto, marcarMensajeComoLeido } from '@/lib/services/contactService';
 import { enviarNotificacionMensajeContacto } from '@/lib/services/emailService';
+import { verificarToken } from '@/lib/services/recaptchaService';
 
 // POST: Crear un nuevo mensaje de contacto
 export async function POST(request: NextRequest) {
@@ -12,6 +13,25 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Todos los campos son requeridos' },
         { status: 400 }
+      );
+    }
+    
+    // Verificar el token de reCAPTCHA
+    if (!body.recaptchaToken) {
+      return NextResponse.json(
+        { error: 'La verificación reCAPTCHA es requerida' },
+        { status: 400 }
+      );
+    }
+    
+    // Verificar el token con Google
+    const recaptchaResult = await verificarToken(body.recaptchaToken);
+    
+    if (!recaptchaResult.success) {
+      console.error('Error de verificación reCAPTCHA:', recaptchaResult.errorCodes);
+      return NextResponse.json(
+        { error: 'Verificación reCAPTCHA fallida. Por favor, inténtalo de nuevo.' },
+        { status: 403 }
       );
     }
     
