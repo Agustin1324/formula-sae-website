@@ -31,11 +31,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased ${montserrat.className} flex flex-col min-h-screen`}>
+    <html lang="en" className="overflow-x-hidden">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased ${montserrat.className} flex flex-col min-h-screen w-full overflow-x-hidden`}>
         <LanguageProvider>
           <Navbar />
-          <main className="flex-grow transition-all duration-300 ease-in-out pt-16">
+          <main className="flex-grow transition-all duration-300 ease-in-out pt-16 w-full overflow-x-hidden">
             {children}
           </main>
           <Footer />
