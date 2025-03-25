@@ -4,10 +4,15 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useState, FormEvent, useEffect } from "react";
 import { FaInstagram, FaLinkedin } from 'react-icons/fa';
-import Link from "next/link";
 import ReCAPTCHA from "react-google-recaptcha";
 import useRecaptcha from "@/lib/hooks/useRecaptcha";
 import LocationMapContainer from "@/components/maps/location-map-container";
+
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+
+if (!RECAPTCHA_SITE_KEY) {
+  console.error('⚠️ La clave de reCAPTCHA no está configurada');
+}
 
 export default function Contacto() {
   const { captchaToken, recaptchaRef, handleRecaptchaChange, executeRecaptcha, resetRecaptcha } = useRecaptcha();
@@ -241,7 +246,7 @@ export default function Contacto() {
                     key={captchaKey}
                     ref={recaptchaRef}
                     size="normal"
-                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
+                    sitekey={RECAPTCHA_SITE_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'} // clave de prueba como fallback
                     onChange={handleRecaptchaChange}
                     hl="es"
                   />
