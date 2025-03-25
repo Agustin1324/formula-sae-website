@@ -24,6 +24,24 @@ export default function RecaptchaDebugger() {
   const [testCount, setTestCount] = useState(3); // Número de pruebas reales a enviar
   const [realTestLoading, setRealTestLoading] = useState(false);
   const [realTestProgress, setRealTestProgress] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [captchaKey, setCaptchaKey] = useState(Date.now()); // Clave única para forzar re-renderizado del captcha
+
+  // Detectar si es un dispositivo móvil
+  useEffect(() => {
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const isMobileDevice = /iphone|ipad|ipod|android|blackberry|windows phone/g.test(userAgent);
+      setIsMobile(isMobileDevice);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
 
   // Cargar información de configuración al inicio
   useEffect(() => {
@@ -41,6 +59,12 @@ export default function RecaptchaDebugger() {
     
     checkConfig();
   }, []);
+
+  // Función para forzar reset completo del captcha
+  const forceResetCaptcha = () => {
+    resetRecaptcha();
+    setCaptchaKey(Date.now()); // Cambiar la key fuerza un re-renderizado completo
+  };
 
   // Obtener un nuevo token de reCAPTCHA
   const handleGetToken = async () => {
@@ -211,43 +235,86 @@ export default function RecaptchaDebugger() {
           });
           setResults([...newResults]);
           
-          // Mostrar mensaje al usuario para cada prueba
+          // Forzar reset completo del captcha
+          forceResetCaptcha();
+          
+          // Mostrar mensaje al usuario para cada prueba - hacemos esto más visible
           newResults.push({
             action: `Prueba real #${i + 1} - Esperando captcha`,
             timestamp: new Date().toISOString(),
             success: true,
-            details: `⚠️ Por favor, resuelve el captcha para enviar el mensaje #${i + 1}`
+            details: `⚠️ ⚠️ ⚠️ IMPORTANTE: Resuelve el captcha para enviar el mensaje #${i + 1}. DEBE resolverse para cada mensaje.`
           });
           setResults([...newResults]);
           
-          // Completar captcha manualmente (el usuario debe resolver el captcha visible para cada mensaje)
-          // No usamos timeout aquí porque queremos esperar a que el usuario resuelva el captcha
-          // El captcha debe estar visible (configurado arriba como size="normal")
-          await new Promise(resolve => {
-            const checkCaptcha = () => {
-              if (recaptchaRef.current?.getValue()) {
-                resolve(true);
-                return;
-              }
-              setTimeout(checkCaptcha, 1000); // Verificar cada segundo si el captcha ha sido resuelto
-            };
-            checkCaptcha();
-          });
+          // Esperar a que se resuelva el captcha con timeout para evitar bloqueos
+          let isCaptchaSolved = false;
           
-          // Una vez que el usuario ha resuelto el captcha, obtener su valor
-          const token = recaptchaRef.current?.getValue() || null;
-          
-          if (!token) {
+          try {
+            await new Promise((resolve, reject) => {
+              const checkCaptcha = () => {
+                if (recaptchaRef.current?.getValue()) {
+                  isCaptchaSolved = true;
+                  resolve(true);
+                  return;
+                }
+                
+                // Intentamos por 90 segundos como máximo (90 * 1000ms)
+                const timeout = setTimeout(checkCaptcha, 1000); // Verificar cada segundo
+                
+                // Configuramos un límite de tiempo máximo para evitar bloqueos
+                setTimeout(() => {
+                  clearTimeout(timeout);
+                  reject(new Error("Tiempo de espera agotado para resolver el captcha"));
+                }, 90000); // 90 segundos máximo
+              };
+              
+              checkCaptcha();
+            });
+          } catch (captchaError) {
             newResults.push({
-              action: `Prueba real #${i + 1} - Sin token`,
+              action: `Prueba real #${i + 1} - Timeout`,
               timestamp: new Date().toISOString(),
               success: false,
-              details: 'No se pudo obtener un token válido de reCAPTCHA'
+              details: `❌ ${captchaError instanceof Error ? captchaError.message : 'Error al esperar la resolución del captcha'}`
+            });
+            setResults([...newResults]);
+            
+            // Continuamos con la siguiente prueba
+            continue;
+          }
+          
+          // Verificamos explícitamente si el captcha fue resuelto
+          if (!isCaptchaSolved) {
+            newResults.push({
+              action: `Prueba real #${i + 1} - Sin completar`,
+              timestamp: new Date().toISOString(),
+              success: false,
+              details: `❌ El captcha no fue resuelto correctamente`
             });
             setResults([...newResults]);
             
             // Resetear el captcha para la próxima prueba
-            resetRecaptcha();
+            forceResetCaptcha();
+            continue;
+          }
+          
+          // Una vez que el usuario ha resuelto el captcha, obtener su valor
+          const token = recaptchaRef.current?.getValue() || null;
+          
+          newResults.push({
+            action: `Prueba real #${i + 1} - Captcha completado`,
+            timestamp: new Date().toISOString(),
+            success: !!token,
+            details: token ? 
+              `✅ Captcha resuelto correctamente. Token obtenido.` : 
+              `❌ No se pudo obtener un token válido a pesar de resolver el captcha.`
+          });
+          setResults([...newResults]);
+          
+          if (!token) {
+            // Resetear el captcha para la próxima prueba
+            forceResetCaptcha();
             continue;
           }
           
@@ -316,7 +383,7 @@ export default function RecaptchaDebugger() {
           setResults([...newResults]);
           
           // Resetear captcha para la próxima prueba - ESTO ES ESENCIAL
-          resetRecaptcha();
+          forceResetCaptcha();
           
           // Esperar un momento entre solicitudes
           await new Promise(resolve => setTimeout(resolve, 1500));
@@ -333,7 +400,7 @@ export default function RecaptchaDebugger() {
           
           // Actualizar resultados incluso si hay error
           setResults([...newResults]);
-          resetRecaptcha();
+          forceResetCaptcha();
         }
       }
       
@@ -359,7 +426,7 @@ export default function RecaptchaDebugger() {
       // Asegurar que estos estados siempre se actualicen al final
       setResults([...newResults]);
       setRealTestLoading(false);
-      resetRecaptcha();
+      forceResetCaptcha();
     }
   };
 
@@ -367,7 +434,7 @@ export default function RecaptchaDebugger() {
   const handleReset = () => {
     setResults([]);
     setToken(null);
-    resetRecaptcha();
+    forceResetCaptcha();
   };
 
   return (
@@ -407,13 +474,23 @@ export default function RecaptchaDebugger() {
         </div>
       )}
       
-      {/* Widget de reCAPTCHA invisible */}
-      <div className="mb-4">
-        <ReCAPTCHA
-          ref={recaptchaRef}
-          size={activeTab === 'real' ? 'normal' : 'invisible'}
-          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
-        />
+      {/* Widget de reCAPTCHA */}
+      <div className={`mb-4 ${activeTab === 'real' ? 'p-3 border rounded-lg bg-yellow-50' : ''}`}>
+        {activeTab === 'real' && (
+          <p className="text-xs text-yellow-700 mb-2 font-bold">
+            ⚠️ IMPORTANTE: Asegúrate de que puedes ver el captcha debajo de este mensaje. Debes resolverlo para cada prueba.
+          </p>
+        )}
+        <div className={`${activeTab === 'real' && isMobile ? 'transform scale-110 origin-top-left my-4' : ''}`}>
+          <ReCAPTCHA
+            key={captchaKey} // Usar key para forzar re-renderizado completo
+            ref={recaptchaRef}
+            size={activeTab === 'real' ? 'normal' : 'invisible'}
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
+            hl="es"
+            theme="light"
+          />
+        </div>
       </div>
       
       {/* Tabs */}
@@ -477,6 +554,7 @@ export default function RecaptchaDebugger() {
               Esta prueba envía mensajes reales al endpoint /api/contact con datos de prueba y verifica
               el flujo completo incluyendo la verificación de reCAPTCHA y el registro en la base de datos.
               <span className="font-bold block mt-2">IMPORTANTE: Deberás resolver un captcha para CADA mensaje. ¡Así es como funciona la protección real contra DDoS!</span>
+              <span className="font-bold block mt-2 text-red-600">USUARIOS MÓVILES: Verifica que el captcha aparezca correctamente en tu pantalla. Si no lo ves, prueba en orientación horizontal o en un dispositivo diferente.</span>
             </p>
             
             <div className="mb-4">
@@ -496,6 +574,7 @@ export default function RecaptchaDebugger() {
                 <option value={10}>10 pruebas</option>
               </select>
               <p className="text-xs text-gray-600 mt-1">Recuerda: tendrás que resolver {testCount} captchas diferentes, uno para cada mensaje.</p>
+              <p className="text-xs text-red-600 font-medium mt-1">👉 Si estás en un dispositivo móvil: Asegúrate de que puedes ver y resolver el widget del captcha para cada mensaje.</p>
             </div>
             
             {realTestLoading ? (
@@ -589,6 +668,24 @@ export default function RecaptchaDebugger() {
             se muestran en el panel de estadísticas.
           </li>
         </ul>
+      </div>
+      
+      {/* Aviso sobre dispositivos móviles */}
+      <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200 text-sm">
+        <h4 className="font-medium text-blue-800 mb-1">Uso en dispositivos móviles</h4>
+        <p className="text-blue-700">
+          Si estás utilizando un dispositivo móvil, asegúrate de que puedes ver y resolver el captcha correctamente.
+          El captcha debe aparecer de forma visible y requerir tu interacción para cada mensaje enviado.
+        </p>
+        <div className="mt-3 bg-white p-3 rounded border border-blue-100">
+          <h5 className="font-medium text-blue-800 mb-1">Solución de problemas para móviles:</h5>
+          <ol className="list-decimal pl-5 text-blue-700 space-y-1">
+            <li>Si no ves el captcha, intenta refrescar la página</li>
+            <li>Cambia la orientación del dispositivo a horizontal</li>
+            <li>Comprueba si hay algún bloqueador de contenido activado</li>
+            <li>En caso de persistir el problema, intenta probar desde un dispositivo diferente</li>
+          </ol>
+        </div>
       </div>
     </div>
   );

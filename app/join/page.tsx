@@ -23,6 +23,7 @@ export default function Contacto() {
   const [emailEnviado, setEmailEnviado] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [captchaKey, setCaptchaKey] = useState(Date.now());
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -46,11 +47,11 @@ export default function Contacto() {
     setError(null);
     
     try {
-      // Ejecutar reCAPTCHA invisible antes de enviar el formulario
-      const token = await executeRecaptcha();
+      // Verificar si el captcha fue resuelto (ahora visible)
+      const token = recaptchaRef.current?.getValue() || null;
       
       if (!token) {
-        setError('Error al verificar reCAPTCHA. Por favor, inténtalo de nuevo.');
+        setError('Por favor, verifica que no eres un robot resolviendo el captcha.');
         setIsLoading(false);
         return;
       }
@@ -88,12 +89,16 @@ export default function Contacto() {
         });
         setEnviado(false);
         setEmailEnviado(false);
+        // Resetear y forzar re-renderizado del captcha
         resetRecaptcha();
+        setCaptchaKey(Date.now());
       }, 5000);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al enviar el formulario');
       console.error('Error al enviar el formulario:', err);
+      // Resetear y forzar re-renderizado del captcha
       resetRecaptcha();
+      setCaptchaKey(Date.now());
     } finally {
       setIsLoading(false);
     }
@@ -228,13 +233,18 @@ export default function Contacto() {
                   ></textarea>
                 </div>
                 
-                {/* reCAPTCHA invisible */}
-                <ReCAPTCHA
-                  ref={recaptchaRef}
-                  size="invisible"
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
-                  onChange={handleRecaptchaChange}
-                />
+                {/* reCAPTCHA visible para cada envío */}
+                <div className="mb-4">
+                  <p className="text-sm font-medium text-gray-700 mb-2">Verifica que no eres un robot:</p>
+                  <ReCAPTCHA
+                    key={captchaKey}
+                    ref={recaptchaRef}
+                    size="normal"
+                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
+                    onChange={handleRecaptchaChange}
+                    hl="es"
+                  />
+                </div>
                 
                 <div>
                   <Button 
