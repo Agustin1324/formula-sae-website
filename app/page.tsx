@@ -28,31 +28,31 @@ export default async function Home() {
   const sponsors = await getSponsors();
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen w-full overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
+      <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0 w-full h-full">
+          <div className="absolute inset-0 bg-black opacity-50 z-10 w-full h-full"></div>
           <Image
             src="https://www.epsa-team.com/images/FS/expofs-min-resize.jpg"
             alt="FIUBA Racing Car"
             fill
-            className="object-cover"
+            className="object-cover w-full h-full"
             priority
             quality={100}
           />
         </div>
         
-        <div className="relative z-20 text-white text-center max-w-4xl mx-auto px-4 animate-fade-in">
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 hover:scale-105 transition-transform duration-300 animate-slide-up text-shadow-2xl font-montserrat">
+        <div className="relative z-20 text-white text-center max-w-4xl mx-auto px-4 animate-fade-in w-full">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-bold mb-6 hover:scale-105 transition-transform duration-300 animate-slide-up text-shadow-2xl font-montserrat">
             FIUBA Racing<sup className="text-2xl align-super">™</sup>
           </h1>
           
-          <p className="text-2xl md:text-3xl mb-8 hover:text-[#00A3FF] transition-colors duration-300 animate-slide-up delay-100 text-shadow-xl font-montserrat">
+          <p className="text-xl sm:text-2xl md:text-3xl mb-8 hover:text-[#00A3FF] transition-colors duration-300 animate-slide-up delay-100 text-shadow-xl font-montserrat">
             Engineering Excellence in Motion
           </p>
           
-          <div className="flex gap-4 justify-center animate-slide-up delay-200">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up delay-200">
             <JourneyButton />
             <Link href="/competencia">
               <Button 
@@ -68,10 +68,10 @@ export default async function Home() {
       </section>
 
       {/* Sponsor Carousel */}
-      <section className="py-12 bg-gray-100 overflow-hidden">
-        <div className="max-w-6xl mx-auto px-4">
+      <section className="py-12 bg-gray-100 overflow-hidden w-full">
+        <div className="max-w-6xl mx-auto px-4 w-full">
           <h2 className="text-3xl font-bold mb-8 text-center text-[#1E2A4A] font-montserrat">Nuestros Sponsors</h2>
-          <div className="sponsor-carousel">
+          <div className="sponsor-carousel w-full">
             <div className="sponsor-track">
               {[...sponsors, ...sponsors].map((sponsor, index) => (
                 <div key={index} className="sponsor-item">
@@ -81,7 +81,7 @@ export default async function Home() {
                       alt={`${sponsor.name} logo`} 
                       width={150}
                       height={80} 
-                      className="object-contain h-20"
+                      className="object-contain h-20 max-w-full"
                     />
                     </a>
                 </div>
@@ -91,8 +91,8 @@ export default async function Home() {
         </div>
       </section>
       {/* About Section */}
-      <section id="about" className="py-16 px-4 bg-gradient-to-b from-white to-gray-100">
-        <div className="max-w-6xl mx-auto">
+      <section id="about" className="py-16 px-4 bg-gradient-to-b from-white to-gray-100 w-full">
+        <div className="max-w-6xl mx-auto w-full">
           <Values />
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           </div>
@@ -100,8 +100,8 @@ export default async function Home() {
       </section>
 
       {/* Our Journey Timeline Section */}
-      <section id="our-journey" className="py-16 px-4 bg-gradient-to-b from-white to-gray-100">
-        <div className="max-w-6xl mx-auto">
+      <section id="our-journey" className="py-16 px-4 bg-gradient-to-b from-white to-gray-100 w-full">
+        <div className="max-w-6xl mx-auto w-full">
           <div className="flex flex-col items-center justify-center space-y-2 text-center mb-1">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#1E2A4A] font-montserrat">
               Nuestro recorrido

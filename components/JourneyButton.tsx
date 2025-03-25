@@ -15,10 +15,10 @@ const JourneyButton: React.FC = () => {
   };
 
   return (
-    <a href="#our-journey" onClick={handleClick}>
+    <a href="#our-journey" onClick={handleClick} className="w-full sm:w-auto">
       <Button 
         size="lg" 
-        className="bg-[#00A3FF] hover:bg-[#0082CC] text-white font-bold text-lg px-8 py-6 transform hover:scale-105 transition-all duration-300 hover:shadow-lg"
+        className="bg-[#00A3FF] hover:bg-[#0082CC] text-white font-bold text-base sm:text-lg px-6 sm:px-8 py-5 sm:py-6 transform hover:scale-105 transition-all duration-300 hover:shadow-lg w-full sm:w-auto"
       >
         Nuestro recorrido
       </Button>

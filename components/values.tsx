@@ -21,33 +21,32 @@ export default function ValuesSection() {
         </>
       ),
     }
- 
   ]
 
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-white">
-      <div className="container px-4 md:px-6">
+    <section className="w-full py-8 md:py-16 lg:py-24 bg-white overflow-hidden">
+      <div className="container px-4 md:px-6 max-w-full">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#1E2A4A] font-montserrat">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter md:text-4xl lg:text-5xl text-[#1E2A4A] font-montserrat">
               Acerca de Nosotros
             </h2>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-8 sm:mt-12 w-full">
           {values.map((item, index) => (
             <Card 
               key={index} 
-              className="group h-full transition-all duration-300 hover:shadow-lg hover:scale-105 bg-[#1E2A4A] hover:bg-[#7EB2DD] border-none"
+              className="group h-full transition-all duration-300 hover:shadow-lg hover:scale-105 bg-[#1E2A4A] hover:bg-[#7EB2DD] border-none w-full"
             >
               <CardHeader className="pb-2">
                 <div className="mb-2">{item.icon}</div>
-                <CardTitle className="text-xl text-white font-montserrat group-hover:text-[#1E2A4A]">
+                <CardTitle className="text-xl text-white font-montserrat group-hover:text-[#1E2A4A] break-words">
                   {item.title}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-sm text-gray-300 group-hover:text-[#1E2A4A]/70">
+                <CardDescription className="text-sm text-gray-300 group-hover:text-[#1E2A4A]/70 break-words">
                   {item.description}
                 </CardDescription>
               </CardContent>
