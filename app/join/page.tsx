@@ -7,6 +7,7 @@ import { FaInstagram, FaLinkedin } from 'react-icons/fa';
 import Link from "next/link";
 import ReCAPTCHA from "react-google-recaptcha";
 import useRecaptcha from "@/lib/hooks/useRecaptcha";
+import LocationMapContainer from "@/components/maps/location-map-container";
 
 export default function Contacto() {
   const { captchaToken, recaptchaRef, handleRecaptchaChange, executeRecaptcha, resetRecaptcha } = useRecaptcha();
@@ -268,10 +269,10 @@ export default function Contacto() {
                 <div>
                   <h4 className="text-lg font-semibold mb-2">Email directo</h4>
                   <a 
-                    href="mailto:fiubaracing@fi.uba.ar" 
+                    href="mailto:fiuba.racing@gmail.com" 
                     className="text-[#00A3FF] hover:text-white transition-colors duration-300"
                   >
-                    fiubaracing@fi.uba.ar
+                    fiuba.racing@gmail.com
                   </a>
                 </div>
                 
@@ -299,18 +300,11 @@ export default function Contacto() {
               </div>
             </div>
             
-            <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-8 transform hover:shadow-xl transition-all duration-300">
-              <h3 className="text-xl font-bold text-[#1E2A4A] mb-4">Ubicación</h3>
-              <p className="text-gray-600 mb-4">Facultad de Ingeniería - Universidad de Buenos Aires</p>
-              <div className="aspect-video relative rounded-md overflow-hidden">
-                <Image
-                  src="https://i.imgur.com/vCVhWAV.jpg" 
-                  alt="Mapa FIUBA"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </div>
+            <LocationMapContainer 
+              address="Paseo Colón 850, CABA, Argentina" 
+              title="Ubicación"
+              organizationName="Facultad de Ingeniería - Universidad de Buenos Aires"
+            />
           </div>
         </div>
       </div>
