@@ -207,54 +207,70 @@ export default function RecaptchaDebugger() {
             timestamp: new Date().toISOString(),
             success: true,
             status: null,
-            details: `Preparando para enviar: ${testDataToUse[i].nombre} (${testDataToUse[i].email})`
+            details: `Preparando para enviar mensaje para: ${testDataToUse[i].nombre} (${testDataToUse[i].email})`
           });
-          setResults([...newResults]); // Actualizar resultados para mostrar progreso en tiempo real
+          setResults([...newResults]);
           
-          // Obtener nuevo token para cada envío con un tiempo de espera
-          let newToken = null;
-          const tokenPromise = executeRecaptcha();
+          // Mostrar mensaje al usuario para cada prueba
+          newResults.push({
+            action: `Prueba real #${i + 1} - Esperando captcha`,
+            timestamp: new Date().toISOString(),
+            success: true,
+            details: `⚠️ Por favor, resuelve el captcha para enviar el mensaje #${i + 1}`
+          });
+          setResults([...newResults]);
           
-          // Establecer un tiempo de espera para la obtención del token
-          const tokenTimeout = new Promise((_, reject) => 
-            setTimeout(() => reject(new Error("Tiempo de espera excedido al obtener token reCAPTCHA")), 10000)
-          );
+          // Completar captcha manualmente (el usuario debe resolver el captcha visible para cada mensaje)
+          // No usamos timeout aquí porque queremos esperar a que el usuario resuelva el captcha
+          // El captcha debe estar visible (configurado arriba como size="normal")
+          await new Promise(resolve => {
+            const checkCaptcha = () => {
+              if (recaptchaRef.current?.getValue()) {
+                resolve(true);
+                return;
+              }
+              setTimeout(checkCaptcha, 1000); // Verificar cada segundo si el captcha ha sido resuelto
+            };
+            checkCaptcha();
+          });
           
-          try {
-            newToken = await Promise.race([tokenPromise, tokenTimeout]);
-          } catch (tokenError) {
-            console.error("Error al obtener token:", tokenError);
-            newResults.push({
-              action: `Prueba real #${i + 1} - Error de token`,
-              timestamp: new Date().toISOString(),
-              success: false,
-              details: `Error: ${tokenError instanceof Error ? tokenError.message : 'Tiempo de espera excedido'}`
-            });
-            continue; // Pasar a la siguiente prueba
-          }
+          // Una vez que el usuario ha resuelto el captcha, obtener su valor
+          const token = recaptchaRef.current?.getValue() || null;
           
-          if (!newToken) {
+          if (!token) {
             newResults.push({
               action: `Prueba real #${i + 1} - Sin token`,
               timestamp: new Date().toISOString(),
               success: false,
               details: 'No se pudo obtener un token válido de reCAPTCHA'
             });
+            setResults([...newResults]);
+            
+            // Resetear el captcha para la próxima prueba
+            resetRecaptcha();
             continue;
           }
           
-          // Realizar solicitud real a la API de contacto con tiempo de espera
+          // Realizar solicitud real a la API de contacto
           const testFormData = testDataToUse[i];
           const controller = new AbortController();
           const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 segundos de timeout
           
           try {
+            newResults.push({
+              action: `Prueba real #${i + 1} - Enviando`,
+              timestamp: new Date().toISOString(),
+              success: true,
+              details: `Enviando mensaje a la API con token verificado`
+            });
+            setResults([...newResults]);
+            
             const response = await fetch('/api/contact', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 ...testFormData,
-                recaptchaToken: newToken
+                recaptchaToken: token
               }),
               signal: controller.signal
             });
@@ -278,8 +294,8 @@ export default function RecaptchaDebugger() {
               success: response.ok,
               status: response.status,
               details: response.ok 
-                ? `Mensaje enviado correctamente: ${testFormData.nombre} (${testFormData.email})` 
-                : `Error: ${data.error || `Código HTTP: ${response.status}`}`
+                ? `✅ Mensaje enviado correctamente: ${testFormData.nombre}` 
+                : `❌ Error: ${data.error || `Código HTTP: ${response.status}`}`
             });
           } catch (fetchError) {
             clearTimeout(timeoutId);
@@ -299,11 +315,11 @@ export default function RecaptchaDebugger() {
           // Actualizar resultados después de cada prueba
           setResults([...newResults]);
           
-          // Esperar un momento entre solicitudes para no sobrecargar
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          
-          // Resetear captcha entre solicitudes
+          // Resetear captcha para la próxima prueba - ESTO ES ESENCIAL
           resetRecaptcha();
+          
+          // Esperar un momento entre solicitudes
+          await new Promise(resolve => setTimeout(resolve, 1500));
           
         } catch (iterationError) {
           console.error(`Error general en prueba real #${i + 1}:`, iterationError);
@@ -317,6 +333,7 @@ export default function RecaptchaDebugger() {
           
           // Actualizar resultados incluso si hay error
           setResults([...newResults]);
+          resetRecaptcha();
         }
       }
       
@@ -325,7 +342,7 @@ export default function RecaptchaDebugger() {
         action: 'Resumen pruebas reales',
         timestamp: new Date().toISOString(),
         success: successCount > 0,
-        details: `Completadas ${successCount} de ${testDataToUse.length} pruebas`
+        details: `✅ Completadas ${successCount} de ${testDataToUse.length} pruebas`
       });
       
     } catch (globalError) {
@@ -394,7 +411,7 @@ export default function RecaptchaDebugger() {
       <div className="mb-4">
         <ReCAPTCHA
           ref={recaptchaRef}
-          size="invisible"
+          size={activeTab === 'real' ? 'normal' : 'invisible'}
           sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
         />
       </div>
@@ -459,6 +476,7 @@ export default function RecaptchaDebugger() {
             <p className="text-sm text-blue-700 mb-3">
               Esta prueba envía mensajes reales al endpoint /api/contact con datos de prueba y verifica
               el flujo completo incluyendo la verificación de reCAPTCHA y el registro en la base de datos.
+              <span className="font-bold block mt-2">IMPORTANTE: Deberás resolver un captcha para CADA mensaje. ¡Así es como funciona la protección real contra DDoS!</span>
             </p>
             
             <div className="mb-4">
@@ -477,6 +495,7 @@ export default function RecaptchaDebugger() {
                 <option value={5}>5 pruebas</option>
                 <option value={10}>10 pruebas</option>
               </select>
+              <p className="text-xs text-gray-600 mt-1">Recuerda: tendrás que resolver {testCount} captchas diferentes, uno para cada mensaje.</p>
             </div>
             
             {realTestLoading ? (
