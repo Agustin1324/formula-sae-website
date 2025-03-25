@@ -54,13 +54,13 @@ export default async function Home() {
           
           <div className="flex gap-4 justify-center animate-slide-up delay-200">
             <JourneyButton />
-            <Link href="/join">
+            <Link href="/competencia">
               <Button 
                 size="lg" 
                 variant="outline" 
                 className="border-2 border-white bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-[#00A3FF] font-bold text-lg px-8 py-6 transform hover:scale-105 transition-all duration-300 hover:shadow-lg"
               >
-                Join the Team
+                Conoce la Competencia
               </Button>
             </Link>
           </div>
