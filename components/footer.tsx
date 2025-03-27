@@ -13,8 +13,9 @@ export default function Footer() {
           <div className="text-center sm:text-left">
             <h3 className="text-lg md:text-xl font-bold mb-4">Links de Interés</h3>
             <ul className="space-y-2">
-              <li><Link href="/" className="hover:text-[#00A3FF] transition-colors duration-300">Home</Link></li>
-              <li><Link href="/contact" className="hover:text-[#00A3FF] transition-colors duration-300">Contact</Link></li>
+              <li><Link href="/" className="hover:text-[#00A3FF] transition-colors duration-300">Inicio</Link></li>
+              <li><Link href="/join" className="hover:text-[#00A3FF] transition-colors duration-300">Contacto</Link></li>
+              <li><Link href="/competencia" className="hover:text-[#00A3FF] transition-colors duration-300">Conoce la competencia</Link></li>
             </ul>
           </div>
           <div className="text-center sm:text-left">
