@@ -23,6 +23,10 @@ const montserrat = Montserrat({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: "FIUBA Racing",
   description: "Official website of FIUBA Racing Formula Student Team",
+  icons: {
+    icon: '/icon.png',
+    apple: '/apple-icon.png',
+  },
 };
 
 export default function RootLayout({

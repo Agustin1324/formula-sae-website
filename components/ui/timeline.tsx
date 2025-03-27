@@ -13,7 +13,7 @@ import { DM_Sans } from 'next/font/google'
 const dmSans = DM_Sans({ subsets: ['latin'] })
 
 // Default color for inactive dots
-const defaultDotColor = "bg-neutral-200 dark:bg-neutral-700";
+const defaultDotColor = "bg-neutral-200";
 // Active color (#00A3FF)
 const activeDotColor = "bg-[#00A3FF]";
 
@@ -27,8 +27,8 @@ const achievements: TimelineEntry[] = [
     title: "Mayo 2023",
     content: (
       <div>
-        <h3 className={`text-lg font-bold mb-2 ${dmSans.className}`}>Fundación</h3>
-        <p className="mb-4">An important milestone for our team, allowing us to work more efficiently.</p>
+        <h3 className={`text-lg font-bold mb-2 text-neutral-800 ${dmSans.className}`}>Fundación</h3>
+        <p className="mb-4 text-neutral-600">An important milestone for our team, allowing us to work more efficiently.</p>
         <Image src="https://images.unsplash.com/photo-1572204292164-b35ba943fca7" alt="Our workshop" width={300} height={200} className="rounded-lg" />
       </div>
     ),
@@ -37,8 +37,8 @@ const achievements: TimelineEntry[] = [
     title: "Diciembre 2023",
     content: (
       <div>
-        <h3 className={`text-lg font-bold mb-2 ${dmSans.className}`}>Conseguimos el aval de la facultad</h3>
-        <p className="mb-4">Official recognition of our project by the institution.</p>
+        <h3 className={`text-lg font-bold mb-2 text-neutral-800 ${dmSans.className}`}>Conseguimos el aval de la facultad</h3>
+        <p className="mb-4 text-neutral-600">Official recognition of our project by the institution.</p>
         <Image src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1" alt="Academic approval" width={300} height={200} className="rounded-lg" />
       </div>
     ),
@@ -47,8 +47,8 @@ const achievements: TimelineEntry[] = [
     title: "Julio 2024",
     content: (
       <div>
-        <h3 className={`text-lg font-bold mb-2 ${dmSans.className}`}>Obtuvimos el taller</h3>
-        <p className="mb-4">Finalization of the chassis design, ready for the construction phase.</p>
+        <h3 className={`text-lg font-bold mb-2 text-neutral-800 ${dmSans.className}`}>Obtuvimos el taller</h3>
+        <p className="mb-4 text-neutral-600">Finalization of the chassis design, ready for the construction phase.</p>
         <Image src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158" alt="Chassis design" width={300} height={200} className="rounded-lg" />
       </div>
     ),
@@ -57,8 +57,8 @@ const achievements: TimelineEntry[] = [
     title: "Octubre 2024",
     content: (
       <div>
-        <h3 className={`text-lg font-bold mb-2 ${dmSans.className}`}>1er chasis prototipo</h3>
-        <p className="mb-4">First physical model of the chassis, crucial for testing and adjustments.</p>
+        <h3 className={`text-lg font-bold mb-2 text-neutral-800 ${dmSans.className}`}>1er chasis prototipo</h3>
+        <p className="mb-4 text-neutral-600">First physical model of the chassis, crucial for testing and adjustments.</p>
         <Image src="https://images.unsplash.com/photo-1581092160562-40aa08e78837" alt="Scale prototype" width={300} height={200} className="rounded-lg" />
       </div>
     ),
@@ -67,14 +67,13 @@ const achievements: TimelineEntry[] = [
     title: "Enero 2025",
     content: (
       <div>
-        <h3 className={`text-lg font-bold mb-2 ${dmSans.className}`}>Diseño de la dinámica del vehículo</h3>
-        <p className="mb-4">Construction of the full-size chassis, an important step towards the final vehicle.</p>
+        <h3 className={`text-lg font-bold mb-2 text-neutral-800 ${dmSans.className}`}>Diseño de la dinámica del vehículo</h3>
+        <p className="mb-4 text-neutral-600">Construction of the full-size chassis, an important step towards the final vehicle.</p>
         <Image src="https://images.unsplash.com/photo-1581092162384-8987c1d64718" alt="Full chassis" width={300} height={200} className="rounded-lg" />
       </div>
     ),
   },
 ];
-
 
 export const Timeline = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -105,10 +104,9 @@ export const Timeline = () => {
 
   return (
     <div
-      className="w-full bg-white dark:bg-neutral-950 font-sans md:px-10 pt-16"
+      className="w-full bg-white font-sans md:px-10 pt-16"
       ref={containerRef}
     >
-
 
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
         {achievements.map((item, index) => (
@@ -131,14 +129,14 @@ export const Timeline = () => {
               }}
               viewport={{ once: false, margin: "-20%" }}
             >
-              <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-white dark:bg-black flex items-center justify-center">
+              <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-white flex items-center justify-center">
                 <div 
                   className={`h-4 w-4 rounded-full transition-colors duration-300 ${
                     index <= activeIndex ? activeDotColor : defaultDotColor
-                  } border border-neutral-300 dark:border-neutral-700 p-2`} 
+                  } border border-neutral-300 p-2`} 
                 />
               </div>
-              <h3 className={`hidden md:block text-xl md:pl-20 md:text-5xl font-bold text-neutral-500 dark:text-neutral-500 ${dmSans.className}`}>
+              <h3 className={`hidden md:block text-xl md:pl-20 md:text-5xl font-bold text-neutral-500 ${dmSans.className}`}>
                 {item.title}
               </h3>
             </motion.div>
@@ -151,7 +149,7 @@ export const Timeline = () => {
               }}
               viewport={{ once: false, margin: "-20%" }}
             >
-              <h3 className={`md:hidden block text-2xl mb-4 text-left font-bold text-neutral-500 dark:text-neutral-500 ${dmSans.className}`}>
+              <h3 className={`md:hidden block text-2xl mb-4 text-left font-bold text-neutral-500 ${dmSans.className}`}>
                 {item.title}
               </h3>
               <motion.div
@@ -169,12 +167,11 @@ export const Timeline = () => {
           </motion.div>
         ))}
 
-
         <div
           style={{
             height: height + "px",
           }}
-          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-200 dark:via-neutral-700 to-transparent to-[99%]  [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)] "
+          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-200 to-transparent to-[99%]  [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)] "
         >
           <motion.div
             style={{
