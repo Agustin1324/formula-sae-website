@@ -4,61 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, Suspense, useRef } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, useGLTF, Text, PerspectiveCamera, PresentationControls } from "@react-three/drei";
-import * as THREE from 'three';
-
-function ChassisModel() {
-  const groupRef = useRef<THREE.Group>(null);
-  const [error, setError] = useState<string | null>(null);
-  const { scene } = useGLTF("/chassis/chassis.gltf");
-
-  useEffect(() => {
-    if (scene && groupRef.current) {
-      try {
-        // Reset position and rotation
-        scene.position.set(0, -0.5, 0); // Lowered the model slightly
-        scene.rotation.set(0, Math.PI * 5 / 4, 0); // Rotated 225 degrees around Y-axis
-
-        // Scale the model
-        scene.scale.setScalar(0.015); // Adjusted scale to match the image
-
-        groupRef.current.add(scene);
-      } catch (err) {
-        console.error("Error processing the model:", err);
-        setError("Error processing the model");
-      }
-    }
-  }, [scene]);
-
-  if (error) {
-    return <Text color="red" anchorX="center" anchorY="middle">{error}</Text>;
-  }
-
-  return <group ref={groupRef} />;
-}
-
-function ChassisModelContainer() {
-  return (
-    <Canvas style={{ height: '500px' }}>
-      <PerspectiveCamera makeDefault position={[3, 2, 3]} />
-      <ambientLight intensity={0.7} />
-      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={0.5} />
-      <pointLight position={[-10, -10, -10]} intensity={0.5} />
-      <OrbitControls
-        enableDamping={true}
-        dampingFactor={0.25}
-        rotateSpeed={0.5}
-        minDistance={2}
-        maxDistance={10}
-        target={[0, -0.5, 0]} // Set the target to match the model's position
-      />
-      <Suspense fallback={<Text color="white" anchorX="center" anchorY="middle">Loading 3D model...</Text>}>
-        <ChassisModel />
-      </Suspense>
-    </Canvas>
-  );
-}
+import { ChassisModelViewer } from "@/components/chassis/ChassisModelViewer";
+import { useGLTF } from "@react-three/drei";
 
 export default function ChassisPage() {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
@@ -73,7 +20,7 @@ export default function ChassisPage() {
 
   const closeButtonSize = windowWidth < 768 ? 'text-4xl' : 'text-2xl';
 
-  useGLTF.preload("/chassis/chassis.gltf");
+  useGLTF.preload("/chassis/modelo_nuevo/Chasis8.glb");
 
   return (
     <div className="min-h-screen bg-white">
@@ -113,7 +60,7 @@ export default function ChassisPage() {
               </div>
             </div>
             <div className="relative h-[400px] bg-gray-200 rounded-lg overflow-hidden">
-              <ChassisModelContainer />
+              <ChassisModelViewer />
             </div>
           </div>
         </div>
