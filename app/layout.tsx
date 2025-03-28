@@ -39,7 +39,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased ${montserrat.className} flex flex-col min-h-screen w-full overflow-x-hidden`}>
         <LanguageProvider>
           <Navbar />
-          <main className="flex-grow transition-all duration-300 ease-in-out pt-16 w-full overflow-x-hidden">
+          <main className="flex-grow transition-all duration-300 ease-in-out w-full overflow-x-hidden">
             {children}
           </main>
           <Footer />
