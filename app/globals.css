@@ -60,3 +60,61 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+/* Estilos para la scrollbar con colores invertidos */
+::-webkit-scrollbar {
+  width: 16px;
+}
+
+/* Ocultar completamente los botones de la scrollbar */
+::-webkit-scrollbar-button {
+  display: none !important;
+  height: 0 !important;
+  width: 0 !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-button:vertical:decrement,
+::-webkit-scrollbar-button:vertical:increment,
+::-webkit-scrollbar-button:start,
+::-webkit-scrollbar-button:end,
+::-webkit-scrollbar-button:up,
+::-webkit-scrollbar-button:down {
+  display: none !important;
+  height: 0 !important;
+  width: 0 !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-track {
+  background: #666666;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e0e0e0;
+  border: 2px solid #666666;
+  min-height: 40px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Asegurar que no haya espacio para los botones */
+::-webkit-scrollbar-corner,
+::-webkit-scrollbar-track-piece:start,
+::-webkit-scrollbar-track-piece:end {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ffffff;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #e0e0e0 #666666;
+}
