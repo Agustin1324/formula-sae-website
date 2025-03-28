@@ -3,9 +3,21 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect, Suspense, useRef } from "react";
-import { ChassisModelViewer } from "@/components/chassis/ChassisModelViewer";
-import { useGLTF } from "@react-three/drei";
+import { useState, useEffect } from "react";
+import dynamic from 'next/dynamic';
+
+// Importar dinámicamente el visor 3D para asegurar que solo se cargue en el cliente
+const ChassisModelViewer = dynamic(
+  () => import("@/components/chassis/ChassisModelViewer").then(mod => mod.ChassisModelViewer),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-[400px] bg-gray-200 rounded-lg flex items-center justify-center">
+        <div className="text-gray-600">Inicializando visualizador 3D...</div>
+      </div>
+    )
+  }
+);
 
 export default function ChassisPage() {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
@@ -13,14 +25,12 @@ export default function ChassisPage() {
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
-    handleResize(); // Set initial width
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const closeButtonSize = windowWidth < 768 ? 'text-4xl' : 'text-2xl';
-
-  useGLTF.preload("/chassis/modelo_nuevo/Chasis8.glb");
 
   return (
     <div className="min-h-screen bg-white">
