@@ -78,15 +78,15 @@ export default function ChassisPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <div className="relative h-[50vh] bg-black">
+      <div className="relative h-[50vh] bg-gray-200">
         <Image
-          src="https://images.pexels.com/photos/3847770/pexels-photo-3847770.jpeg"
-          alt="Chassis Design"
+          src="/chassis/head/chasis.png"
+          alt="Chasis Design"
           fill
-          className="object-cover opacity-50"
+          className="object-contain object-center"
         />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-white">Chassis</h1>
+        <div className="absolute inset-0 bg-black/35 flex items-center justify-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-white">Chasis</h1>
         </div>
       </div>
 
