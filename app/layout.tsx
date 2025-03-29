@@ -36,10 +36,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="overflow-x-hidden">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased ${montserrat.className} flex flex-col min-h-screen w-full overflow-x-hidden`}>
+      {/* Restaurar clases flexbox originales y añadir fondo blanco */}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased ${montserrat.className} flex flex-col min-h-screen w-full overflow-x-hidden bg-white`}>
         <LanguageProvider>
           <Navbar />
-          <main className="flex-grow transition-all duration-300 ease-in-out w-full overflow-x-hidden">
+          {/* Quitar flex-grow para ver si afecta el cálculo de altura del contenedor sticky */}
+          <main className="transition-all duration-300 ease-in-out w-full overflow-x-hidden">
             {children}
           </main>
           <Footer />
