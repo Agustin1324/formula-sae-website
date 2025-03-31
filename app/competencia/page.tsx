@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { Pie } from 'react-chartjs-2';
 import {
@@ -84,11 +85,11 @@ export default function CompetitionPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section con Parallax */}
+      {/* Hero  */}
       <div className="relative h-[70vh] bg-black overflow-hidden">
         <div className="absolute inset-0 transform scale-105" style={{ transform: 'translate3d(0, 0, 0)' }}>
           <Image
-            src="/public/formula-sae.jpg"
+            src="/banner_principal.jpg"
             alt="Competencia Formula SAE"
             fill
             className="object-cover opacity-50 transform scale-105 hover:scale-100 transition-transform duration-1000"
@@ -96,13 +97,24 @@ export default function CompetitionPage() {
             quality={100}
           />
         </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/20" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-          <h1 className="text-5xl md:text-7xl font-bold text-white font-montserrat mb-6 animate-fade-in">
-            Formula SAE
-          </h1>
-          <p className="text-xl md:text-2xl text-white/90 max-w-2xl animate-fade-in delay-100">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-7xl font-bold text-white mb-4"
+          >
+            Competencia
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl md:text-2xl text-gray-200 max-w-2xl"
+          >
             Una competencia internacional que desafía a estudiantes de ingeniería a diseñar, construir y competir con monoplazas de carreras
-          </p>
+          </motion.p>
         </div>
       </div>
 
