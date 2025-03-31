@@ -216,9 +216,7 @@ export default function PowertrainPage() {
                           </svg>
                         </div>
                         <h4 className="text-white text-center font-semibold">{mode.mode}</h4>
-                        <p className="text-gray-400 text-sm text-center mt-2">
-                          {mode.description}
-                        </p>
+
                       </motion.div>
                     ))}
                   </div>
@@ -279,7 +277,7 @@ export default function PowertrainPage() {
             >
               <div className="relative h-[400px] rounded-2xl overflow-hidden">
                 <Image
-                  src="/powertrain/motor-nuevo.jpg" // Asegúrate de tener la imagen en esta ruta
+                  src="/powertrain/motor-nuevo.jpg" // Foto piola trabajando en el motor nuevo
                   alt="Nuevo motor CFMOTO"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -296,7 +294,7 @@ export default function PowertrainPage() {
             </motion.div>
           </div>
 
-          {/* Timeline o Progreso */}
+          {/* Progreso */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
