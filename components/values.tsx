@@ -17,7 +17,7 @@ export default function ValuesSection() {
       title: "Visión",
       description: (
         <>
-          Buscamos como equipo fomentar la <strong className="font-bold">creatividad</strong> y la <strong className="font-bold">innovación</strong> en la ingeniería para tener una visión integral del proyecto. esto incluye el control de costos, la <strong className="font-bold">clidad ingenieril</strong> y la búsqueda de términos de efectividad económica sin excluir el rendimiento.
+          Buscamos como equipo fomentar la <strong className="font-bold">creatividad</strong> y la <strong className="font-bold">innovación</strong> en la ingeniería para tener una visión integral del proyecto. esto incluye el control de costos, la <strong className="font-bold">calidad ingenieril</strong> y la búsqueda de términos de efectividad económica sin excluir el rendimiento.
         </>
       ),
     }
