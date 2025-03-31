@@ -1,22 +1,59 @@
+
 'use client';
 
 import Image from "next/image";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import powertrainImages from './images.json';
 
 export default function PowertrainPage() {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const images = powertrainImages.carousel;
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000); // Cambia imagen cada 5 segundos
+
+    return () => clearInterval(timer);
+  }, [images.length]);
+
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) => 
+      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) => 
+      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+    );
+  };
+
   return (
-    <div className="flex flex-col min-h-screen bg-white">
-      {/* Header */}
-      <div className="relative h-[50vh] bg-black">
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
+      {/* Banner */}
+      <div className="relative h-[60vh] bg-black">
         <Image
-          src="https://images.pexels.com/photos/3846205/pexels-photo-3846205.jpeg"
-          alt="Powertrain Design"
+          src="/powertrain/foto_banner" // Poner foto banner
+          alt="Motor"
           fill
-          className="object-cover opacity-50"
+          className="object-cover opacity-40"
+          priority
         />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-white">Motor & Transmisión</h1>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/20" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-7xl font-bold text-white mb-4"
+          >
+            Motor & Transmisión
+          </motion.h1>
         </div>
       </div>
 
@@ -224,6 +261,69 @@ export default function PowertrainPage() {
               </motion.div>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Photo Carousel Section */}
+      <section className="py-16 bg-black">
+        <div className="max-w-6xl mx-auto px-4">
+          <motion.h2 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+            className="text-3xl font-bold mb-12 text-center text-white"
+          >
+            Nuestro <span className="text-[#00A3FF]">Equipo en Acción</span>
+          </motion.h2>
+
+          <div className="relative">
+            <div className="relative h-[600px] rounded-2xl overflow-hidden">
+              <Image
+                src={images[currentImageIndex].src}
+                alt={images[currentImageIndex].alt}
+                fill
+                className="object-cover transition-opacity duration-500"
+                priority
+              />
+              
+              {/* Overlay con gradiente */}
+              <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60" />
+
+              {/* Botones de navegación */}
+              <button 
+                onClick={prevImage}
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-200"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+              </button>
+              
+              <button 
+                onClick={nextImage}
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-all duration-200"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
+              </button>
+
+              {/* Indicadores de imagen */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+                {images.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                      index === currentImageIndex 
+                        ? 'bg-[#00A3FF] w-4' 
+                        : 'bg-white/50 hover:bg-white/80'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
