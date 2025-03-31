@@ -49,7 +49,7 @@ export default async function Home() {
           </h1>
           
           <p className="text-xl sm:text-2xl md:text-3xl mb-8 hover:text-[#00A3FF] transition-colors duration-300 animate-slide-up delay-100 text-shadow-xl font-montserrat">
-            Engineering Excellence in Motion
+          Innovación en Movimiento, Ingeniería en Acción
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up delay-200">
