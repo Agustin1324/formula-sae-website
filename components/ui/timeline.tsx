@@ -8,72 +8,24 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { DM_Sans } from 'next/font/google'
+import timelineData from '@/data/timeline.json';
 
-// Initialize the font
+//Inicializo
 const dmSans = DM_Sans({ subsets: ['latin'] })
-
-// Default color for inactive dots
 const defaultDotColor = "bg-neutral-200";
-// Active color (#00A3FF)
 const activeDotColor = "bg-[#00A3FF]";
 
 interface TimelineEntry {
   title: string;
-  content: React.ReactNode;
+  heading: string;
+  content: string;
+  image: {
+    src: string;
+    alt: string;
+  };
 }
 
-const achievements: TimelineEntry[] = [
-  {
-    title: "Mayo 2023",
-    content: (
-      <div>
-        <h3 className={`text-lg font-bold mb-2 text-neutral-800 ${dmSans.className}`}>Fundación</h3>
-        <p className="mb-4 text-neutral-600">An important milestone for our team, allowing us to work more efficiently.</p>
-        <Image src="https://images.unsplash.com/photo-1572204292164-b35ba943fca7" alt="Our workshop" width={300} height={200} className="rounded-lg" />
-      </div>
-    ),
-  },
-  {
-    title: "Diciembre 2023",
-    content: (
-      <div>
-        <h3 className={`text-lg font-bold mb-2 text-neutral-800 ${dmSans.className}`}>Conseguimos el aval de la facultad</h3>
-        <p className="mb-4 text-neutral-600">Official recognition of our project by the institution.</p>
-        <Image src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1" alt="Academic approval" width={300} height={200} className="rounded-lg" />
-      </div>
-    ),
-  },
-  {
-    title: "Julio 2024",
-    content: (
-      <div>
-        <h3 className={`text-lg font-bold mb-2 text-neutral-800 ${dmSans.className}`}>Obtuvimos el taller</h3>
-        <p className="mb-4 text-neutral-600">Finalization of the chassis design, ready for the construction phase.</p>
-        <Image src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158" alt="Chassis design" width={300} height={200} className="rounded-lg" />
-      </div>
-    ),
-  },
-  {
-    title: "Octubre 2024",
-    content: (
-      <div>
-        <h3 className={`text-lg font-bold mb-2 text-neutral-800 ${dmSans.className}`}>1er chasis prototipo</h3>
-        <p className="mb-4 text-neutral-600">First physical model of the chassis, crucial for testing and adjustments.</p>
-        <Image src="https://images.unsplash.com/photo-1581092160562-40aa08e78837" alt="Scale prototype" width={300} height={200} className="rounded-lg" />
-      </div>
-    ),
-  },
-  {
-    title: "Enero 2025",
-    content: (
-      <div>
-        <h3 className={`text-lg font-bold mb-2 text-neutral-800 ${dmSans.className}`}>Diseño de la dinámica del vehículo</h3>
-        <p className="mb-4 text-neutral-600">Construction of the full-size chassis, an important step towards the final vehicle.</p>
-        <Image src="https://images.unsplash.com/photo-1581092162384-8987c1d64718" alt="Full chassis" width={300} height={200} className="rounded-lg" />
-      </div>
-    ),
-  },
-];
+const achievements: TimelineEntry[] = timelineData.achievements;
 
 export const Timeline = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -94,7 +46,7 @@ export const Timeline = () => {
   });
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    // Calculate which dot should be active based on scroll position
+    // Calculo que punto tiene que estar pintado basado en la posicion de scroll
     const newIndex = Math.floor(latest * achievements.length);
     setActiveIndex(newIndex);
   });
@@ -161,7 +113,19 @@ export const Timeline = () => {
                 }}
                 viewport={{ once: false, margin: "-20%" }}
               >
-                {item.content}
+                <div>
+                  <h3 className={`text-lg font-bold mb-2 text-neutral-800 ${dmSans.className}`}>
+                    {item.heading}
+                  </h3>
+                  <p className="mb-4 text-neutral-600">{item.content}</p>
+                  <Image 
+                    src={item.image.src} 
+                    alt={item.image.alt} 
+                    width={300} 
+                    height={200} 
+                    className="rounded-lg" 
+                  />
+                </div>
               </motion.div>
             </motion.div>
           </motion.div>
