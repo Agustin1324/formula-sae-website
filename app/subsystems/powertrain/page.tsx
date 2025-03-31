@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import powertrainImages from './images.json';
+import powertrainImages from './carrousel_powertrain.json';
 
 export default function PowertrainPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -264,7 +264,7 @@ export default function PowertrainPage() {
         </div>
       </section>
 
-      {/* Photo Carousel Section */}
+      {/*  Carousel  */}
       <section className="py-16 bg-black">
         <div className="max-w-6xl mx-auto px-4">
           <motion.h2 
@@ -327,7 +327,7 @@ export default function PowertrainPage() {
         </div>
       </section>
 
-      {/* Journey Section */}
+      {/* Journey  */}
       <section className="py-20 bg-black">
         <div className="max-w-6xl mx-auto px-4">
           <motion.div
@@ -377,7 +377,7 @@ export default function PowertrainPage() {
             >
               <div className="relative h-[400px] rounded-2xl overflow-hidden">
                 <Image
-                  src="/powertrain/motor-nuevo.jpg" // Foto piola trabajando en el motor nuevo
+                  src="/powertrain/adquisición_motor.jpeg" // Foto piola trabajando en el motor nuevo
                   alt="Nuevo motor CFMOTO"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
