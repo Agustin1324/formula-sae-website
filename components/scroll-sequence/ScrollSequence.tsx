@@ -1,116 +1,205 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
 import './scrollSequence.scss'; // Importar los estilos SCSS
 
+const ANIMATION_DURATION = 2000; // Duración de la animación entre zonas
+const KEYFRAMES = [1, 31, 61, 91, 115, 160]; // Zonas clave (último frame corregido)
+
 function ScrollSequence() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const imageRef = useRef(new Image());
-    const currentFrameRef = useRef(1);
-    const animationFrameIdRef = useRef<number | null>(null);
-    const isUpdatingRef = useRef(false);
-    const [isHovering, setIsHovering] = useState(false);
-    const [frameCount, setFrameCount] = useState(0);
+    const currentFrameRef = useRef(KEYFRAMES[0]); // Frame estable actual
+    const targetFrameRef = useRef(KEYFRAMES[0]); // Frame al que la animación ACTIVA se dirige
+    const currentZoneIndexRef = useRef(0); // Índice de la zona actual en KEYFRAMES
+    // pendingZoneChangeRef eliminado
+    const animationFrameIdRef = useRef<number | null>(null); // ID para saber si hay animación activa
+    const animationStartTimeRef = useRef<number | null>(null);
+    const animationStartFrameRef = useRef(KEYFRAMES[0]);
+    const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+    const isUpdatingImageRef = useRef(false);
+    const [frameCount, setFrameCount] = useState(0); // Todavía necesario para clamping y path
     const [isLoading, setIsLoading] = useState(true);
-    const imageAspectRatioRef = useRef<number | null>(null); // Ref para guardar la relación de aspecto
+    const imageAspectRatioRef = useRef<number | null>(null);
 
     const currentFramePath = useCallback((index: number): string => {
-        if (index < 1) return '';
-        return `/aero/animaciones/TEST/TEST_${index.toString().padStart(4, '0')}.webp`;
-    }, []);
+        if (!frameCount || index < 1) return '';
+        const clampedIndex = Math.max(1, Math.min(Math.round(index), frameCount));
+        return `/aero/animaciones/TEST/TEST_${clampedIndex.toString().padStart(4, '0')}.webp`;
+    }, [frameCount]);
 
-    // Función para calcular dimensiones y posición manteniendo aspect ratio
-    const calculateDrawParams = useCallback((canvas: HTMLCanvasElement, img: HTMLImageElement): { dx: number, dy: number, dw: number, dh: number } => {
-        const canvasWidth = canvas.width;
-        const canvasHeight = canvas.height;
+    const calculateDrawParams = useCallback(/* ... (sin cambios) ... */
+    (logicalWidth: number, logicalHeight: number, img: HTMLImageElement): { dx: number, dy: number, dw: number, dh: number } => {
         const imgWidth = img.naturalWidth;
         const imgHeight = img.naturalHeight;
 
-        // Si no tenemos dimensiones de imagen, dibujar ocupando todo (fallback)
         if (!imgWidth || !imgHeight) {
-            return { dx: 0, dy: 0, dw: canvasWidth, dh: canvasHeight };
+            return { dx: 0, dy: 0, dw: logicalWidth, dh: logicalHeight };
         }
 
         const imgRatio = imgWidth / imgHeight;
-        const canvasRatio = canvasWidth / canvasHeight;
+        const canvasRatio = logicalWidth / logicalHeight;
 
-        let drawWidth = canvasWidth;
-        let drawHeight = canvasHeight;
+        let drawWidth = logicalWidth;
+        let drawHeight = logicalHeight;
         let dx = 0;
         let dy = 0;
 
         if (imgRatio > canvasRatio) {
-            // Imagen más ancha que el canvas: ajustar por ancho
             drawHeight = drawWidth / imgRatio;
-            dy = (canvasHeight - drawHeight) / 2; // Centrar verticalmente
+            dy = (logicalHeight - drawHeight) / 2;
         } else {
-            // Imagen más alta o igual que el canvas: ajustar por alto
             drawWidth = drawHeight * imgRatio;
-            dx = (canvasWidth - drawWidth) / 2; // Centrar horizontalmente
+            dx = (logicalWidth - drawWidth) / 2;
         }
 
         return { dx, dy, dw: drawWidth, dh: drawHeight };
     }, []);
 
-    const updateImage = useCallback((index: number) => {
-        if (frameCount === 0 || !canvasRef.current || isUpdatingRef.current) return;
+    const updateScrollIndicatorPosition = useCallback(() => {
+        if (!scrollIndicatorRef.current || frameCount <= 1) return;
+        // ... (lógica sin cambios) ...
+        const indicator = scrollIndicatorRef.current;
+        const container = indicator.parentElement;
+        const navbarElement = document.querySelector('nav');
+        const footerElement = document.querySelector('footer');
 
-        isUpdatingRef.current = true;
-        const canvas = canvasRef.current; // Guardar referencia local
+        if (!container) return;
+
+        const indicatorHeight = indicator.offsetHeight;
+        const totalContainerHeight = container.offsetHeight;
+        const currentNavbarHeight = navbarElement ? navbarElement.offsetHeight : 0;
+        const currentFooterHeight = footerElement ? footerElement.offsetHeight : 0;
+
+        const availableScrollHeight = Math.max(0, totalContainerHeight - currentNavbarHeight - currentFooterHeight - indicatorHeight);
+        const progress = frameCount > 1 ? (currentFrameRef.current - 1) / (frameCount - 1) : 0;
+        const topPosition = currentNavbarHeight + (progress * availableScrollHeight);
+
+        indicator.style.top = `${topPosition}px`;
+    }, [frameCount]);
+
+    // Función dedicada a dibujar un frame específico
+    const drawFrame = useCallback((frameIndex: number) => {
+        // ... (sin cambios) ...
+        const canvas = canvasRef.current;
+        if (!canvas || isUpdatingImageRef.current || !frameCount) return;
+
+        const frameToShow = Math.max(1, Math.min(Math.round(frameIndex), frameCount));
+        const targetSrc = currentFramePath(frameToShow);
+        if (!targetSrc) return;
+
+        isUpdatingImageRef.current = true;
+
         const context = canvas.getContext('2d');
+        const img = imageRef.current;
+
         if (!context) {
-            isUpdatingRef.current = false;
+            isUpdatingImageRef.current = false;
             return;
         }
 
-        const clampedIndex = Math.max(1, Math.min(Math.round(index), frameCount));
-        const img = imageRef.current;
-        const targetSrc = currentFramePath(clampedIndex);
+        context.imageSmoothingEnabled = true;
+        context.imageSmoothingQuality = 'high';
 
-        if (!targetSrc) {
-             isUpdatingRef.current = false;
-             return;
-        }
+        const performDraw = () => {
+            if (canvasRef.current && context && img.naturalWidth > 0) {
+                 const logicalWidth = parseFloat(canvas.style.width) || canvas.width;
+                 const logicalHeight = parseFloat(canvas.style.height) || canvas.height;
+                 const params = calculateDrawParams(logicalWidth, logicalHeight, img);
 
-        const redrawCurrentImage = () => {
-            if (canvasRef.current && context && img.naturalWidth > 0) { // Asegurarse que la imagen tiene dimensiones
-                const params = calculateDrawParams(canvasRef.current, img);
-                context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-                context.drawImage(img, params.dx, params.dy, params.dw, params.dh);
-                // console.log(`Frame ${clampedIndex} redibujado con aspect ratio.`);
+                 context.save();
+                 context.setTransform(1, 0, 0, 1, 0, 0);
+                 context.clearRect(0, 0, canvas.width, canvas.height);
+                 context.restore();
+
+                 context.drawImage(img, params.dx, params.dy, params.dw, params.dh);
+                 // DEBUG: Mostrar frame dibujado
+                 console.log(`Drawing frame: ${frameToShow.toFixed(2)}`);
             }
-             isUpdatingRef.current = false;
+            isUpdatingImageRef.current = false;
         };
 
         if (img.src.endsWith(targetSrc)) {
-             redrawCurrentImage(); // Redibujar la imagen actual con el aspect ratio correcto
-             return;
+             requestAnimationFrame(performDraw);
+        } else {
+            img.src = targetSrc;
+            img.onload = () => {
+                if (imageAspectRatioRef.current === null && img.naturalWidth > 0) {
+                    imageAspectRatioRef.current = img.naturalWidth / img.naturalHeight;
+                }
+                 requestAnimationFrame(performDraw);
+            };
+            img.onerror = () => {
+                console.error(`Error cargando imagen frame ${frameToShow}: ${img.src}`);
+                isUpdatingImageRef.current = false;
+            };
+        }
+    }, [frameCount, currentFramePath, calculateDrawParams]);
+
+
+    // Función de animación
+    const runAnimation = useCallback((timestamp: number) => { // Ya no necesita startAnimationFunc
+        if (animationStartTimeRef.current === null) {
+            animationStartTimeRef.current = timestamp;
         }
 
-        // console.log(`Intentando cargar frame: ${clampedIndex}, src: ${targetSrc}`);
-        img.src = targetSrc;
-        img.onload = () => {
-            // Guardar aspect ratio si es la primera vez
-            if (imageAspectRatioRef.current === null && img.naturalWidth > 0) {
-                imageAspectRatioRef.current = img.naturalWidth / img.naturalHeight;
+        const elapsedTime = timestamp - animationStartTimeRef.current;
+        let progress = Math.min(1, elapsedTime / ANIMATION_DURATION);
+        progress = progress * (2 - progress); // EaseOutQuad
+
+        const intermediateFrame = animationStartFrameRef.current + (targetFrameRef.current - animationStartFrameRef.current) * progress;
+
+        drawFrame(intermediateFrame);
+
+        if (progress < 1) {
+            animationFrameIdRef.current = requestAnimationFrame(runAnimation); // Llama a sí misma
+        } else {
+            // Animación completada
+            currentFrameRef.current = targetFrameRef.current;
+            const finalZoneIndex = KEYFRAMES.findIndex(kf => kf === targetFrameRef.current);
+            if (finalZoneIndex !== -1) {
+                currentZoneIndexRef.current = finalZoneIndex;
             }
-            redrawCurrentImage(); // Dibujar la nueva imagen con aspect ratio
-        };
-        img.onerror = () => {
-            console.error(`Error cargando imagen frame ${clampedIndex}: ${img.src}`);
-            isUpdatingRef.current = false;
-        };
+            console.log(`Animation ended. Stable frame: ${currentFrameRef.current} (Zone index: ${currentZoneIndexRef.current})`);
+            updateScrollIndicatorPosition();
+            animationFrameIdRef.current = null; // Marcar animación como terminada
+            animationStartTimeRef.current = null;
+            // Ya no se revisa el buffer
+        }
+    }, [drawFrame, updateScrollIndicatorPosition]);
 
-    }, [currentFramePath, frameCount, calculateDrawParams]);
+    // Función para iniciar la animación
+    const startAnimation = useCallback((newTargetFrame: number) => { // Ya no necesita targetZoneIndex aquí
+        // Esta función ahora solo configura e inicia el rAF
+        animationStartFrameRef.current = currentFrameRef.current;
+        targetFrameRef.current = newTargetFrame; // Asume que ya está clampeado
 
+        if (targetFrameRef.current === animationStartFrameRef.current) {
+            return;
+        }
+
+        // console.log(`Starting animation from ${animationStartFrameRef.current} to ${targetFrameRef.current}`);
+        animationStartTimeRef.current = null;
+        animationFrameIdRef.current = requestAnimationFrame(runAnimation); // Inicia el loop
+
+    }, [runAnimation]); // Solo depende de runAnimation
+
+
+    // Efecto para obtener frame count
     useEffect(() => {
+        // ... (sin cambios) ...
         setIsLoading(true);
         fetch('/api/aero-frame-count')
             .then(res => res.json())
             .then(data => {
                 if (data.frameCount > 0) {
                     setFrameCount(data.frameCount);
-                    console.log(`Frame count recibido de API: ${data.frameCount}`);
+                    const lastKeyframeIndex = KEYFRAMES.length - 1;
+                    if (KEYFRAMES[lastKeyframeIndex] > data.frameCount) {
+                        KEYFRAMES[lastKeyframeIndex] = data.frameCount;
+                    }
+                    currentFrameRef.current = KEYFRAMES[0];
+                    targetFrameRef.current = KEYFRAMES[0];
+                    currentZoneIndexRef.current = 0;
                 } else {
-                    console.error("API devolvió 0 frames o hubo un error.");
                     setFrameCount(0);
                 }
             })
@@ -123,76 +212,124 @@ function ScrollSequence() {
             });
     }, []);
 
+    // Efecto para precargar imágenes
     useEffect(() => {
+        // ... (sin cambios) ...
         if (frameCount > 0) {
-            console.log(`Precargando imágenes (hasta ${frameCount})...`);
-            const preloadLimit = 50;
-            for (let i = 1; i <= Math.min(frameCount, preloadLimit); i++) {
+            KEYFRAMES.forEach(kf => {
                 const preloadImg = new Image();
-                preloadImg.src = currentFramePath(i);
+                preloadImg.src = currentFramePath(kf);
+            });
+            const preloadLimit = 20;
+            for (let i = 1; i <= Math.min(frameCount, preloadLimit); i++) {
+                 if (!KEYFRAMES.includes(i)) {
+                     const preloadImg = new Image();
+                     preloadImg.src = currentFramePath(i);
+                 }
             }
-            console.log(`Precarga iniciada para los primeros ${Math.min(frameCount, preloadLimit)} frames.`);
+            console.log("Keyframes preloaded.");
         }
     }, [frameCount, currentFramePath]);
 
+    // Efecto principal para canvas, scroll y resize
     useEffect(() => {
         if (isLoading || frameCount === 0) return;
 
         const canvas = canvasRef.current;
+        // ... (resto de setup inicial sin cambios) ...
         if (!canvas) return;
         const context = canvas.getContext('2d');
         if (!context) return;
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        context.scale(dpr, dpr);
+        canvas.style.width = `${rect.width}px`;
+        canvas.style.height = `${rect.height}px`;
 
-        // Dibujar frame inicial (la función updateImage ahora maneja el aspect ratio)
-        setTimeout(() => updateImage(currentFrameRef.current), 100);
+        drawFrame(currentFrameRef.current);
+        setTimeout(() => updateScrollIndicatorPosition(), 150);
+
 
         const handleWheel = (event: WheelEvent) => {
-            if (isHovering) {
-                event.preventDefault();
-                const frameStep = 1;
-                let newFrame;
-                if (event.deltaY > 0) {
-                    newFrame = currentFrameRef.current + frameStep;
-                } else if (event.deltaY < 0) {
-                    newFrame = currentFrameRef.current - frameStep;
-                } else {
-                    return;
+            // IGNORAR si hay una animación en curso
+            if (animationFrameIdRef.current !== null) {
+                // Opcional: podrías querer prevenir el default incluso si ignoras,
+                // para evitar que la página scrollee mientras la anim interna está bloqueada.
+                // event.preventDefault();
+                // console.log("Animation in progress, scroll ignored.");
+                return;
+            }
+
+            let zoneChange = 0;
+            let shouldPreventDefault = false;
+
+            // Calcular índice de zona potencial (ahora solo basado en la zona actual estable)
+            const potentialZoneIndex = currentZoneIndexRef.current;
+
+            if (event.deltaY > 0) { // Scroll hacia abajo
+                if (potentialZoneIndex < KEYFRAMES.length - 1) {
+                     zoneChange = 1;
+                     shouldPreventDefault = true;
                 }
-                const clampedFrame = Math.max(1, Math.min(newFrame, frameCount));
-                if (Math.round(clampedFrame) !== Math.round(currentFrameRef.current)) {
-                     currentFrameRef.current = clampedFrame;
-                     if (animationFrameIdRef.current) cancelAnimationFrame(animationFrameIdRef.current);
-                     animationFrameIdRef.current = requestAnimationFrame(() => updateImage(currentFrameRef.current));
-                     // console.log(`Wheel Delta: ${event.deltaY.toFixed(0)}, Hovering, Frame: ${currentFrameRef.current.toFixed(0)}`);
+            } else if (event.deltaY < 0) { // Scroll hacia arriba
+                 if (potentialZoneIndex > 0) {
+                     zoneChange = -1;
+                     shouldPreventDefault = true;
+                 }
+            }
+
+            if (shouldPreventDefault) {
+                event.preventDefault();
+                // Calcular directamente el target sin buffer
+                const nextZoneIndex = currentZoneIndexRef.current + zoneChange;
+                // Clamp index (aunque la lógica anterior ya lo previene)
+                const clampedNextZoneIndex = Math.max(0, Math.min(KEYFRAMES.length - 1, nextZoneIndex));
+                const nextTargetFrame = KEYFRAMES[clampedNextZoneIndex];
+
+                // Iniciar animación solo si el target es diferente del frame actual
+                if (nextTargetFrame !== currentFrameRef.current) {
+                    startAnimation(nextTargetFrame); // Ya no necesita el índice
                 }
             }
         };
 
         const handleResize = () => {
-            if (canvasRef.current) {
-                // Actualizar tamaño del canvas
-                canvasRef.current.width = window.innerWidth;
-                canvasRef.current.height = window.innerHeight;
-                // Redibujar la imagen actual con el nuevo tamaño y aspect ratio correcto
-                updateImage(currentFrameRef.current);
-            }
+             // ... (sin cambios) ...
+             const currentCanvas = canvasRef.current;
+             if (currentCanvas) {
+                 const currentRect = currentCanvas.getBoundingClientRect();
+                 const currentDpr = window.devicePixelRatio || 1;
+                 currentCanvas.width = currentRect.width * currentDpr;
+                 currentCanvas.height = currentRect.height * currentDpr;
+                 currentCanvas.style.width = `${currentRect.width}px`;
+                 currentCanvas.style.height = `${currentRect.height}px`;
+
+                 const currentContext = currentCanvas.getContext('2d');
+                 if (currentContext) {
+                     currentContext.scale(currentDpr, currentDpr);
+                 }
+                 drawFrame(currentFrameRef.current);
+                 setTimeout(() => updateScrollIndicatorPosition(), 50);
+             }
         };
 
-        window.addEventListener('wheel', handleWheel, { passive: false });
+        canvas.addEventListener('wheel', handleWheel, { passive: false });
         window.addEventListener('resize', handleResize);
 
         return () => {
-            console.log("Limpiando componente ScrollSequence (hover/wheel mode)...");
-            window.removeEventListener('wheel', handleWheel);
+            // ... (sin cambios) ...
+            if (canvas) {
+                canvas.removeEventListener('wheel', handleWheel);
+            }
             window.removeEventListener('resize', handleResize);
             if (animationFrameIdRef.current) {
                 cancelAnimationFrame(animationFrameIdRef.current);
             }
         };
-    }, [isLoading, frameCount, isHovering, updateImage, calculateDrawParams]); // Añadir calculateDrawParams
+    }, [isLoading, frameCount, drawFrame, startAnimation, updateScrollIndicatorPosition]);
 
     if (isLoading) {
         return <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#000', color: '#fff' }}>Cargando fotogramas...</div>;
@@ -202,15 +339,18 @@ function ScrollSequence() {
     }
 
     return (
-        <section className="png__sequence">
+        // ... (JSX sin cambios) ...
+        <section className="png__sequence" style={{ width: '100%', height: '100vh', position: 'relative' }}>
             <canvas
                 ref={canvasRef}
                 className="png__sequence__canvas"
                 id="canvas"
-                onMouseEnter={() => setIsHovering(true)}
-                onMouseLeave={() => setIsHovering(false)}
+                style={{ width: '100%', height: '100%', display: 'block' }}
             >
             </canvas>
+            {frameCount > 1 && !isLoading && (
+                 <div ref={scrollIndicatorRef} className="scroll-indicator"></div>
+            )}
         </section>
     );
 }

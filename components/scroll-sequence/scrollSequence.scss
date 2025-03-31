@@ -15,6 +15,21 @@
         object-fit: contain; // Ajustar imagen dentro del canvas
     }
 
+
+    /* Estilos para el indicador de scroll */
+    .scroll-indicator {
+        position: absolute;
+        top: 0; /* La posición vertical será manejada por JS */
+        right: 10px; /* Posición a la derecha, ajustar si es necesario */
+        width: 4px; /* Ancho de la barra */
+        height: 50px; /* Altura de la barra, ajustar si es necesario */
+        background-color: black; /* Color de la barra */
+        border-radius: 2px; /* Bordes redondeados */
+        z-index: 10; /* Asegurar que esté sobre el canvas */
+        pointer-events: none; /* Para que no capture eventos del mouse */
+        transition: top 0.05s linear; /* Transición suave para el movimiento */
+    }
+
     // Estilos para los controles de depuración (si se mantienen)
     .debug-controls {
         position: fixed;
