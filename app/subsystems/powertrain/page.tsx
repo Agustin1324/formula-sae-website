@@ -98,7 +98,9 @@ export default function PowertrainPage() {
                 transition={{ duration: 1, delay: 1.3 }}
                 className="mt-8 p-6 bg-[#00A3FF]/10 rounded-xl border border-[#00A3FF]/20"
               >
-
+                <p className="text-lg text-center text-white italic">
+                  "Somos el equipo que vuelve tangible el esfuerzo colectivo de todo el grupo y asumimos esa responsabilidad."
+                </p>
               </motion.div>
             </div>
           </motion.div>
@@ -194,12 +196,10 @@ export default function PowertrainPage() {
                     {[
                       {
                         mode: "Sport",
-                        description: "Máximo rendimiento y respuesta",
                         icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                       },
                       {
                         mode: "ECO",
-                        description: "Eficiencia optimizada",
                         icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       }
                     ].map((mode, index) => (
@@ -223,15 +223,101 @@ export default function PowertrainPage() {
                     ))}
                   </div>
                 </motion.div>
-
-                <motion.div 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 1, delay: 1.2 }}
-                  className="bg-[#00A3FF]/10 rounded-2xl p-6 border border-[#00A3FF]/20"
-                >
-                </motion.div>
               </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Journey Section */}
+      <section className="py-20 bg-black">
+        <div className="max-w-6xl mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Nuestro <span className="text-[#00A3FF]">Camino</span>
+            </h2>
+            <div className="w-20 h-1 bg-[#00A3FF] mx-auto"></div>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Primera Etapa */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="group"
+            >
+              <div className="relative h-[400px] rounded-2xl overflow-hidden">
+                <Image
+                  src="/powertrain/Trabajando en el prototipo.jpeg" 
+                  alt="Equipo trabajando en el prototipo"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent">
+                  <div className="absolute bottom-0 p-6">
+                    <h3 className="text-2xl font-bold text-white mb-2">Desarrollo Inicial</h3>
+                    <p className="text-gray-300">
+                      Nuestro equipo trabajando en las etapas iniciales del diseño y prototipado del sistema de powertrain.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Segunda Etapa */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="group"
+            >
+              <div className="relative h-[400px] rounded-2xl overflow-hidden">
+                <Image
+                  src="/powertrain/motor-nuevo.jpg" // Asegúrate de tener la imagen en esta ruta
+                  alt="Nuevo motor CFMOTO"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent">
+                  <div className="absolute bottom-0 p-6">
+                    <h3 className="text-2xl font-bold text-white mb-2">Adquisición del Motor</h3>
+                    <p className="text-gray-300">
+                      Un hito importante: la incorporación de nuestro motor CFMOTO 650MT, marcando el comienzo de una nueva era para el equipo.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Timeline o Progreso */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mt-16 bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10"
+          >
+            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+              <div className="text-center md:text-left">
+                <h4 className="text-xl font-semibold text-[#00A3FF]">2023</h4>
+                <p className="text-white">Inicio del proyecto</p>
+              </div>
+              <div className="h-1 w-20 md:w-32 bg-gradient-to-r from-[#00A3FF] to-white/30"></div>
+              <div className="text-center">
+                <h4 className="text-xl font-semibold text-[#00A3FF]">2025</h4>
+                <p className="text-white">Adquisición del motor</p>
+              </div>
+              <div className="h-1 w-20 md:w-32 bg-gradient-to-r from-white/30 to-[#00A3FF]"></div>
+              <div className="text-center md:text-right">
+                <h4 className="text-xl font-semibold text-[#00A3FF]">En progreso</h4>
+                <p className="text-white">Desarrollo y optimización</p>
+              </div>
             </div>
           </motion.div>
         </div>
