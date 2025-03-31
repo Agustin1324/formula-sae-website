@@ -312,24 +312,33 @@ export default function CompetitionPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                title: "algo1",
+                title: "Motor y Potencia",
                 items: [
-                  "item 1",
-                  "item 2"
+                  "Motor de pistón de 4 tiempos",
+                  "Cilindrada máxima de 710cc",
+                  "Restrictor de admisión obligatorio",
+                  "Sistema de escape con límites de ruido",
+                  "Control electrónico permitido"
                 ]
               },
               {
-                title: "algo2",
+                title: "Seguridad",
                 items: [
-                  "item 1",
-                  "item 2"
+                  "Estructura tubular de acero",
+                  "Protección contra vuelcos",
+                  "Atenuador de impactos",
+                  "Arnés de 5-7 puntos",
+                  "Protección lateral"
                 ]
               },
               {
-                title: "algo 3",
+                title: "Chasis y Suspensión",
                 items: [
-                  "item 1",
-                  "item 2"
+                  "Distancia entre ejes mínima 1525mm",
+                  "4 ruedas fuera del eje longitudinal",
+                  "Suspensión en las 4 ruedas",
+                  "Sistema de frenos dual",
+                  "Ground clearance mínimo 30mm"
                 ]
               }
             ].map((category, index) => (
@@ -373,10 +382,4 @@ export default function CompetitionPage() {
     </div>
   );
 }
-
-
-
-
-
-
 
