@@ -3,62 +3,21 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect, Suspense, useRef } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls, useGLTF, Text, PerspectiveCamera, PresentationControls } from "@react-three/drei";
-import * as THREE from 'three';
+import { useState, useEffect } from "react";
+import dynamic from 'next/dynamic';
 
-function ChassisModel() {
-  const groupRef = useRef<THREE.Group>(null);
-  const [error, setError] = useState<string | null>(null);
-  const { scene } = useGLTF("/chassis/chassis.gltf");
-
-  useEffect(() => {
-    if (scene && groupRef.current) {
-      try {
-        // Reset position and rotation
-        scene.position.set(0, -0.5, 0); // Lowered the model slightly
-        scene.rotation.set(0, Math.PI * 5 / 4, 0); // Rotated 225 degrees around Y-axis
-
-        // Scale the model
-        scene.scale.setScalar(0.015); // Adjusted scale to match the image
-
-        groupRef.current.add(scene);
-      } catch (err) {
-        console.error("Error processing the model:", err);
-        setError("Error processing the model");
-      }
-    }
-  }, [scene]);
-
-  if (error) {
-    return <Text color="red" anchorX="center" anchorY="middle">{error}</Text>;
+// Importar dinámicamente el visor 3D para asegurar que solo se cargue en el cliente
+const ChassisModelViewer = dynamic(
+  () => import("@/components/chassis/ChassisModelViewer").then(mod => mod.ChassisModelViewer),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-[400px] bg-gray-200 rounded-lg flex items-center justify-center">
+        <div className="text-gray-600">Inicializando visualizador 3D...</div>
+      </div>
+    )
   }
-
-  return <group ref={groupRef} />;
-}
-
-function ChassisModelContainer() {
-  return (
-    <Canvas style={{ height: '500px' }}>
-      <PerspectiveCamera makeDefault position={[3, 2, 3]} />
-      <ambientLight intensity={0.7} />
-      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={0.5} />
-      <pointLight position={[-10, -10, -10]} intensity={0.5} />
-      <OrbitControls
-        enableDamping={true}
-        dampingFactor={0.25}
-        rotateSpeed={0.5}
-        minDistance={2}
-        maxDistance={10}
-        target={[0, -0.5, 0]} // Set the target to match the model's position
-      />
-      <Suspense fallback={<Text color="white" anchorX="center" anchorY="middle">Loading 3D model...</Text>}>
-        <ChassisModel />
-      </Suspense>
-    </Canvas>
-  );
-}
+);
 
 export default function ChassisPage() {
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
@@ -66,27 +25,25 @@ export default function ChassisPage() {
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
-    handleResize(); // Set initial width
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const closeButtonSize = windowWidth < 768 ? 'text-4xl' : 'text-2xl';
 
-  useGLTF.preload("/chassis/chassis.gltf");
-
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <div className="relative h-[50vh] bg-black">
+      <div className="relative h-[50vh] bg-gray-200">
         <Image
-          src="https://images.pexels.com/photos/3847770/pexels-photo-3847770.jpeg"
-          alt="Chassis Design"
+          src="/chassis/head/chasis.png"
+          alt="Diseño del Chasis"
           fill
-          className="object-cover opacity-50"
+          className="object-contain object-center"
         />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-white">Chassis</h1>
+        <div className="absolute inset-0 bg-black/35 flex items-center justify-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-white">Chasis</h1>
         </div>
       </div>
 
@@ -95,25 +52,25 @@ export default function ChassisPage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12">
             <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-gray-900">Innovative Chassis Design</h2>
+              <h2 className="text-3xl font-bold text-gray-900">Diseño Integral del Chasis</h2>
               <p className="text-lg text-gray-700">
-                Our chassis is the backbone of our race car, designed for optimal strength, 
-                rigidity, and weight distribution. We utilize advanced materials and 
-                manufacturing techniques to create a chassis that provides the perfect 
-                foundation for high performance.
+                El chasis es el esqueleto de nuestro auto, diseñado para cumplir con los más altos requisitos 
+                que exige una competencia tal como la Fórmula SAE. Utilizamos avanzadas técnicas y materiales, 
+                con el fin de maximizar el rendimiento del chasis, así como también para fijar una sólida base 
+                para el futuro de Fiuba Racing.
               </p>
               <div className="bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-xl font-bold text-gray-800 mb-4">Key Features</h3>
+                <h3 className="text-xl font-bold text-gray-800 mb-4">Puntos Destacados</h3>
                 <ul className="space-y-2 text-gray-700">
-                  <li>• Lightweight carbon fiber monocoque</li>
-                  <li>• Optimized torsional rigidity</li>
-                  <li>• Integrated safety structures</li>
-                  <li>• Aerodynamic underbody design</li>
+                  <li>• Chasis tubular de acero</li>
+                  <li>• Seguridad y performance a la cabeza</li>
+                  <li>• Exhaustivo proceso de iteración de diseño</li>
+                  <li>• Integración de los diferentes sistemas primarios del monoplaza</li>
                 </ul>
               </div>
             </div>
             <div className="relative h-[400px] bg-gray-200 rounded-lg overflow-hidden">
-              <ChassisModelContainer />
+              <ChassisModelViewer />
             </div>
           </div>
         </div>
@@ -122,75 +79,84 @@ export default function ChassisPage() {
       {/* Assembly Process Section */}
       <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold mb-8 text-gray-900">Chassis Assembly Process</h2>
+          <h2 className="text-3xl font-bold mb-8 text-gray-900">Proceso de Ensamblaje</h2>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <p className="text-lg text-gray-700">
-                Our chassis assembly process is a meticulous blend of precision engineering and skilled craftsmanship. 
-                The process begins with the design and fabrication of a custom chassis rig, which serves as the 
-                foundation for accurate and consistent chassis construction.
+                El proceso de diseño de una estructura de alta complejidad como lo es el chasis, 
+                comienza con un profundo conocimiento de la normativa impuesta por la asociación correspondiente, 
+                en el presente caso, FSAE International.
               </p>
-              <h3 className="text-xl font-bold text-gray-800">Rig Design and Manufacturing</h3>
-              <ul className="list-disc pl-5 space-y-2 text-gray-700">
-                <li>Designed using Solidworks for precise 3D modeling</li>
-                <li>Manufactured using a combination of manual and CNC routers</li>
-                <li>Wood panels cut to exact specifications</li>
-                <li>Rig assembled to ensure perfect alignment and stability</li>
-              </ul>
-              <h3 className="text-xl font-bold text-gray-800">Chassis Welding</h3>
               <p className="text-lg text-gray-700">
-                The chassis is welded using the MIG (Metal Inert Gas) welding process, which provides strong, 
-                high-quality welds essential for the structural integrity of the chassis. Our team of skilled 
-                welders ensures that each joint meets the exacting standards required for a high-performance 
-                racing chassis.
+                Siendo el chasis aquello que contiene al piloto, su seguridad es prioridad, por lo que toda 
+                normativa en cuanto al tópico en cuestión es tratada con la mayor seriedad.
+              </p>
+              <p className="text-lg text-gray-700">
+                Sumado a ello, la documentación y registro del proceso de diseño es también un pilar en el buen 
+                funcionamiento de todo proyecto ingenieril, sentando las bases para el proceso de desarrollo a porvenir.
+              </p>
+              <h3 className="text-xl font-bold text-gray-800">Diseño y Fabricación del Soporte</h3>
+              <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                <li>Diseñado usando Solidworks para modelado 3D preciso</li>
+                <li>Fabricado usando una combinación de enrutadores manuales y CNC</li>
+                <li>Paneles de madera cortados con especificaciones exactas</li>
+                <li>Soporte ensamblado para asegurar alineación y estabilidad perfectas</li>
+              </ul>
+              <h3 className="text-xl font-bold text-gray-800">Soldadura del Chasis</h3>
+              <p className="text-lg text-gray-700">
+                El chasis se suelda utilizando el proceso MIG (Metal Inert Gas), que proporciona 
+                soldaduras fuertes y de alta calidad, esenciales para la integridad estructural del chasis. 
+                Nuestro equipo de soldadores expertos asegura que cada unión cumpla con los exigentes 
+                estándares requeridos para un chasis de carreras de alto rendimiento.
               </p>
             </div>
             <div className="relative h-[500px] bg-gray-200 rounded-lg overflow-hidden cursor-pointer" onClick={() => setIsImageModalOpen(true)}>
               <Image
                 src="/chassis/chassis.jpg"
-                alt="Chassis Assembly Process"
+                alt="Proceso de Ensamblaje del Chasis"
                 fill
                 className="object-contain"
               />
               <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 hover:bg-opacity-30 transition-opacity duration-300">
-                <span className="text-white text-lg font-semibold opacity-0 hover:opacity-100 transition-opacity duration-300">Click to enlarge</span>
+              <span className="text-white text-lg font-semibold opacity-0 hover:opacity-100 transition-opacity duration-300">Clic para ampliar</span>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Technical Details */}
+      {/* Especificaciones Técnicas */}
       <section className="py-16 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold mb-8 text-gray-900">Technical Specifications</h2>
+          <h2 className="text-3xl font-bold mb-8 text-gray-900">Especificaciones Técnicas</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                title: "Material Properties",
+                title: "Propiedades de Material",
                 specs: [
-                  "Material: AISI 4130",
-                  "Yield Strength: 435 MPa",
-                  "Main Hoop: 1.0\" x 0.095\"",
-                  "Support Tubes: 0.75\" x 0.065\""
+                  "Material: Acero 1020",
+                  "Resistencia a la Tracción: 395 MPa",
+                  "Límite elástico: 295 MPa",
+                  "Dureza: 111HB",
+                  "Elongación a Fractura: 36,5%"
                 ]
               },
               {
-                title: "Design Targets",
+                title: "Geometría Elegida",
                 specs: [
-                  "Torsional Stiffness: 2000 Nm/deg",
-                  "Total Weight: 32 kg",
-                  "CG Height: 280mm",
-                  "Safety Factor: >3"
+                  "Tubos sin costura",
+                  "Diámetro Exterior 1\"",
+                  "Espesores desde 1,5mm a 2,5mm",
+                  "Soldadura con MIG"
                 ]
               },
               {
-                title: "Manufacturing",
+                title: "Objetivos de Diseño",
                 specs: [
-                  "TIG Welding",
-                  "CNC Tube Bending",
-                  "3D Printed Jigs",
-                  "Heat Treatment"
+                  "Rigidez Torsional: 3000Nm/°",
+                  "Peso Final: 40 a 45 Kg",
+                  "Distribución de peso equilibrada",
+                  "Comportamiento predecible"
                 ]
               }
             ].map((section, index) => (
@@ -207,32 +173,42 @@ export default function ChassisPage() {
         </div>
       </section>
 
-      {/* Analysis & Testing */}
+      {/* Análisis y Validación */}
       <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold mb-8 text-gray-900">Analysis & Validation</h2>
+          <h2 className="text-3xl font-bold mb-8 text-gray-900">Análisis y Validación de Rendimiento</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-              <div className="h-48 bg-gray-200 flex items-center justify-center text-gray-500">
-                FEA Analysis Results
-              </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800 mb-2">Finite Element Analysis</h3>
+                <h3 className="text-xl font-bold text-gray-800 mb-4">Análisis por Elementos Finitos</h3>
                 <p className="text-gray-700">
-                  Comprehensive FEA studies ensure our chassis meets all safety and 
-                  performance requirements while maintaining optimal weight.
+                  Un buen entendimiento del comportamiento del chasis puede ser logrado a través de la interpretación 
+                  de variados ensayos por elementos finitos, como por ejemplo:
+                </p>
+                <ul className="mt-4 space-y-2 text-gray-700 list-disc pl-5">
+                  <li>Impacto frontal, trasero y lateral</li>
+                  <li>Vuelco</li>
+                  <li>Torsión</li>
+                  <li>Comportamiento bajo aceleración, frenada y curva</li>
+                  <li>Arrastre</li>
+                </ul>
+                <p className="mt-4 text-gray-700">
+                  En los mismos no sólo se deben aplicar buenas prácticas de ingeniería, sino también un buen 
+                  conocimiento en materia de diseño 3D y simulaciones. Las mismas se realizan utilizando Solidworks.
                 </p>
               </div>
             </div>
             <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-              <div className="h-48 bg-gray-200 flex items-center justify-center text-gray-500">
-                Torsional Test Setup
-              </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800 mb-2">Physical Testing</h3>
+                <h3 className="text-xl font-bold text-gray-800 mb-4">Pruebas Físicas</h3>
                 <p className="text-gray-700">
-                  Rigorous physical testing validates our design calculations and 
-                  ensures real-world performance matches simulation results.
+                  Una vez finalizada la construcción del chasis, se realizan ensayos físicos para validar aquellos 
+                  resultados obtenidos a través de FEA, para así lograr un completo conocimiento de la principal 
+                  estructura del auto.
+                </p>
+                <p className="mt-4 text-gray-700">
+                  Sumado a ello, se verifica el cumplimiento del reglamento extensamente, con el fin de asegurar un 
+                  chasis completamente legal para correr en competencias de Fórmula SAE Oficiales.
                 </p>
               </div>
             </div>
@@ -247,7 +223,7 @@ export default function ChassisPage() {
             <div className="relative w-full h-full">
               <Image
                 src="/chassis/chassis.jpg"
-                alt="Chassis Assembly Process"
+                alt="Proceso de Ensamblaje del Chasis"
                 fill
                 className="object-contain"
               />

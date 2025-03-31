@@ -1,9 +1,10 @@
 'use client';  // Add this line at the top of the file
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { ChassisLoader } from "@/components/chassis/ChassisLoader";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -46,7 +47,7 @@ export default function Navbar() {
   const navItems = [
     { name: "Inicio", href: "/" },
     { name: "Aerodinámica", href: "/subsystems/aero" },
-    { name: "Chasis", href: "/subsystems/chassis" },
+    { name: "Chasis", href: "/subsystems/chassis", loader: ChassisLoader },
     { name: "Dinámica", href: "/subsystems/suspension" },
     { name: "Motor & Transmisión", href: "/subsystems/powertrain" },
     { name: "Electrónica", href: "/subsystems/electronics" },
@@ -74,12 +75,21 @@ export default function Navbar() {
             <div className="hidden lg:flex items-center">
               {navItems.map((item, index) => (
                 <React.Fragment key={item.name}>
-                  <Link
-                    href={item.href}
-                    className={`text-white hover:text-[#00A3FF] transition-colors duration-300 font-semibold text-sm xl:text-base px-2 xl:px-3 py-2 flex items-center justify-center whitespace-nowrap ${pathname === item.href ? 'text-[#00A3FF] border-b-2 border-[#00A3FF]' : ''}`}
-                  >
-                    {item.name}
-                  </Link>
+                  <div className="relative">
+                    <Link
+                      href={item.href}
+                      className={`text-white hover:text-[#00A3FF] transition-colors duration-300 font-semibold text-sm xl:text-base px-2 xl:px-3 py-2 flex items-center justify-center whitespace-nowrap ${pathname === item.href ? 'text-[#00A3FF] border-b-2 border-[#00A3FF]' : ''}`}
+                      onMouseEnter={() => {
+                        if (item.loader) {
+                          const Loader = item.loader;
+                          return <Loader />;
+                        }
+                      }}
+                    >
+                      {item.name}
+                    </Link>
+                    {item.loader && pathname === item.href && <item.loader />}
+                  </div>
                   {index < navItems.length - 1 && (
                     <div className="h-5 border-r border-white/30 mx-1 xl:mx-3" />
                   )} 
@@ -130,21 +140,27 @@ export default function Navbar() {
         <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col">
           {navItems.map((item, index) => (
             <div key={item.name} className="py-1">
-              <Link
-                href={item.href}
-                className={`block py-3 px-4 text-white text-lg font-semibold hover:bg-[#00A3FF]/20 rounded-md transition-colors duration-300 ${
-                  pathname === item.href ? 'bg-[#00A3FF]/20 text-[#00A3FF] border-l-4 border-[#00A3FF] pl-3' : ''
-                }`}
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  // Asegurar que el botón pierda el foco cuando se hace clic en un enlace
-                  if (buttonRef.current) {
-                    buttonRef.current.blur();
-                  }
-                }}
-              >
-                {item.name}
-              </Link>
+              <div className="relative">
+                <Link
+                  href={item.href}
+                  className={`block py-3 px-4 text-white text-lg font-semibold hover:bg-[#00A3FF]/20 rounded-md transition-colors duration-300 ${
+                    pathname === item.href ? 'bg-[#00A3FF]/20 text-[#00A3FF] border-l-4 border-[#00A3FF] pl-3' : ''
+                  }`}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    if (buttonRef.current) {
+                      buttonRef.current.blur();
+                    }
+                    if (item.loader) {
+                      const Loader = item.loader;
+                      return <Loader />;
+                    }
+                  }}
+                >
+                  {item.name}
+                </Link>
+                {item.loader && pathname === item.href && <item.loader />}
+              </div>
               {index < navItems.length - 1 && (
                 <div className="border-b border-white/10 my-1 mx-2" />
               )}

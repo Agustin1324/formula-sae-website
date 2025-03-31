@@ -6,13 +6,13 @@ export default function AerodynamicsPage() {
       {/* Header */}
       <div className="relative h-[50vh] bg-black">
         <Image
-          src="https://images.pexels.com/photos/3806754/pexels-photo-3806754.jpeg"
-          alt="Aerodynamics Design"
+          src="/aero/head/aero_portrait.png"
+          alt="Diseño Aerodinámico"
           fill
-          className="object-cover opacity-50"
+          className="object-contain object-center"
         />
         <div className="absolute inset-0 flex items-center justify-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-white">Aerodynamics</h1>
+          <h1 className="text-4xl md:text-6xl font-bold text-white">Aerodinámica</h1>
         </div>
       </div>
 
