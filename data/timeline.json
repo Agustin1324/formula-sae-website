@@ -6,7 +6,7 @@
       "content": "An important milestone for our team, allowing us to work more efficiently.",
       "image": {
         "src": "/fundacion.jpg",
-        "alt": "Our workshop"
+        "alt": "Fundacion"
       }
     },
     {
@@ -14,8 +14,8 @@
       "heading": "Conseguimos el aval de la facultad",
       "content": "Official recognition of our project by the institution.",
       "image": {
-        "src": "/aval.jpg",
-        "alt": "Academic approval"
+        "src": "/timeline/aval_facultad.webp",
+        "alt": "Aval de la facultad"
       }
     },
     {
@@ -23,8 +23,8 @@
       "heading": "Obtuvimos el taller",
       "content": "Finalization of the chassis design, ready for the construction phase.",
       "image": {
-        "src": "/taller.jpg",
-        "alt": "Chassis design"
+        "src": "/timeline/conseguimos_taller.webp",
+        "alt": "Obtencion del taller"
       }
     },
     {
@@ -32,8 +32,8 @@
       "heading": "1er chasis prototipo",
       "content": "First physical model of the chassis, crucial for testing and adjustments.",
       "image": {
-        "src": "/chasis.jpg",
-        "alt": "Scale prototype"
+        "src": "/timeline/chasis_prototipo2.webp",
+        "alt": "Primer prototipo de chasis"
       }
     },
     {
@@ -42,7 +42,7 @@
       "content": "Construction of the full-size chassis, an important step towards the final vehicle.",
       "image": {
         "src": "/timeline/diseño_dinamica_vehiculo.jpg",
-        "alt": "Diseño en computadora"
+        "alt": "Diseño dinámica del vehículo"
       }
     }
   ]
