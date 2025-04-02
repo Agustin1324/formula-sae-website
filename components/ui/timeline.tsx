@@ -18,7 +18,7 @@ const activeDotColor = "bg-[#00A3FF]";
 interface TimelineEntry {
   title: string;
   heading: string;
-  content: string[]; // Changed from string to string[]
+  content: string[]; 
   image: {
     src: string;
     alt: string;

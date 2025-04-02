@@ -106,7 +106,7 @@ export default async function Home() {
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#1E2A4A] font-montserrat">
               Nuestro recorrido
             </h2>
-            <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base max-w-sm">
+            <p className="font-Monserrat text-neutral-500 text-sm md:text-base max-w-sm">
             Desde nuestros inicios, esta es la evolución de nuestro proyecto a lo largo del tiempo.            </p>
           </div>
           <Timeline />
