@@ -2,8 +2,10 @@
   "achievements": [
     {
       "title": "Mayo 2023",
-      "heading": "Fundación",
-      "content": "An important milestone for our team, allowing us to work more efficiently.",
+      "heading": "Fundación del Proyecto",
+      "content": ["Investigación sobre la competencia Formula SAE.",
+                  "Lectura y análisis del reglamento técnico.",
+                  "Estudio de los equipos universitarios referentes."],
       "image": {
         "src": "/fundacion.jpg",
         "alt": "Fundacion"
@@ -11,8 +13,10 @@
     },
     {
       "title": "Diciembre 2023",
-      "heading": "Conseguimos el aval de la facultad",
-      "content": "Official recognition of our project by the institution.",
+      "heading": "Aval Institucional",
+      "content": ["Presentación formal ante la Facultad de Ingeniería (UBA).",
+                  "Definición de prioridades del proyecto.",
+                  "Reconocimiento como segundo proyecto vigente dentro de la facultad detras de Astar."],
       "image": {
         "src": "/timeline/aval_facultad.webp",
         "alt": "Aval de la facultad"
@@ -20,8 +24,10 @@
     },
     {
       "title": "Julio 2024",
-      "heading": "Obtuvimos el taller",
-      "content": "Finalization of the chassis design, ready for the construction phase.",
+      "heading": "Obtención del Taller",
+      "content": ["Asignación del espacio físico bajo el Departamento de Mecánica.",
+                  "Organización del equipo, incorporación de nuevos miembros.",
+                  "Establecimiento de reglas de convivencia y planificación de trabajo."],
       "image": {
         "src": "/timeline/conseguimos_taller.webp",
         "alt": "Obtencion del taller"
@@ -29,20 +35,36 @@
     },
     {
       "title": "Octubre 2024",
-      "heading": "1er chasis prototipo",
-      "content": "First physical model of the chassis, crucial for testing and adjustments.",
+      "heading": "Chasis Prototipo I",
+      "content":["Diseño estructural en base al reglamento.",
+                 "Simulación y análisis por elementos finitos (FEA).",
+                  "Proceso de soldadura y montaje del primer chasis."],
       "image": {
         "src": "/timeline/chasis_prototipo2.webp",
-        "alt": "Primer prototipo de chasis"
+        "alt": "Chasis Prototipo I"
       }
     },
     {
-      "title": "Enero 2025",
-      "heading": "Diseño de la dinámica del vehículo",
-      "content": "Construction of the full-size chassis, an important step towards the final vehicle.",
+      "title": "Marzo 2025",
+      "heading": "Chasis Prototipo II en Desarrollo",
+      "content":["Mejoras estructurales y ajustes de fabricación.",
+                 "Revisión de diseño para facilitar montaje y mantenimiento.",
+                "Integración con componentes del sistema dinámico."],
+      "image": {
+        "src": "/timeline/falta.webp",
+        "alt": "Chasis Prototipo II en Desarrollo"
+      }
+    },
+    {
+      "title": "Abril 2025",
+      "heading": "Dinámica del Vehículo – Finalizada",
+      "content": ["Geometría de suspensión optimizada.",
+                  "Sistema de anclajes definidos.",
+                  "Portamasas en proceso de fabricación.",
+                  "Lista de componentes dinámica cerrada."],
       "image": {
         "src": "/timeline/diseño_dinamica_vehiculo.jpg",
-        "alt": "Diseño dinámica del vehículo"
+        "alt": "Dinámica del Vehículo – Finalizada"
       }
     }
   ]

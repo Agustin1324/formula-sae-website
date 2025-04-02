@@ -18,7 +18,7 @@ const activeDotColor = "bg-[#00A3FF]";
 interface TimelineEntry {
   title: string;
   heading: string;
-  content: string;
+  content: string[]; // Changed from string to string[]
   image: {
     src: string;
     alt: string;
@@ -117,7 +117,13 @@ export const Timeline = () => {
                   <h3 className={`text-lg font-bold mb-2 text-neutral-800 ${dmSans.className}`}>
                     {item.heading}
                   </h3>
-                  <p className="mb-4 text-neutral-600">{item.content}</p>
+                  <ul className="mb-4 list-disc list-inside space-y-2">
+                    {item.content.map((contentItem, contentIndex) => (
+                      <li key={contentIndex} className="text-neutral-600">
+                        {contentItem}
+                      </li>
+                    ))}
+                  </ul>
                   <Image 
                     src={item.image.src} 
                     alt={item.image.alt} 
