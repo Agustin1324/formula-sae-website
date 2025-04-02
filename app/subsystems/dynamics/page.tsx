@@ -64,7 +64,8 @@ export default function DynamicsPage() {
                     transition={{ duration: 1, delay: 0.3 }}
                     className="text-lg leading-relaxed"
                   >
-                  El desempeño de un monoplaza en pista depende en gran medida de su comportamiento dinámico. Para optimizar la interacción del vehículo con la superficie y garantizar un manejo eficiente y seguro, trabajamos en cuatro áreas fundamentales.
+                  El desempeño de un monoplaza en pista depende en gran medida de su comportamiento dinámico. <br>
+                  </br>Para optimizar la interacción del vehículo con la superficie y garantizar un manejo eficiente y seguro, trabajamos en cuatro áreas fundamentales.
                   </motion.p>
 
                 </div>
