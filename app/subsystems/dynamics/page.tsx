@@ -81,7 +81,7 @@ export default function DynamicsPage() {
                     {/*Cada item me redirige a su subseccion */}
                     <ul className="space-y-3 text-gray-300">
                       {[
-                        { title: "Diseño del Sistema de Dirección", id: "suspension" },
+                        { title: "Diseño del Sistema de Suspension", id: "suspension" },
                         { title: "Diseño del Sistema de Frenos", id: "frenos" },
                         { title: "Diseño del Sistema de Dirección", id: "direccion" },
                         { title: "Análisis de Datos en Pista", id: "analisis" },
