@@ -1,0 +1,160 @@
+{
+  "sections": [
+    {
+      "title": "Diseño del Sistema de Suspensión",
+      "intro": "El sistema de suspensión tiene un impacto directo en la estabilidad, el agarre y la capacidad de respuesta del vehículo.",
+      "image": "/dynamics/diseno_suspension.webp",
+      "imageAlt": "Sistema de Suspensión",
+      "mainAreas": [
+        {
+          "title": "Cinemática de Suspensión",
+          "description": "Nos desempeñamos en un tipo de desarrollo basado en la comprensión de los modelos físicos y matemáticos que representan cada estado atravesado por la conducción del vehículo en pista.",
+          "items": [
+            "Análisis de los datos del neumático y establecimiento de los modelos físicos",
+            "Cálculos de esfuerzos transferidos desde el parche de contacto",
+            "Análisis de Bump steer, Camber gain, desplazamiento del centro de rolido",
+            "Diseño y dimensionado de brazos de suspensión",
+            "Diseño de mazas, portamazas y rodamientos",
+            "Dimensionado de rótulas de suspensión"
+          ]
+        },
+        {
+          "title": "Rigidez y Amortiguación",
+          "description": "Buscamos que el auto tenga un diseño reactivo.",
+          "items": [
+            "Selección de resortes y amortiguadores",
+            "Definición de constantes elásticas y coeficientes",
+            "Diseño de barras estabilizadoras"
+          ]
+        },
+        {
+          "title": "Materiales y Fabricación",
+          "description": "Priorizamos la disminución del peso sin perder de vista la importancia económica que acarrea el proceso de manufactura.",
+          "items": [
+            "Elección de materiales para brazos de suspensión",
+            "Métodos de fabricación como mecanizado CNC",
+            "Optimización de costos y procesos"
+          ]
+        },
+        {
+          "title": "Pruebas y Validación",
+          "description": "Validación mediante software y pruebas físicas.",
+          "items": [
+            "Uso de software como MATLAB o Vi-Grade",
+            "Pruebas en pista para evaluación",
+            "Ajustes basados en datos reales"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Diseño del Sistema de Frenos",
+      "intro": "Un sistema de frenos eficiente mejora la seguridad y el rendimiento en pista.",
+      "image": "/dynamics/diseno_frenos.webp",
+      "imageAlt": "Sistema de Frenos",
+      "mainAreas": [
+        {
+          "title": "Distribución de Fuerzas",
+          "description": "Nos basamos en los valores obtenidos por medio de los modelos matemáticos.",
+          "items": [
+            "Cálculo de reparto de presión en los frenos entre el eje delantero y trasero",
+            "Análisis de esfuerzos de frenado en el vehículo"
+          ]
+        },
+        {
+          "title": "Componentes del Sistema",
+          "description": "Selección y diseño optimizado de componentes críticos del sistema de frenado.",
+          "items": [
+            "Diseño y selección de discos de freno con análisis de elementos finitos",
+            "Selección de calipers para máxima reducción de peso y eficiencia",
+            "Evaluación de pastillas de freno según coeficiente de fricción y temperatura",
+            "Dimensionamiento de bombas de freno y circuito hidráulico"
+          ]
+        },
+        {
+          "title": "Pruebas y Ajustes",
+          "description": "Validación y optimización del sistema mediante pruebas exhaustivas.",
+          "items": [
+            "Análisis de tiempos de frenado y distancia de detención",
+            "Evaluación de bloqueos de ruedas",
+            "Optimización del control del pedal de freno"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Diseño del Sistema de Dirección",
+      "intro": "El sistema de dirección debe garantizar precisión y estabilidad en curvas.",
+      "image": "/dynamics/diseno_direccion.webp",
+      "imageAlt": "Sistema de Dirección",
+      "mainAreas": [
+        {
+          "title": "Cinemática de Dirección",
+          "description": "Priorizamos un funcionamiento fiable y simple.",
+          "items": [
+            "Análisis y diseño de la geometría Ackermann para minimizar el deslizamiento de neumáticos en curvas",
+            "Cálculo de esfuerzos axiales sometidos en la barra de Ackermann",
+            "Definición del ángulo de avance para generar autoalineación natural"
+          ]
+        },
+        {
+          "title": "Selección de Componentes",
+          "description": "Diseño y selección optimizada de componentes críticos del sistema de dirección.",
+          "items": [
+            "Uso de caja de dirección de cremallera y piñón",
+            "Diseño de barra de dirección, anclaje y link al portamazas",
+            "Evaluación de multiplicación de la dirección para mejorar la precisión",
+            "Diseño del volante y su interfaz con el piloto"
+          ]
+        },
+        {
+          "title": "Validación y Pruebas",
+          "description": "Evaluación exhaustiva del sistema en diferentes condiciones de manejo.",
+          "items": [
+            "Pruebas de respuesta en Skid-Pad, Slalom, y curvas de diferentes radios",
+            "Evaluación de la fatiga del piloto"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Análisis de Datos en Pista",
+      "intro": "El análisis de datos permite optimizar el rendimiento del monoplaza y mejorar la conducción del piloto.",
+      "image": "/dynamics/analisis_datos.webp",
+      "imageAlt": "Análisis de Datos en Pista",
+      "mainAreas": [
+        {
+          "title": "Procesamiento y Análisis",
+          "description": "Utilizamos herramientas avanzadas para procesar y analizar los datos recopilados en pista.",
+          "items": [
+            "Comparación de datos de simulación y datos reales de pista",
+            "Evaluación del comportamiento dinámico del vehículo en distintas condiciones",
+            "Uso de software como MATLAB para analizar gráficos de telemetría"
+          ]
+        },
+        {
+          "title": "Optimización del Setup",
+          "description": "Ajustamos la configuración del vehículo basándonos en los datos recopilados.",
+          "items": [
+            "Ajuste de presión de neumáticos según condiciones de pista",
+            "Configuración de amortiguadores basada en datos",
+            "Optimización de la alineación del vehículo"
+          ]
+        },
+        {
+          "title": "Mejora en la Conducción",
+          "description": "Analizamos y optimizamos las técnicas de conducción del piloto.",
+          "items": [
+            "Evaluación de puntos de frenado y aceleración",
+            "Análisis de tiempos de vuelta y comparación entre distintos pilotos",
+            "Modificación de técnicas de conducción para mejorar la eficiencia en pista"
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+
+
+

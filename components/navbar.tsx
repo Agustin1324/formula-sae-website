@@ -48,7 +48,7 @@ export default function Navbar() {
     { name: "Inicio", href: "/" },
     { name: "Aerodinámica", href: "/subsystems/aero" },
     { name: "Chasis", href: "/subsystems/chassis", loader: ChassisLoader },
-    { name: "Dinámica", href: "/subsystems/suspension" },
+    { name: "Dinámica", href: "/subsystems/dynamics" },
     { name: "Motor & Transmisión", href: "/subsystems/powertrain" },
     { name: "Electrónica", href: "/subsystems/electronics" },
     { name: "Contacto", href: "/join" },
