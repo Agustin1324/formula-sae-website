@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 
 export default function DynamicsPage() {
   // Add state for selected area
-  const [selectedArea, setSelectedArea] = useState<string | null>(null);
+  const [selectedArea, setSelectedArea] = useState<string | null>("Procesamiento y Análisis"); // Default to "Procesamiento y Análisis", allow null for deselection
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
@@ -252,10 +252,3 @@ export default function DynamicsPage() {
     </div>
   );
 }
-
-
-
-
-
-
-
