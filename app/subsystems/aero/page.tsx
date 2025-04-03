@@ -4,7 +4,7 @@ import { AeroHeader } from "@/components/aero/AeroHeader";
 import { AeroContentSection } from "@/components/aero/AeroContentSection";
 import { AeroMainPartsInteractive } from "@/components/aero/AeroMainPartsInteractive";
 import { ParametricDesignShowcase } from "@/components/aero/ParametricDesignShowcase";
-import { ImagePlaceholder } from "@/components/ui/ImagePlaceholder";
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function AerodynamicsPage() {
@@ -31,7 +31,8 @@ export default function AerodynamicsPage() {
               <div className="w-20 h-1 bg-[#00A3FF]"></div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
+            {/* Análisis CFD */}
+            <div className="space-y-8">
               <div className="space-y-6">
                 <h3 className="text-xl font-semibold text-[#00A3FF]">
                   Análisis CFD
@@ -42,26 +43,38 @@ export default function AerodynamicsPage() {
                   y analizar el comportamiento del flujo de aire alrededor del vehículo, identificando áreas de mejora 
                   y verificando el rendimiento de nuestras soluciones.
                 </p>
-                <ImagePlaceholder 
-                  text="Resultado de simulación CFD mostrando líneas de flujo"
-                  height="h-[300px]"
-                />
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="relative h-[300px] rounded-lg overflow-hidden border border-white/10">
+                    <Image 
+                      src="/aero/extra/pressure_clouds.png"
+                      alt="Análisis de presión CFD"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                  <div className="relative h-[300px] rounded-lg overflow-hidden border border-white/10">
+                    <Image 
+                      src="/aero/extra/Streamlines_2.png"
+                      alt="Líneas de flujo CFD"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="space-y-6">
-                <h3 className="text-xl font-semibold text-[#00A3FF]">
-                  Validación en Pista
-                </h3>
-                <p className="text-lg text-gray-300 leading-relaxed">
-                  Los resultados teóricos obtenidos mediante CFD y optimización paramétrica son validados en condiciones 
-                  reales de pista. Mediante sensores y pruebas específicas, comparamos el rendimiento real con las 
-                  predicciones de nuestras simulaciones, permitiéndonos ajustar y mejorar continuamente nuestros 
-                  modelos y diseños.
-                </p>
-                <ImagePlaceholder 
-                  text="Fotos de pruebas en pista y validación de componentes"
-                  height="h-[300px]"
-                />
-              </div>
+            </div>
+
+            {/* Validación en Pista */}
+            <div className="space-y-6 pt-8 border-t border-white/10">
+              <h3 className="text-xl font-semibold text-[#00A3FF]">
+                Validación en Pista
+              </h3>
+              <p className="text-lg text-gray-300 leading-relaxed">
+                Los resultados teóricos obtenidos mediante CFD y optimización paramétrica son validados en condiciones 
+                reales de pista. Mediante sensores y pruebas específicas, comparamos el rendimiento real con las 
+                predicciones de nuestras simulaciones, permitiéndonos ajustar y mejorar continuamente nuestros 
+                modelos y diseños.
+              </p>
             </div>
           </motion.div>
         </div>
