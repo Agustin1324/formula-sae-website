@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ImagePlaceholder } from "../ui/ImagePlaceholder";
+import Image from "next/image";
 
 export const ParametricDesignShowcase = () => {
   return (
@@ -55,10 +55,14 @@ export const ParametricDesignShowcase = () => {
               </div>
             </div>
             <div className="space-y-6">
-              <ImagePlaceholder 
-                text="GIF demostrativo de optimización paramétrica"
-                height="h-[400px]"
-              />
+              <div className="relative h-[400px] rounded-lg overflow-hidden border border-white/10">
+                <Image 
+                  src="/aero/extra/mainwingcamber.gif"
+                  alt="Demostración de optimización paramétrica"
+                  fill
+                  className="object-contain"
+                />
+              </div>
               <p className="text-sm text-gray-400 text-center italic">
                 Demostración de optimización paramétrica de un perfil aerodinámico utilizando CAESES
               </p>
