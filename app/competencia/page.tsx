@@ -420,14 +420,14 @@ export default function CompetitionPage() {
           <h2 className="text-4xl font-bold mb-6 font-montserrat">¿Listo para el Desafío?</h2>
           {/* Texto ajustado a gris claro */}
           <p className="text-xl mb-8 text-gray-300"> 
-            Únete a nuestro equipo y sé parte de esta emocionante competencia de ingeniería
+            Unite a nuestro equipo y sé parte de esta emocionante competencia de ingeniería
           </p>
           <Link href="/join">
             <Button 
               size="lg"
               className="bg-[#00A3FF] hover:bg-[#0082CC] text-white font-bold text-lg px-8 py-6 rounded-xl transform hover:scale-105 transition-all duration-300"
             >
-              Únete al Equipo
+              Unirse al Equipo
             </Button>
           </Link>
         </div>
