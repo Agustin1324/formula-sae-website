@@ -46,7 +46,7 @@ export default function ChassisPage() {
           className="object-contain object-center opacity-40" // Use object-contain and opacity
           priority // Add priority for LCP
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/20" />
+        {/* Overlay removed as requested */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
