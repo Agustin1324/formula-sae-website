@@ -44,12 +44,12 @@ export default function ChassisPage() {
     // Apply dark theme background like Dynamics page
     <div className="min-h-screen bg-gradient-to-b from-black to-[#1E2A4A] text-white">
       {/* Redesigned Header/Banner like Dynamics */}
-      <div className="relative h-[60vh] bg-black">
+      <div className="relative h-[55vh] md:h-[60vh] bg-black"> {/* Increased mobile height for better visibility */}
         <Image
           src="/chassis/head/chasis.png" // Use the chassis image
           alt="Diseño del Chasis"
           fill
-          className="object-contain object-center opacity-40" // Use object-contain and opacity
+          className="object-contain object-center opacity-80 scale-[2] md:scale-100" // Increased scale to 2x for mobile
           priority // Add priority for LCP
         />
         {/* Overlay removed as requested */}
@@ -148,25 +148,24 @@ export default function ChassisPage() {
               <div className="w-20 h-1 bg-[#00A3FF]"></div>
             </div>
 
-            {/* Grid Layout */}
-            <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Grid Layout - 2 columns, right column contains top and bottom, centered vertically */}
+            <div className="grid md:grid-cols-2 gap-x-12 gap-y-8 md:items-center"> {/* Changed back to md:items-center */}
+              {/* Left Column (Text) */}
               <div className="space-y-6">
-                {/* Update text colors */}
                 <p className="text-lg text-gray-300 leading-relaxed">
-                  El proceso de diseño de una estructura de alta complejidad como lo es el chasis, 
-                  comienza con un profundo conocimiento de la normativa impuesta por la asociación correspondiente, 
+                  El proceso de diseño de una estructura de alta complejidad como lo es el chasis,
+                  comienza con un profundo conocimiento de la normativa impuesta por la asociación correspondiente,
                   en el presente caso, FSAE International.
                 </p>
                 <p className="text-lg text-gray-300 leading-relaxed">
-                  Siendo el chasis aquello que contiene al piloto, su seguridad es prioridad, por lo que toda 
+                  Siendo el chasis aquello que contiene al piloto, su seguridad es prioridad, por lo que toda
                   normativa en cuanto al tópico en cuestión es tratada con la mayor seriedad.
                 </p>
                 <p className="text-lg text-gray-300 leading-relaxed">
-                  Sumado a ello, la documentación y registro del proceso de diseño es también un pilar en el buen 
+                  Sumado a ello, la documentación y registro del proceso de diseño es también un pilar en el buen
                   funcionamiento de todo proyecto ingenieril, sentando las bases para el proceso de desarrollo a porvenir.
                 </p>
-                {/* Style subheadings and lists */}
-                <h3 className="text-xl font-semibold text-[#00A3FF] pt-4">Diseño y Fabricación del Soporte</h3> 
+                <h3 className="text-xl font-semibold text-[#00A3FF] pt-4">Diseño y Fabricación del Soporte</h3>
                 <ul className="space-y-3 text-gray-300">
                   {[
                     "Diseñado usando Solidworks para modelado 3D preciso",
@@ -174,7 +173,7 @@ export default function ChassisPage() {
                     "Paneles de madera cortados con especificaciones exactas",
                     "Soporte ensamblado para asegurar alineación y estabilidad perfectas"
                   ].map((item, index) => (
-                    <motion.li 
+                    <motion.li
                       key={index}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -186,21 +185,27 @@ export default function ChassisPage() {
                     </motion.li>
                   ))}
                 </ul>
-                <h3 className="text-xl font-semibold text-[#00A3FF] pt-4">Soldadura del Chasis</h3>
-                <p className="text-lg text-gray-300 leading-relaxed">
-                  El chasis se suelda utilizando el proceso MIG (Metal Inert Gas), que proporciona 
-                  soldaduras fuertes y de alta calidad, esenciales para la integridad estructural del chasis. 
-                  Nuestro equipo de soldadores expertos asegura que cada unión cumpla con los exigentes 
-                  estándares requeridos para un chasis de carreras de alto rendimiento.
-                </p>
               </div>
-              {/* Replace static image with the sequence player - Remove fixed height */}
-              <div className="relative bg-white/5 rounded-lg overflow-hidden border border-white/10 group"> {/* Removed h-[500px] and onClick */}
-                <ChassisImageSequencePlayer /> 
-                {/* Removed hover overlay as it's now an animation */}
-              </div>
-            </div>
-          </motion.div> {/* Close styled container */}
+
+              {/* Right Column (Animation + Welding Text) */}
+              <div> {/* Removed flex properties */}
+                {/* Top-Right */}
+                <div className="relative bg-white/5 rounded-lg overflow-hidden border border-white/10 group md:flex md:justify-center mb-8"> {/* Added mb-8 */}
+                  <ChassisImageSequencePlayer />
+                </div>
+                {/* Bottom-Right */}
+                <div> {/* Removed md:mt-8 */}
+                  <h3 className="text-xl font-semibold text-[#00A3FF] mb-4">Soldadura del Chasis</h3> {/* Removed pt-4 */}
+                  <p className="text-lg text-gray-300 leading-relaxed">
+                    El chasis se suelda utilizando el proceso MIG (Metal Inert Gas), que proporciona
+                    soldaduras fuertes y de alta calidad, esenciales para la integridad estructural del chasis.
+                    Nuestro equipo de soldadores expertos asegura que cada unión cumpla con los exigentes
+                    estándares requeridos para un chasis de carreras de alto rendimiento.
+                  </p>
+                </div> {/* End of Bottom-Right */}
+              </div> {/* End of Right Column */}
+            </div> {/* End of the main grid */}
+        </motion.div> {/* Close styled container */}
         </div>
       </section>
 

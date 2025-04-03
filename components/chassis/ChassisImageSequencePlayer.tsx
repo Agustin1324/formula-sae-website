@@ -145,13 +145,13 @@ export function ChassisImageSequencePlayer() {
   const showPauseIcon = isPlaying && !isPausedByUser;
 
   const renderContent = (isFs: boolean) => (
-    <div className="relative w-full h-full flex items-center justify-center"> 
+    <div className="relative h-full flex items-center justify-center"> {/* Removed w-full */}
       <Image
         src={currentImageSrc}
         alt={`Animación del Jig de Ensamblaje - Frame ${currentFrame}`}
         width={1920}
         height={1080}
-        className={`object-contain ${isFs ? 'max-w-full max-h-full w-auto h-auto' : 'w-full h-auto'}`}
+        className={`object-contain ${isFs ? 'max-w-full max-h-full w-auto h-auto' : 'h-auto'}`} /* Removed w-full again when not fullscreen */
         priority={currentFrame === 1}
         unoptimized
       />
@@ -199,7 +199,7 @@ export function ChassisImageSequencePlayer() {
   return (
     <>
       <div
-        className={`relative w-full h-auto group ${isFullscreen ? 'hidden' : ''}`} 
+        className={`relative h-auto group ${isFullscreen ? 'hidden' : ''}`} /* Removed w-max */
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
