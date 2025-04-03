@@ -36,12 +36,12 @@ export default function PowertrainPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
       {/* Banner */}
-      <div className="relative h-[60vh] bg-black">
+      <div className="relative h-[65vh] md:h-[75vh] bg-black">
         <Image
-          src="/powertrain/foto_banner" // Poner foto banner
+          src="/powertrain/head/head.webp"
           alt="Motor"
           fill
-          className="object-cover opacity-40"
+          className="object-contain object-center opacity-50"
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/20" />
