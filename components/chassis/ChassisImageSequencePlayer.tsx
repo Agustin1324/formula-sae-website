@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { RemoveScroll } from 'react-remove-scroll'; // Import the library
 
 const TOTAL_FRAMES = 60;
-const FRAME_RATE = 30; // Frames per second
+const FRAME_RATE = 15; // Frames per second
 const FRAME_INTERVAL = 1000 / FRAME_RATE;
 const PAUSE_DURATION = 2000; // 2 seconds pause
 const IMAGE_PATH_PREFIX = '/chassis/animation/';
