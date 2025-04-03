@@ -118,3 +118,9 @@ img {
   scrollbar-width: thin;
   scrollbar-color: #e0e0e0 #666666;
 }
+
+/* Class to prevent body scroll when modal is open, especially for mobile */
+body.overflow-hidden-modal {
+  overflow: hidden !important;
+  /* position: fixed and width are now handled by inline styles in the component */
+}
