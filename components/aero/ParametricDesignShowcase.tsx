@@ -18,6 +18,7 @@ export const ParametricDesignShowcase = () => {
             <div className="w-20 h-1 bg-[#00A3FF]"></div>
           </div>
 
+          {/* Primera sección - Introducción */}
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <p className="text-lg text-gray-300 leading-relaxed">
@@ -66,6 +67,55 @@ export const ParametricDesignShowcase = () => {
               <p className="text-sm text-gray-400 text-center italic">
                 Demostración de optimización paramétrica de un perfil aerodinámico utilizando CAESES
               </p>
+            </div>
+          </div>
+
+          {/* Segunda sección - Métodos Avanzados */}
+          <div className="pt-12 border-t border-white/10">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6">
+                <h3 className="text-xl font-semibold text-[#00A3FF]">
+                  Exploración y Optimización Inteligente
+                </h3>
+                <p className="text-lg text-gray-300 leading-relaxed">
+                  La generación de geometrías paramétricas nos permite realizar exploraciones de diseño más 
+                  inteligentes. Implementamos diversos métodos avanzados de optimización para encontrar las 
+                  mejores configuraciones posibles:
+                </p>
+                <ul className="space-y-4">
+                  {[
+                    "Método adjunto para análisis de sensibilidad",
+                    "Método del gradiente para optimización local",
+                    "Diseño de Experimentos (DOE) para exploración global",
+                    "Deformación de mallado proporcional para adaptación geométrica",
+                    "Reducción de parámetros para optimización eficiente"
+                  ].map((item, index) => (
+                    <motion.li
+                      key={index}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: 1 + index * 0.1 }}
+                      className="flex items-start space-x-3 text-gray-300"
+                    >
+                      <div className="w-2 h-2 bg-[#00A3FF] rounded-full mt-2 flex-shrink-0"></div>
+                      <span>{item}</span>
+                    </motion.li>
+                  ))}
+                </ul>
+              </div>
+              <div className="space-y-6">
+                <div className="relative h-[400px] rounded-lg overflow-hidden border border-white/10">
+                  <Image 
+                    src="/aero/extra/8_to_3_parameters.gif"
+                    alt="Exploración paramétrica avanzada"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                <p className="text-sm text-gray-400 text-center italic">
+                  Proceso de reducción paramétrica: de 8 a 3 variables de diseño principales
+                </p>
+              </div>
             </div>
           </div>
         </motion.div>

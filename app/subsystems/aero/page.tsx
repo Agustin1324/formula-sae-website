@@ -44,21 +44,31 @@ export default function AerodynamicsPage() {
                   y verificando el rendimiento de nuestras soluciones.
                 </p>
                 <div className="grid md:grid-cols-2 gap-6">
-                  <div className="relative h-[300px] rounded-lg overflow-hidden border border-white/10">
-                    <Image 
-                      src="/aero/extra/pressure_clouds.png"
-                      alt="Análisis de presión CFD"
-                      fill
-                      className="object-contain"
-                    />
+                  <div className="space-y-2">
+                    <div className="relative h-[300px] rounded-lg overflow-hidden border border-white/10">
+                      <Image 
+                        src="/aero/extra/pressure_clouds.png"
+                        alt="Análisis de presión CFD"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                    <p className="text-sm text-gray-400 italic text-center">
+                      Nubes de presión alrededor del vehículo
+                    </p>
                   </div>
-                  <div className="relative h-[300px] rounded-lg overflow-hidden border border-white/10">
-                    <Image 
-                      src="/aero/extra/Streamlines_2.png"
-                      alt="Líneas de flujo CFD"
-                      fill
-                      className="object-contain"
-                    />
+                  <div className="space-y-2">
+                    <div className="relative h-[300px] rounded-lg overflow-hidden border border-white/10">
+                      <Image 
+                        src="/aero/extra/Streamlines_2.png"
+                        alt="Líneas de flujo CFD"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                    <p className="text-sm text-gray-400 italic text-center">
+                      Líneas de corriente y su generación de vórtices y estela
+                    </p>
                   </div>
                 </div>
               </div>
