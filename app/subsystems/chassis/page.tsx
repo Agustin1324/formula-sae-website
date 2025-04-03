@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import dynamic from 'next/dynamic';
 import { motion } from "framer-motion"; // Import motion
+import { ChassisImageSequencePlayer } from '@/components/chassis/ChassisImageSequencePlayer'; // Import the new component
 
 // Importar dinámicamente el visor 3D para asegurar que solo se cargue en el cliente
 const ChassisModelViewer = dynamic(
@@ -22,17 +23,22 @@ const ChassisModelViewer = dynamic(
 );
 
 export default function ChassisPage() {
-  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(0);
+  // Remove state related to the image modal as it's no longer needed
+  // const [isImageModalOpen, setIsImageModalOpen] = useState(false); 
+  // const [windowWidth, setWindowWidth] = useState(0);
 
+  // Remove useEffect related to window width for modal button size
+  /*
   useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
     const handleResize = () => setWindowWidth(window.innerWidth);
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+  */
 
-  const closeButtonSize = windowWidth < 768 ? 'text-4xl' : 'text-2xl';
+  // const closeButtonSize = windowWidth < 768 ? 'text-4xl' : 'text-2xl'; // No longer needed
 
   return (
     // Apply dark theme background like Dynamics page
@@ -188,18 +194,10 @@ export default function ChassisPage() {
                   estándares requeridos para un chasis de carreras de alto rendimiento.
                 </p>
               </div>
-              {/* Restyle image container */}
-              <div className="relative h-[500px] bg-white/5 rounded-lg overflow-hidden cursor-pointer border border-white/10 group" onClick={() => setIsImageModalOpen(true)}> {/* Add group */}
-                <Image
-                  src="/chassis/chassis.jpg"
-                  alt="Proceso de Ensamblaje del Chasis"
-                  fill
-                  className="object-contain transition-transform duration-500 group-hover:scale-105" // Add hover effect
-                />
-                {/* Improve hover overlay */}
-                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300">
-                  <span className="text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform group-hover:scale-110">Clic para ampliar</span>
-                </div>
+              {/* Replace static image with the sequence player - Remove fixed height */}
+              <div className="relative bg-white/5 rounded-lg overflow-hidden border border-white/10 group"> {/* Removed h-[500px] and onClick */}
+                <ChassisImageSequencePlayer /> 
+                {/* Removed hover overlay as it's now an animation */}
               </div>
             </div>
           </motion.div> {/* Close styled container */}
@@ -341,31 +339,8 @@ export default function ChassisPage() {
         </div>
       </section>
 
-      {/* Image Modal - Ensure styles are compatible */}
-      {isImageModalOpen && (
-        // Keep existing modal style, should work fine on dark background
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={() => setIsImageModalOpen(false)}>
-          <div className="relative w-full h-full max-w-4xl max-h-4xl p-4">
-            <div className="relative w-full h-full">
-              <Image
-                src="/chassis/chassis.jpg"
-                alt="Proceso de Ensamblaje del Chasis"
-                fill
-                className="object-contain"
-              />
-              <button 
-                className={`absolute top-0 right-0 text-white ${closeButtonSize} bg-black bg-opacity-50 w-10 h-10 flex items-center justify-center`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsImageModalOpen(false);
-                }}
-              >
-                ×
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Removed Image Modal section */}
+      
     </div>
   );
 }
