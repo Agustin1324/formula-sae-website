@@ -4,7 +4,7 @@ import { Target, Compass, Eye, Heart } from "lucide-react"
 export default function ValuesSection() {
   const values = [
     {
-      icon: <Target className="h-8 w-8 text-[#7EB2DD] transition-all duration-300 group-hover:text-[#1E2A4A] group-hover:stroke-[#1E2A4A]" />,
+      icon: <Target className="h-8 w-8 text-[#00A3FF] transition-all duration-300 group-hover:text-white group-hover:stroke-white" />,
       title: "Objetivo",
       description: (
         <>
@@ -13,7 +13,7 @@ export default function ValuesSection() {
       ),
     },
     {
-      icon: <Eye className="h-8 w-8 text-[#00A3FF] transition-all duration-300 group-hover:text-[#1E2A4A] group-hover:stroke-[#1E2A4A]" />,
+      icon: <Eye className="h-8 w-8 text-[#00A3FF] transition-all duration-300 group-hover:text-white group-hover:stroke-white" />,
       title: "Visión",
       description: (
         <>
@@ -24,11 +24,11 @@ export default function ValuesSection() {
   ]
 
   return (
-    <section className="w-full py-8 md:py-16 lg:py-24 bg-white overflow-hidden">
+    <section className="w-full py-8 md:py-16 lg:py-24 overflow-hidden">
       <div className="container px-4 md:px-6 max-w-full">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter md:text-4xl lg:text-5xl text-[#1E2A4A] font-montserrat">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tighter md:text-4xl lg:text-5xl text-[#00A3FF] font-montserrat">
               Acerca de Nosotros
             </h2>
           </div>
@@ -37,16 +37,16 @@ export default function ValuesSection() {
           {values.map((item, index) => (
             <Card 
               key={index} 
-              className="group h-full transition-all duration-300 hover:shadow-lg hover:scale-105 bg-[#1E2A4A] hover:bg-[#7EB2DD] border-none w-full"
+              className="group h-full transition-all duration-300 hover:shadow-lg hover:scale-105 bg-white/5 backdrop-blur-lg hover:bg-white/10 border border-white/10 w-full"
             >
               <CardHeader className="pb-2">
                 <div className="mb-2">{item.icon}</div>
-                <CardTitle className="text-xl text-white font-montserrat group-hover:text-[#1E2A4A] break-words">
+                <CardTitle className="text-xl text-white font-montserrat group-hover:text-[#00A3FF] break-words">
                   {item.title}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-sm text-gray-300 group-hover:text-[#1E2A4A]/70 break-words">
+                <CardDescription className="text-sm text-gray-300 group-hover:text-white/90 break-words">
                   {item.description}
                 </CardDescription>
               </CardContent>
@@ -57,4 +57,3 @@ export default function ValuesSection() {
     </section>
   )
 }
-
