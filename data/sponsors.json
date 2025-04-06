@@ -29,6 +29,11 @@
             "name": "Vi-Grade",
             "logo": "/sponsors/vigrade.png",
             "url": "https://www.vi-grade.com/en/"
+        },
+        {
+            "name": "RusMed",
+            "logo": "/sponsors/RusMed.webp",
+            "url": "https://www.rusmed.com.ar/tcp/index.html"
         }
 
     ]
