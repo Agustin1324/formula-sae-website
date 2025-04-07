@@ -7,7 +7,7 @@
                   "Lectura y análisis del reglamento técnico.",
                   "Estudio de los equipos universitarios referentes."],
       "image": {
-        "src": "/fundacion.jpg",
+        "src": "/timeline/fundacion.png",
         "alt": "Fundacion"
       }
     },
@@ -51,7 +51,7 @@
                  "Revisión de diseño para facilitar montaje y mantenimiento.",
                 "Integración con componentes del sistema dinámico."],
       "image": {
-        "src": "/timeline/falta.webp",
+        "src": "/timeline/chasis_2.png",
         "alt": "Chasis Prototipo II en Desarrollo"
       }
     },
@@ -63,7 +63,7 @@
                   "Portamasas en proceso de fabricación.",
                   "Lista de componentes dinámica cerrada."],
       "image": {
-        "src": "/timeline/diseño_dinamica_vehiculo.jpg",
+        "src": "/timeline/dinamica_vehiculo.png",
         "alt": "Dinámica del Vehículo – Finalizada"
       }
     }

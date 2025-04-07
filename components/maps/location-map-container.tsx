@@ -22,15 +22,15 @@ const LocationMapContainer = ({
   const googleMapsUrl = `https://maps.google.com/?q=${encodeURIComponent(address)}`;
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-8 transform hover:shadow-xl transition-all duration-300">
-      <h3 className="text-xl font-bold text-[#1E2A4A] mb-4">{title}</h3>
-      <p className="text-gray-600 mb-4">{organizationName}</p>
-      <p className="text-gray-600 mb-4">
+    <div className="bg-[#1E2A4A] border border-gray-700 rounded-lg shadow-lg p-8 transform hover:shadow-xl transition-all duration-300"> {/* Changed background and border */}
+      <h3 className="text-xl font-bold text-white mb-4">{title}</h3> {/* Changed text color */}
+      <p className="text-gray-300 mb-4">{organizationName}</p> {/* Changed text color */}
+      <p className="text-gray-300 mb-4"> {/* Changed text color */}
         <Link 
           href={googleMapsUrl} 
           target="_blank" 
           rel="noopener noreferrer"
-          className="text-[#00A3FF] hover:text-[#1E2A4A] transition-colors duration-300 inline-flex items-center"
+          className="text-[#00A3FF] hover:text-white transition-colors duration-300 inline-flex items-center" /* Changed hover text color */
         >
           {address}
           <svg 
@@ -59,4 +59,4 @@ const LocationMapContainer = ({
   );
 };
 
-export default LocationMapContainer; 
+export default LocationMapContainer;

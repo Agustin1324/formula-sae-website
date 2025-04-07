@@ -111,7 +111,7 @@ export default function Contacto() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#1E2A4A]"> {/* Changed bg-white to bg-[#1E2A4A] */}
       {/* Header */}
       <div className="relative h-[40vh] bg-[#1E2A4A]">
         <Image
@@ -132,22 +132,22 @@ export default function Contacto() {
       <div className="max-w-6xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-5 gap-8">
           {/* Formulario de Contacto - 3 columnas en desktop */}
-          <div className="md:col-span-3 bg-white rounded-lg shadow-lg p-8 transform hover:shadow-xl transition-all duration-300">
+          <div className="md:col-span-3 bg-[#1E2A4A] text-white rounded-lg shadow-lg p-8 transform hover:shadow-xl transition-all duration-300">
             {enviado ? (
               <div className="flex flex-col items-center justify-center h-full py-16 text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                  <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <div className="w-16 h-16 bg-green-900/50 rounded-full flex items-center justify-center mb-4">
+                  <svg className="w-8 h-8 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                   </svg>
                 </div>
-                <h3 className="text-2xl font-bold text-[#1E2A4A] mb-2">¡Mensaje Enviado!</h3>
-                <p className="text-gray-600 mb-4">Gracias por contactarnos. Te responderemos a la brevedad.</p>
+                <h3 className="text-2xl font-bold text-white mb-2">¡Mensaje Enviado!</h3>
+                <p className="text-gray-300 mb-4">Gracias por contactarnos. Te responderemos a la brevedad.</p>
                 {emailEnviado ? (
-                  <div className="bg-blue-50 text-blue-700 px-4 py-2 rounded-md text-sm">
+                  <div className="bg-blue-900/50 text-blue-200 px-4 py-2 rounded-md text-sm">
                     Se ha enviado una notificación automática por correo electrónico a nuestro equipo.
                   </div>
                 ) : (
-                  <div className="bg-yellow-50 text-yellow-700 px-4 py-2 rounded-md text-sm">
+                  <div className="bg-yellow-900/50 text-yellow-200 px-4 py-2 rounded-md text-sm">
                     Tu mensaje ha sido guardado, pero hubo un problema al enviar la notificación por correo electrónico. 
                     Aún así, revisaremos tu consulta pronto.
                   </div>
@@ -156,13 +156,13 @@ export default function Contacto() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
                 {error && (
-                  <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+                  <div className="bg-red-900/50 border border-red-500 text-red-200 px-4 py-3 rounded relative">
                     <span className="block sm:inline">{error}</span>
                   </div>
                 )}
                 
                 <div>
-                  <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
+                  <label htmlFor="nombre" className="block text-sm font-medium text-gray-200 mb-1">Nombre completo</label>
                   <input
                     type="text"
                     id="nombre"
@@ -170,12 +170,12 @@ export default function Contacto() {
                     required
                     value={formData.nombre}
                     onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-[#00A3FF] focus:border-[#00A3FF] transition-colors duration-300"
+                    className="w-full p-3 border border-gray-600 bg-[#2a3a5a] text-white rounded-md focus:ring-[#00A3FF] focus:border-[#00A3FF] transition-colors duration-300"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-200 mb-1">Email</label>
                   <input
                     type="email"
                     id="email"
@@ -183,40 +183,40 @@ export default function Contacto() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-[#00A3FF] focus:border-[#00A3FF] transition-colors duration-300"
+                    className="w-full p-3 border border-gray-600 bg-[#2a3a5a] text-white rounded-md focus:ring-[#00A3FF] focus:border-[#00A3FF] transition-colors duration-300"
                   />
                 </div>
                 
                 <div>
-                  <label htmlFor="tipoConsulta" className="block text-sm font-medium text-gray-700 mb-1">Tipo de consulta</label>
+                  <label htmlFor="tipoConsulta" className="block text-sm font-medium text-gray-200 mb-1">Tipo de consulta</label>
                   <div className="relative">
                     <button
                       type="button"
-                      className="w-full p-3 border border-gray-300 rounded-md bg-white text-left flex justify-between items-center focus:ring-[#00A3FF] focus:border-[#00A3FF] transition-colors duration-300"
+                      className="w-full p-3 border border-gray-600 rounded-md bg-[#2a3a5a] text-white text-left flex justify-between items-center focus:ring-[#00A3FF] focus:border-[#00A3FF] transition-colors duration-300"
                       onClick={() => setShowDropdown(!showDropdown)}
                     >
                       {formData.tipoConsulta}
-                      <svg className="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                      <svg className="w-5 h-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                       </svg>
                     </button>
                     
                     {showDropdown && (
-                      <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
+                      <div className="absolute z-10 w-full mt-1 bg-[#1E2A4A] border border-gray-600 rounded-md shadow-lg">
                         <div 
-                          className="p-3 hover:bg-[#00A3FF]/20 cursor-pointer"
+                          className="p-3 hover:bg-[#00A3FF]/20 cursor-pointer text-white"
                           onClick={() => handleTipoConsultaClick('Consulta general')}
                         >
                           Consulta general
                         </div>
                         <div 
-                          className="p-3 hover:bg-[#00A3FF]/20 cursor-pointer border-t border-gray-100"
+                          className="p-3 hover:bg-[#00A3FF]/20 cursor-pointer border-t border-gray-700 text-white"
                           onClick={() => handleTipoConsultaClick('Propuesta de sponsoreo')}
                         >
                           Propuesta de sponsoreo
                         </div>
                         <div 
-                          className="p-3 hover:bg-[#00A3FF]/20 cursor-pointer border-t border-gray-100"
+                          className="p-3 hover:bg-[#00A3FF]/20 cursor-pointer border-t border-gray-700 text-white"
                           onClick={() => handleTipoConsultaClick('Quiero unirme al equipo')}
                         >
                           Quiero unirme al equipo
@@ -227,7 +227,7 @@ export default function Contacto() {
                 </div>
                 
                 <div>
-                  <label htmlFor="mensaje" className="block text-sm font-medium text-gray-700 mb-1">Mensaje</label>
+                  <label htmlFor="mensaje" className="block text-sm font-medium text-gray-200 mb-1">Mensaje</label>
                   <textarea
                     id="mensaje"
                     name="mensaje"
@@ -235,13 +235,13 @@ export default function Contacto() {
                     required
                     value={formData.mensaje}
                     onChange={handleChange}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:ring-[#00A3FF] focus:border-[#00A3FF] transition-colors duration-300"
+                    className="w-full p-3 border border-gray-600 bg-[#2a3a5a] text-white rounded-md focus:ring-[#00A3FF] focus:border-[#00A3FF] transition-colors duration-300"
                   ></textarea>
                 </div>
                 
                 {/* reCAPTCHA visible para cada envío */}
                 <div className="mb-4">
-                  <p className="text-sm font-medium text-gray-700 mb-2">Verifica que no eres un robot:</p>
+                  <p className="text-sm font-medium text-gray-200 mb-2">Verifica que no eres un robot:</p>
                   <ReCAPTCHA
                     key={captchaKey}
                     ref={recaptchaRef}
@@ -249,13 +249,14 @@ export default function Contacto() {
                     sitekey={RECAPTCHA_SITE_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'} // clave de prueba como fallback
                     onChange={handleRecaptchaChange}
                     hl="es"
+                    theme="dark" // Added dark theme
                   />
                 </div>
                 
                 <div>
                   <Button 
                     type="submit" 
-                    className="w-full bg-[#1E2A4A] hover:bg-[#00A3FF] text-white font-semibold py-3 rounded-md transition-colors duration-300 transform hover:scale-[1.02]"
+                    className="w-full bg-[#00A3FF] hover:bg-[#0082cc] text-white font-semibold py-3 rounded-md transition-colors duration-300 transform hover:scale-[1.02]" /* Changed background to accent blue and adjusted hover */
                     disabled={isLoading}
                   >
                     {isLoading ? 'Enviando...' : 'Enviar mensaje'}

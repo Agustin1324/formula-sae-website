@@ -28,7 +28,8 @@ div, section, nav, footer, header, main {
 
 .sponsor-track {
   display: flex;
-  animation: scroll 40s linear infinite;
+  animation: scroll 40s linear infinite forwards;
+  will-change: transform;
 }
 
 .sponsor-item {
@@ -37,11 +38,18 @@ div, section, nav, footer, header, main {
 }
 
 @keyframes scroll {
-  0% {
+  from {
     transform: translateX(0);
   }
-  100% {
-    transform: translateX(-50%);
+  to {
+    transform: translateX(calc(-50%));
+  }
+}
+
+/* Velocidad más rápida en móvil */
+@media (max-width: 768px) {
+  .sponsor-track {
+    animation-duration: 20s;
   }
 }
 
@@ -117,4 +125,10 @@ img {
 * {
   scrollbar-width: thin;
   scrollbar-color: #e0e0e0 #666666;
+}
+
+/* Class to prevent body scroll when modal is open, especially for mobile */
+body.overflow-hidden-modal {
+  overflow: hidden !important;
+  /* position: fixed and width are now handled by inline styles in the component */
 }

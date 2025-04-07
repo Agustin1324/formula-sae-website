@@ -12,7 +12,7 @@ import timelineData from '@/data/timeline.json';
 
 //Inicializo
 const dmSans = DM_Sans({ subsets: ['latin'] })
-const defaultDotColor = "bg-neutral-200";
+const defaultDotColor = "bg-white/20";
 const activeDotColor = "bg-[#00A3FF]";
 
 interface TimelineEntry {
@@ -56,7 +56,7 @@ export const Timeline = () => {
 
   return (
     <div
-      className="w-full bg-white font-sans md:px-10 pt-16"
+      className="w-full font-sans md:px-10 pt-16"
       ref={containerRef}
     >
 
@@ -81,14 +81,14 @@ export const Timeline = () => {
               }}
               viewport={{ once: false, margin: "-20%" }}
             >
-              <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-white flex items-center justify-center">
+              <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-white/5 backdrop-blur-sm flex items-center justify-center">
                 <div 
                   className={`h-4 w-4 rounded-full transition-colors duration-300 ${
                     index <= activeIndex ? activeDotColor : defaultDotColor
-                  } border border-neutral-300 p-2`} 
+                  } border border-white/30 p-2`} 
                 />
               </div>
-              <h3 className={`hidden md:block text-xl md:pl-20 md:text-5xl font-bold text-neutral-500 ${dmSans.className}`}>
+              <h3 className={`hidden md:block text-xl md:pl-20 md:text-5xl font-bold text-[#00A3FF] ${dmSans.className}`}>
                 {item.title}
               </h3>
             </motion.div>
@@ -101,7 +101,7 @@ export const Timeline = () => {
               }}
               viewport={{ once: false, margin: "-20%" }}
             >
-              <h3 className={`md:hidden block text-2xl mb-4 text-left font-bold text-neutral-500 ${dmSans.className}`}>
+              <h3 className={`md:hidden block text-2xl mb-4 text-left font-bold text-[#00A3FF] ${dmSans.className}`}>
                 {item.title}
               </h3>
               <motion.div
@@ -114,12 +114,12 @@ export const Timeline = () => {
                 viewport={{ once: false, margin: "-20%" }}
               >
                 <div>
-                  <h3 className={`text-lg font-bold mb-2 text-neutral-800 ${dmSans.className}`}>
+                  <h3 className={`text-lg font-bold mb-2 text-white ${dmSans.className}`}>
                     {item.heading}
                   </h3>
                   <ul className="mb-4 list-disc list-inside space-y-2">
                     {item.content.map((contentItem, contentIndex) => (
-                      <li key={contentIndex} className="text-neutral-600">
+                      <li key={contentIndex} className="text-gray-300">
                         {contentItem}
                       </li>
                     ))}
@@ -141,14 +141,14 @@ export const Timeline = () => {
           style={{
             height: height + "px",
           }}
-          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-200 to-transparent to-[99%]  [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)] "
+          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-white/20 to-transparent to-[99%]  [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)] "
         >
           <motion.div
             style={{
               height: heightTransform,
               opacity: opacityTransform,
             }}
-            className="absolute inset-x-0 top-0  w-[2px] bg-gradient-to-t from-purple-500 via-blue-500 to-transparent from-[0%] via-[10%] rounded-full"
+            className="absolute inset-x-0 top-0  w-[2px] bg-gradient-to-t from-[#00A3FF] via-[#00A3FF] to-transparent from-[0%] via-[10%] rounded-full"
           />
         </div>
       </div>

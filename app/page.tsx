@@ -28,7 +28,7 @@ export default async function Home() {
   const sponsors = await getSponsors();
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden">
+    <div className="min-h-screen w-full overflow-x-hidden bg-gradient-to-b from-black to-[#1E2A4A] text-white">
       {/* Hero Section */}
       <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0 w-full h-full">
@@ -68,30 +68,32 @@ export default async function Home() {
       </section>
 
       {/* Sponsor Carousel */}
-      <section className="py-12 bg-gray-100 overflow-hidden w-full">
+      <section className="py-12 overflow-hidden w-full">
         <div className="max-w-6xl mx-auto px-4 w-full">
-          <h2 className="text-3xl font-bold mb-8 text-center text-[#1E2A4A] font-montserrat">Nuestros Sponsors</h2>
-          <div className="sponsor-carousel w-full">
-            <div className="sponsor-track">
-              {[...sponsors, ...sponsors].map((sponsor, index) => (
-                <div key={index} className="sponsor-item">
+          <h2 className="text-3xl font-bold mb-8 text-center text-[#00A3FF] font-montserrat">Nuestros Sponsors</h2>
+          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-xl">
+            <div className="sponsor-carousel w-full">
+              <div className="sponsor-track">
+                {[...sponsors, ...sponsors].map((sponsor, index) => (
+                  <div key={index} className="sponsor-item">
                     <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
                       <Image 
-                      src={sponsor.logo} 
-                      alt={`${sponsor.name} logo`} 
-                      width={150}
-                      height={80} 
-                      className="object-contain h-20 max-w-full"
-                    />
+                        src={sponsor.logo} 
+                        alt={`${sponsor.name} logo`} 
+                        width={150}
+                        height={80} 
+                        className="object-contain h-20 max-w-full"
+                      />
                     </a>
-                </div>
-              ))}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
       {/* About Section */}
-      <section id="about" className="py-16 px-4 bg-gradient-to-b from-white to-gray-100 w-full">
+      <section id="about" className="py-16 px-4 w-full">
         <div className="max-w-6xl mx-auto w-full">
           <Values />
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -100,13 +102,13 @@ export default async function Home() {
       </section>
 
       {/* Our Journey Timeline Section */}
-      <section id="our-journey" className="py-16 px-4 bg-gradient-to-b from-white to-gray-100 w-full">
+      <section id="our-journey" className="py-16 px-4 w-full">
         <div className="max-w-6xl mx-auto w-full">
           <div className="flex flex-col items-center justify-center space-y-2 text-center mb-1">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#1E2A4A] font-montserrat">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#00A3FF] font-montserrat">
               Nuestro recorrido
             </h2>
-            <p className="font-Monserrat text-neutral-500 text-sm md:text-base max-w-sm">
+            <p className="font-Monserrat text-neutral-300 text-sm md:text-base max-w-sm">
             Desde nuestros inicios, esta es la evolución de nuestro proyecto a lo largo del tiempo.            </p>
           </div>
           <Timeline />

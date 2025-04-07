@@ -9,6 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
           <div className="text-center sm:text-left">
             <h3 className="text-lg md:text-xl font-bold mb-4">FIUBA Racing</h3>
+            <p className="text-xs mt-2">Página web creada y diseñada por Agustina Germinario y Agustín Strohmayer.</p>
           </div>
           <div className="text-center sm:text-left">
             <h3 className="text-lg md:text-xl font-bold mb-4">Links de Interés</h3>

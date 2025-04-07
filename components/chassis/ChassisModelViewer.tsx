@@ -21,8 +21,9 @@ export function ChassisModelViewer() {
 
   if (error) {
     return (
-      <div className="h-full flex items-center justify-center bg-gray-200 rounded-lg">
-        <div className="text-red-600">{error}</div>
+      // Dark theme error bg and text
+      <div className="h-full flex items-center justify-center bg-red-900/30 rounded-lg border border-red-500/50"> 
+        <div className="text-red-300">{error}</div> 
       </div>
     );
   }
@@ -37,7 +38,7 @@ export function ChassisModelViewer() {
         setError('Error en el visualizador 3D');
       }}
     >
-      <color attach="background" args={['#f0f0f0']} />
+      {/* <color attach="background" args={['#f0f0f0']} /> REMOVED to make background transparent */}
       <PerspectiveCamera makeDefault position={[3, 2, 3]} />
       
       <ambientLight intensity={0.8} />
@@ -67,7 +68,7 @@ export function ChassisModelViewer() {
       <Suspense 
         fallback={
           <Text
-            color="black"
+            color="white" // Change fallback text color
             anchorX="center"
             anchorY="middle"
             fontSize={0.2}
