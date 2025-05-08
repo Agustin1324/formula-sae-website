@@ -34,7 +34,7 @@ export default async function Home() {
         <div className="absolute inset-0 z-0 w-full h-full">
           <div className="absolute inset-0 bg-black opacity-50 z-10 w-full h-full"></div>
           <Image
-            src="https://www.epsa-team.com/images/FS/expofs-min-resize.jpg"
+            src="/foto_equipo.jpg"
             alt="FIUBA Racing Car"
             fill
             className="object-cover w-full h-full"
