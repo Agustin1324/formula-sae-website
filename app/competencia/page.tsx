@@ -97,7 +97,7 @@ export default function CompetitionPage() {
         {/* Imagen de fondo del Hero - Ya tiene opacidad */}
         <div className="absolute inset-0"> 
           <Image
-            src="/banner_principal.jpg"
+            src="/foto_equipo.jpg"
             alt="Competencia Formula SAE"
             fill
             className="object-cover opacity-50 transform scale-105 hover:scale-100 transition-transform duration-1000"
