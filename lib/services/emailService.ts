@@ -107,7 +107,7 @@ export async function enviarNotificacionMensajeContacto(mensaje: ContactMessage)
     `;
 
     const { data, error } = await resend.emails.send({
-      to: ['astrohmayer@fi.uba.ar'], // Temporalmente solo a esta dirección para pruebas
+      to: ['astrohmayer@fi.uba.ar', 'fiuba.racing@gmail.com'], // Enviar a ambos correos
       from: 'no-reply@fiubaracing.com.ar', // Usar una dirección de tu dominio verificado en Resend
       subject: `Nuevo mensaje de contacto: ${mensaje.tipo_consulta}`,
       text: emailText,
