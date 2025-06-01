@@ -107,7 +107,7 @@ export async function enviarNotificacionMensajeContacto(mensaje: ContactMessage)
     `;
 
     const { data, error } = await resend.emails.send({
-      to: ['astrohmayer@fi.uba.ar', 'fiuba.racing@gmail.com'],
+      to: ['astrohmayer@fi.uba.ar'], // Temporalmente solo a esta dirección para pruebas
       from: 'no-reply@fiubaracing.com.ar', // Usar una dirección de tu dominio verificado en Resend
       subject: `Nuevo mensaje de contacto: ${mensaje.tipo_consulta}`,
       text: emailText,
@@ -130,104 +130,181 @@ export async function enviarNotificacionMensajeContacto(mensaje: ContactMessage)
  */
 export async function enviarCorreoConfirmacionContacto(mensaje: ContactMessage) {
   try {
-    const emailHtml = `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              line-height: 1.6;
-              color: #333;
-              max-width: 600px;
-              margin: 0 auto;
-            }
-            .header {
-              background-color: #1E2A4A;
-              color: white;
-              padding: 20px;
-              text-align: center;
-              border-radius: 5px 5px 0 0;
-            }
-            .content {
-              padding: 20px;
-              border: 1px solid #ddd;
-              border-top: none;
-              border-radius: 0 0 5px 5px;
-            }
-            .message-box {
-              background-color: #f5f5f5;
-              padding: 15px;
-              border-radius: 5px;
-              margin-top: 20px;
-            }
-            .footer {
-              margin-top: 20px;
-              font-size: 12px;
-              color: #777;
-              text-align: center;
-            }
-            .label {
-              font-weight: bold;
-              color: #1E2A4A;
-            }
-            .tipo-consulta {
-              display: inline-block;
-              background-color: #00A3FF;
-              color: white;
-              padding: 5px 10px;
-              border-radius: 15px;
-              font-size: 14px;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="header">
-            <h1>Mensaje Recibido</h1>
-          </div>
-          <div class="content">
-            <p>Hola ${mensaje.nombre},</p>
-            <p>Hemos recibido tu mensaje de contacto y lo revisaremos pronto. ¡Gracias por comunicarte con FIUBA Racing!</p>
-            
-            <p><span class="label">Tu Email:</span> <a href="mailto:${mensaje.email}">${mensaje.email}</a></p>
-            <p><span class="label">Tu Tipo de consulta:</span> <span class="tipo-consulta">${mensaje.tipo_consulta}</span></p>
-            
-            <div class="message-box">
-              <p><span class="label">Tu Mensaje:</span></p>
-              <p>${mensaje.mensaje.replace(/\n/g, '<br>')}</p>
-            </div>
-            
-            <p>Te vamos a estar contactando a la brevedad.</p>
-            
-            <div class="footer">
-              <p>Este es un mensaje automático enviado desde el sitio web de FIUBA Racing.</p>
-            </div>
-          </div>
-        </body>
-      </html>
+    let subject: string;
+    let emailHtml: string;
+    let emailText: string;
+
+    const commonStyles = `
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #f4f4f4;
+      }
+      .container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      }
+      .header {
+        background-color: #1E2A4A;
+        color: white;
+        padding: 25px 20px;
+        text-align: center;
+        border-bottom: 4px solid #00A3FF;
+      }
+      .header h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+      .content {
+        padding: 25px 30px;
+        color: #333333;
+      }
+      .content p {
+        margin-bottom: 15px;
+      }
+      .message-box {
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 20px;
+        border: 1px solid #eeeeee;
+      }
+      .footer {
+        margin-top: 25px;
+        padding: 20px;
+        font-size: 12px;
+        color: #777;
+        text-align: center;
+        background-color: #f0f0f0;
+        border-top: 1px solid #dddddd;
+      }
+      .label {
+        font-weight: bold;
+        color: #1E2A4A;
+      }
+      .tipo-consulta {
+        display: inline-block;
+        background-color: #00A3FF;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-size: 14px;
+      }
+      a {
+        color: #00A3FF;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
     `;
 
-    const emailText = `
-      Hola ${mensaje.nombre},
+    if (mensaje.tipo_consulta === 'Propuesta de sponsoreo') {
+      subject = '¡Gracias por tu interés en sponsorear a FIUBA Racing!';
+      emailHtml = `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="utf-8">
+            <style>${commonStyles}</style>
+          </head>
+          <body>
+            <div class="container">
+              <div class="header">
+                <h1>¡Gracias por tu interés! 🙌</h1>
+              </div>
+              <div class="content">
+                <p>¡Hola ${mensaje.nombre}!</p>
+                <p>¡Gracias por escribirnos! Nos alegra muchísimo que te interese nuestro proyecto y quieras sumarte como sponsor.</p>
+                <p>Tu consulta fue recibida correctamente, y en breve estaremos poniéndonos en contacto para conversar sobre las posibles formas de colaboración.</p>
+                <p>Mientras tanto, podés conocer más sobre nuestro trabajo en nuestro 
+                  <a href="https://fiubaracing.com.ar/">sitio web</a>, 
+                  <a href="https://www.instagram.com/fiubaracing/">Instagram</a> o 
+                  <a href="https://www.linkedin.com/company/fiuba-racing-team/">LinkedIn</a>.
+                </p>
+                <p>¡Gracias por apoyar el desarrollo de la ingeniería y la educación pública!</p>
+              </div>
+              <div class="footer">
+                <p>Este es un mensaje automático enviado desde el sitio web de FIUBA Racing.</p>
+              </div>
+            </div>
+          </body>
+        </html>
+      `;
+      emailText = `
+        ¡Hola ${mensaje.nombre}!
 
-      Hemos recibido tu mensaje de contacto y lo revisaremos pronto. ¡Gracias por comunicarte con FIUBA Racing!
+        ¡Gracias por escribirnos! Nos alegra muchísimo que te interese nuestro proyecto y quieras sumarte como sponsor. 🙌
 
-      Tu Email: ${mensaje.email}
-      Tu Tipo de consulta: ${mensaje.tipo_consulta}
+        Tu consulta fue recibida correctamente, y en breve estaremos poniéndonos en contacto para conversar sobre las posibles formas de colaboración.
 
-      Tu Mensaje:
-      ${mensaje.mensaje}
+        Mientras tanto, podés conocer más sobre nuestro trabajo en nuestro sitio web (https://fiubaracing.com.ar/), Instagram (https://www.instagram.com/fiubaracing/) o LinkedIn (https://www.linkedin.com/company/fiuba-racing-team/).
 
-      Te vamos a estar contactando a la brevedad.
+        ¡Gracias por apoyar el desarrollo de la ingeniería y la educación pública!
 
-      Este es un mensaje automático enviado desde el sitio web de FIUBA Racing.
-    `;
+        Este es un mensaje automático enviado desde el sitio web de FIUBA Racing.
+      `;
+    } else {
+      subject = 'Confirmación: Recibimos tu mensaje en FIUBA Racing';
+      emailHtml = `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="utf-8">
+            <style>${commonStyles}</style>
+          </head>
+          <body>
+            <div class="container">
+              <div class="header">
+                <h1>Mensaje Recibido</h1>
+              </div>
+              <div class="content">
+                <p>Hola ${mensaje.nombre},</p>
+                <p>Hemos recibido tu mensaje de contacto y lo revisaremos pronto. ¡Gracias por comunicarte con FIUBA Racing!</p>
+                
+                <p><span class="label">Tu Email:</span> <a href="mailto:${mensaje.email}">${mensaje.email}</a></p>
+                <p><span class="label">Tu Tipo de consulta:</span> <span class="tipo-consulta">${mensaje.tipo_consulta}</span></p>
+                
+                <div class="message-box">
+                  <p><span class="label">Tu Mensaje:</span></p>
+                  <p>${mensaje.mensaje.replace(/\n/g, '<br>')}</p>
+                </div>
+                
+                <p>Te vamos a estar contactando a la brevedad.</p>
+              </div>
+              <div class="footer">
+                <p>Este es un mensaje automático enviado desde el sitio web de FIUBA Racing.</p>
+              </div>
+            </div>
+          </body>
+        </html>
+      `;
+      emailText = `
+        Hola ${mensaje.nombre},
+
+        Hemos recibido tu mensaje de contacto y lo revisaremos pronto. ¡Gracias por comunicarte con FIUBA Racing!
+
+        Tu Email: ${mensaje.email}
+        Tu Tipo de consulta: ${mensaje.tipo_consulta}
+
+        Tu Mensaje:
+        ${mensaje.mensaje}
+
+        Te vamos a estar contactando a la brevedad.
+
+        Este es un mensaje automático enviado desde el sitio web de FIUBA Racing.
+      `;
+    }
 
     const { data, error } = await resend.emails.send({
       to: mensaje.email, // Enviar al remitente original
       from: 'no-reply@fiubaracing.com.ar', // Usar una dirección de tu dominio verificado en Resend
-      subject: 'Confirmación: Recibimos tu mensaje en FIUBA Racing',
+      subject: subject,
       text: emailText,
       html: emailHtml,
     });

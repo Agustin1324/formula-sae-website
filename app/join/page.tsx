@@ -83,7 +83,8 @@ export default function Contacto() {
       }
       
       setEnviado(true);
-      setEmailEnviado(data.emailSent || false);
+      // Actualizar para usar el nuevo campo de la respuesta de la API
+      setEmailEnviado(data.notificacionEquipoEnviada || false); 
       
       // Reset form after 5 seconds
       setTimeout(() => {
@@ -286,7 +287,7 @@ export default function Contacto() {
                   <h4 className="text-lg font-semibold mb-2">Redes sociales</h4>
                   <div className="flex space-x-4">
                     <a 
-                      href="https://www.instagram.com/fiuba_racing/" 
+                      href="https://www.instagram.com/fiubaracing/" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-white hover:text-[#00A3FF] transition-colors duration-300"

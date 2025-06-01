@@ -23,7 +23,7 @@ export default function Footer() {
             <h3 className="text-lg md:text-xl font-bold mb-4">Conectemos</h3>
             <div className="flex justify-center sm:justify-start space-x-4">
               <a 
-                href="https://www.instagram.com/fiuba_racing/" 
+                href="https://www.instagram.com/fiubaracing/" 
                 className="text-white hover:text-[#00A3FF] transition-colors duration-300"
                 aria-label="Instagram"
               >
