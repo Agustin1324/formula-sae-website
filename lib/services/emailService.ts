@@ -126,6 +126,124 @@ export async function enviarNotificacionMensajeContacto(mensaje: ContactMessage)
 }
 
 /**
+ * Envía un correo electrónico de confirmación al remitente de un mensaje de contacto.
+ */
+export async function enviarCorreoConfirmacionContacto(mensaje: ContactMessage) {
+  try {
+    const emailHtml = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              line-height: 1.6;
+              color: #333;
+              max-width: 600px;
+              margin: 0 auto;
+            }
+            .header {
+              background-color: #1E2A4A;
+              color: white;
+              padding: 20px;
+              text-align: center;
+              border-radius: 5px 5px 0 0;
+            }
+            .content {
+              padding: 20px;
+              border: 1px solid #ddd;
+              border-top: none;
+              border-radius: 0 0 5px 5px;
+            }
+            .message-box {
+              background-color: #f5f5f5;
+              padding: 15px;
+              border-radius: 5px;
+              margin-top: 20px;
+            }
+            .footer {
+              margin-top: 20px;
+              font-size: 12px;
+              color: #777;
+              text-align: center;
+            }
+            .label {
+              font-weight: bold;
+              color: #1E2A4A;
+            }
+            .tipo-consulta {
+              display: inline-block;
+              background-color: #00A3FF;
+              color: white;
+              padding: 5px 10px;
+              border-radius: 15px;
+              font-size: 14px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>Confirmación de Mensaje Recibido</h1>
+          </div>
+          <div class="content">
+            <p>Hola ${mensaje.nombre},</p>
+            <p>Hemos recibido tu mensaje de contacto y lo revisaremos pronto. ¡Gracias por comunicarte con FIUBA Racing!</p>
+            
+            <p><span class="label">Tu Email:</span> <a href="mailto:${mensaje.email}">${mensaje.email}</a></p>
+            <p><span class="label">Tu Tipo de consulta:</span> <span class="tipo-consulta">${mensaje.tipo_consulta}</span></p>
+            
+            <div class="message-box">
+              <p><span class="label">Tu Mensaje:</span></p>
+              <p>${mensaje.mensaje.replace(/\n/g, '<br>')}</p>
+            </div>
+            
+            <p>Nos pondremos en contacto contigo a la brevedad si es necesario.</p>
+            
+            <div class="footer">
+              <p>Este es un mensaje automático enviado desde el sitio web de FIUBA Racing.</p>
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+
+    const emailText = `
+      Hola ${mensaje.nombre},
+
+      Hemos recibido tu mensaje de contacto y lo revisaremos pronto. ¡Gracias por comunicarte con FIUBA Racing!
+
+      Tu Email: ${mensaje.email}
+      Tu Tipo de consulta: ${mensaje.tipo_consulta}
+
+      Tu Mensaje:
+      ${mensaje.mensaje}
+
+      Nos pondremos en contacto contigo a la brevedad si es necesario.
+
+      Este es un mensaje automático enviado desde el sitio web de FIUBA Racing.
+    `;
+
+    const { data, error } = await resend.emails.send({
+      to: mensaje.email, // Enviar al remitente original
+      from: 'no-reply@fiubaracing.com.ar', // Usar una dirección de tu dominio verificado en Resend
+      subject: 'Confirmación: Hemos recibido tu mensaje en FIUBA Racing',
+      text: emailText,
+      html: emailHtml,
+    });
+
+    if (error) {
+      console.error('Error al enviar el correo de confirmación:', error);
+      return { success: false, error };
+    }
+    return { success: true, response: data };
+  } catch (error) {
+    console.error('Excepción al enviar el correo de confirmación:', error);
+    return { success: false, error };
+  }
+}
+
+/**
  * Envía una notificación por correo electrónico cuando se realiza un ping de mantenimiento a la base de datos.
  */
 export async function enviarNotificacionPingMantenimiento() {
@@ -191,9 +309,9 @@ export async function enviarNotificacionPingMantenimiento() {
     `;
 
     const { data, error } = await resend.emails.send({
-      to: ['astrohmayer@fi.uba.ar', 'fiuba.racing@gmail.com'],
+      to: 'astrohmayer@fi.uba.ar', // Enviar solo a esta dirección
       from: 'no-reply@fiubaracing.com.ar', // Usar una dirección de tu dominio verificado en Resend
-      subject: 'Notificación de Ping de Mantenibase',
+      subject: 'Notificación de Ping de Mantenimiento de Supabase',
       text: emailText,
       html: emailHtml,
     });

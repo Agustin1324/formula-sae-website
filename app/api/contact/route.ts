@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { crearMensajeContacto, obtenerMensajesContacto, marcarMensajeComoLeido } from '@/lib/services/contactService';
-import { enviarNotificacionMensajeContacto } from '@/lib/services/emailService';
+import { enviarNotificacionMensajeContacto, enviarCorreoConfirmacionContacto } from '@/lib/services/emailService';
 import { verificarToken } from '@/lib/services/recaptchaService';
 
 // POST: Crear un nuevo mensaje de contacto
@@ -53,18 +53,26 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Enviar notificación por correo electrónico
-    const resultEmail = await enviarNotificacionMensajeContacto(mensajeContacto);
+    // Enviar notificación por correo electrónico al equipo
+    const resultNotificacionEquipo = await enviarNotificacionMensajeContacto(mensajeContacto);
     
-    if (!resultEmail.success) {
-      console.warn('Se creó el mensaje de contacto pero hubo un error al enviar la notificación por correo electrónico:', resultEmail.error);
+    if (!resultNotificacionEquipo.success) {
+      console.warn('Se creó el mensaje de contacto pero hubo un error al enviar la notificación al equipo por correo electrónico:', resultNotificacionEquipo.error);
+    }
+
+    // Enviar correo de confirmación al remitente
+    const resultConfirmacionRemitente = await enviarCorreoConfirmacionContacto(mensajeContacto);
+
+    if (!resultConfirmacionRemitente.success) {
+      console.warn('Se creó el mensaje de contacto pero hubo un error al enviar el correo de confirmación al remitente:', resultConfirmacionRemitente.error);
     }
     
     return NextResponse.json(
       { 
         message: 'Mensaje de contacto creado exitosamente', 
         data: resultDB.data,
-        emailSent: resultEmail.success 
+        notificacionEquipoEnviada: resultNotificacionEquipo.success,
+        confirmacionRemitenteEnviada: resultConfirmacionRemitente.success
       },
       { status: 201 }
     );
@@ -100,4 +108,4 @@ export async function GET() {
       { status: 500 }
     );
   }
-} 
+}

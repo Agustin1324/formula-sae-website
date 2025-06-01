@@ -1,6 +1,8 @@
 import { supabase } from '../../../lib/supabase';
 import { enviarNotificacionPingMantenimiento } from '../../../lib/services/emailService';
 
+export const dynamic = 'force-dynamic'; // Forzar que esta ruta sea dinámica y no se cachee estáticamente
+
 export async function GET() {
   try {
     // 1. Realizar una consulta simple para mantener la base de datos activa
