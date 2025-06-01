@@ -35,15 +35,17 @@
     "react-phone-input-2": "^2.15.1",
     "react-remove-scroll": "^2.6.3",
     "react-select": "^5.8.0",
+    "resend": "^4.5.1",
     "tailwind-merge": "^2.1.0",
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.169.0"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^20.17.57",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.5",
     "@types/react-google-recaptcha": "^2.1.9",
+    "@types/sendgrid": "^2.0.31",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
