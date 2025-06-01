@@ -184,7 +184,7 @@ export async function enviarCorreoConfirmacionContacto(mensaje: ContactMessage) 
         </head>
         <body>
           <div class="header">
-            <h1>Confirmación de Mensaje Recibido</h1>
+            <h1>Mensaje Recibido</h1>
           </div>
           <div class="content">
             <p>Hola ${mensaje.nombre},</p>
@@ -198,7 +198,7 @@ export async function enviarCorreoConfirmacionContacto(mensaje: ContactMessage) 
               <p>${mensaje.mensaje.replace(/\n/g, '<br>')}</p>
             </div>
             
-            <p>Nos pondremos en contacto contigo a la brevedad si es necesario.</p>
+            <p>Te vamos a estar contactando a la brevedad.</p>
             
             <div class="footer">
               <p>Este es un mensaje automático enviado desde el sitio web de FIUBA Racing.</p>
@@ -219,7 +219,7 @@ export async function enviarCorreoConfirmacionContacto(mensaje: ContactMessage) 
       Tu Mensaje:
       ${mensaje.mensaje}
 
-      Nos pondremos en contacto contigo a la brevedad si es necesario.
+      Te vamos a estar contactando a la brevedad.
 
       Este es un mensaje automático enviado desde el sitio web de FIUBA Racing.
     `;
@@ -227,7 +227,7 @@ export async function enviarCorreoConfirmacionContacto(mensaje: ContactMessage) 
     const { data, error } = await resend.emails.send({
       to: mensaje.email, // Enviar al remitente original
       from: 'no-reply@fiubaracing.com.ar', // Usar una dirección de tu dominio verificado en Resend
-      subject: 'Confirmación: Hemos recibido tu mensaje en FIUBA Racing',
+      subject: 'Confirmación: Recibimos tu mensaje en FIUBA Racing',
       text: emailText,
       html: emailHtml,
     });
