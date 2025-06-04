@@ -5,6 +5,7 @@ import { ChassisIcon, PowertrainIcon, SuspensionIcon, AeroIcon } from "@/compone
 import * as fs from 'fs';
 import path from 'path';
 import { Timeline } from "@/components/ui/timeline";
+import NewsCarousel from "@/components/news/NewsCarousel";
 import JourneyButton from "@/components/JourneyButton";
 import Values from "@/components/values";
 
@@ -114,6 +115,8 @@ export default async function Home() {
           <Timeline />
         </div>
       </section>
+      {/* News Carousel */}
+      <NewsCarousel />
     </div>
   );
 }

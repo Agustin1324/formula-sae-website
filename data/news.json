@@ -1,0 +1,48 @@
+{
+  "news": [
+    {
+      "title": "La vuelta de Colapinto",
+      "date": "2025-05-30",
+      "summary": "Franco Colapinto debutará en una sesión oficial de Fórmula 1 en Imola, marcando el regreso de un argentino a la máxima categoría tras más de veinte años.",
+      "content": "Este fin de semana, Franco Colapinto hará historia al subirse al AlpineA525 durante los entrenamientos libres del Gran Premio de Imola, convirtiéndose en el primer argentino en participar en una sesión oficial de F1 en más de dos décadas. Con solo 21 años, Colapinto demuestra que el talento y el esfuerzo abren caminos, acompañado por el apoyo de Williams y sponsors que apostaron por él. Desde FIUBA Racing Team, nos sentimos identificados con su pasión y perseverancia, y celebramos su avance como una inspiración para todos los que sueñan con llegar lejos en el automovilismo.",
+      "image": {
+        "src": "/news/entrevista.webp",
+        "alt": "La vuelta de Colapinto"
+      },
+      "link": "https://cyt.rec.uba.ar/la-vuelta-de-colapinto/"
+    },
+    {
+      "title": "Torneo de futbol mixto",
+      "date": "2025-06-3",
+      "summary": "Estamos emocionados de anunciar que estamos organizando el primer torneo de futbol. Inscribite ya !",
+      "content": "Estamos emocionados de anunciar que estamos organizando el primer torneo de futbol. Inscribite ya !",
+      "image": {
+        "src": "/news/torneo.webp",
+        "alt": "Torneo Futbol"
+      },
+      "link": "https://docs.google.com/forms/d/e/1FAIpQLSfinQmvwW2yXZ_R4Nb6bn9AoIkBEaYDJjk0pOk8qF44Bzragw/viewform"
+    },
+    {
+      "title": "RUS - Notebook",
+      "date": "2025-05-5",
+      "summary": "RUS donó una notebook de alta performance para la UBA.",
+      "content": "RUS donó una notebook de alta performance para la UBA.",
+      "image": {
+        "src": "/news/torneo.webp",
+        "alt": "RUS - Notebook"
+      },
+      "link": "https://www.instagram.com/p/DJRfoigNyed/?img_index=4&igsh=MXNtc3RycnhuanFseQ%3D%3D"
+    },
+    {
+      "title": "De la Facultad de Ingeniería de la UBA a correr en Interlagos",
+      "date": "2025-05-29",
+      "summary": "El armado del FIUBA Racing Team involucró a estudiantes de ingeniería de la universidad nacional, acompañados por actores del automovilismo argentino.",
+      "content": "El armado del FIUBA Racing Team involucró a estudiantes de ingeniería de la universidad nacional, acompañados por actores del automovilismo argentino.",
+      "image": {
+        "src": "/news/torneo.webp",
+        "alt": "De la Facultad de Ingeniería de la UBA a correr en Interlagos"
+      },
+      "link": "https://campeones.com.ar/de-la-facultad-de-ingenieria-de-la-uba-a-correr-en-interlagos/"
+    }
+  ]
+}

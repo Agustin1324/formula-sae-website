@@ -4,7 +4,7 @@ import { SiLinktree } from 'react-icons/si';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1E2A4A] text-white w-full overflow-hidden">
+    <footer className="bg-[#23376B] text-white w-full overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 py-8 w-full">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
           <div className="text-center sm:text-left">
