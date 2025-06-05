@@ -34,6 +34,26 @@
             "name": "RusMed",
             "logo": "/sponsors/RusMed.webp",
             "url": "https://www.rusmed.com.ar/tcp/index.html"
+        },
+        {
+            "name": "Gottert",
+            "logo": "/sponsors/gottert.webp",
+            "url": "https://gottert.com.ar/es"
+        },
+        {
+            "name": "Racetec",
+            "logo": "/sponsors/racetec.webp",
+            "url": "https://www.racetec.com.ar/"
+        },
+        {
+            "name": "SKF",
+            "logo": "/sponsors/skf.webp",
+            "url": "https://www.skf.com/ar"
+        },
+        {
+            "name": "Erhomtec",
+            "logo": "/sponsors/Erhomtec.webp",
+            "url": "https://www.erhomtec.com/energia-intercambiador-calor"
         }
 
     ]
