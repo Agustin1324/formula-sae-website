@@ -27,7 +27,12 @@ export default async function Home() {
   ];
 
   const sponsors = await getSponsors();
+  [...sponsors, ...sponsors].map((sponsor, index) => {
+    console.log(sponsor)
+    console.log(index)
 
+  })
+  
   return (
     <div className="min-h-screen w-full overflow-x-hidden bg-gradient-to-b from-black to-[#1E2A4A] text-white">
       {/* Hero Section */}
@@ -75,7 +80,9 @@ export default async function Home() {
           <div className="bg-white rounded-2xl p-8 md:p-12 shadow-xl">
             <div className="sponsor-carousel w-full">
               <div className="sponsor-track">
-                {[...sponsors, ...sponsors].map((sponsor, index) => (
+                
+                {
+                [...sponsors, ...sponsors].map((sponsor, index) => (
                   <div key={index} className="sponsor-item">
                     <a href={sponsor.url} target="_blank" rel="noopener noreferrer">
                       <Image 

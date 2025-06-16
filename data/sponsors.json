@@ -1,21 +1,21 @@
 {
     "sponsors": [
         {
-        "name": "Fiuba",
-        "logo": "/sponsors/fiuba.png",   
-        "url": "https://www.ingenieria.uba.ar/"
+            "name": "Fiuba",
+            "logo": "/sponsors/fiuba.png",   
+            "url": "https://www.ingenieria.uba.ar/"
         },
         {
-        "name": "Catia",
-        "logo": "/sponsors/catia.png",
-        "url": "https://www.3ds.com/es/products/catia"
+            "name": "Catia",
+            "logo": "/sponsors/catia.png",
+            "url": "https://www.3ds.com/es/products/catia"
         },
         {
             "name": "MatLab",
             "logo": "/sponsors/matlab.png",
             "url": "https://www.mathworks.com/products/matlab.html"
         },
-        {
+                {
             "name": "Zeziola",
             "logo": "/sponsors/zeziola.png",
             "url": "https://zeziola.com/"
@@ -55,6 +55,8 @@
             "logo": "/sponsors/Erhomtec.webp",
             "url": "https://www.erhomtec.com/energia-intercambiador-calor"
         }
+
+
 
     ]
 }
