@@ -1,6 +1,5 @@
 import Link from "next/link";
-import {FaInstagram, FaLinkedin, FaTiktok } from 'react-icons/fa';
-import { SiLinktree } from 'react-icons/si';
+import {FaInstagram, FaLinkedin, FaTiktok, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 export default function Footer() {
   return (
@@ -26,6 +25,8 @@ export default function Footer() {
                 href="https://www.instagram.com/fiubaracing/" 
                 className="text-white hover:text-[#00A3FF] transition-colors duration-300"
                 aria-label="Instagram"
+                target="_blank" //to open a in a new tab
+                rel="noopener noreferrer"
               >
                 <FaInstagram size={24} />
               </a>
@@ -33,6 +34,8 @@ export default function Footer() {
                 href="https://www.linkedin.com/company/fiuba-racing-team/" 
                 className="text-white hover:text-[#00A3FF] transition-colors duration-300"
                 aria-label="LinkedIn"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <FaLinkedin size={24} />
               </a>
@@ -40,16 +43,30 @@ export default function Footer() {
                 href="https://www.tiktok.com/@fiuba.racing?_t=zm-8uthkxlyc2f&_r=1"
                 className="text-white hover:text-[#00A3FF] transition-colors duration-300"
                 aria-label="TikTok"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <FaTiktok size={24} />
               </a>
               <a 
-                href="https://linktr.ee/FiubaRacing" 
+                href="https://www.youtube.com/@FiubaRacing" 
                 className="text-white hover:text-[#00A3FF] transition-colors duration-300"
-                aria-label="Linktree"
+                aria-label="Youtube"
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <SiLinktree size={24} />
+                <FaYoutube size={24} />
               </a>
+              <a 
+                href="https://x.com/fiubaracing/status/1933607559929475234?s=48" 
+                className="text-white hover:text-[#00A3FF] transition-colors duration-300"
+                aria-label="Twitter"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaTwitter size={24} />
+              </a>
+
             </div>
           </div>
         </div>

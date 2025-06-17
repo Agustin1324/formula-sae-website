@@ -27,11 +27,7 @@ export default async function Home() {
   ];
 
   const sponsors = await getSponsors();
-  [...sponsors, ...sponsors].map((sponsor, index) => {
-    console.log(sponsor)
-    console.log(index)
 
-  })
   
   return (
     <div className="min-h-screen w-full overflow-x-hidden bg-gradient-to-b from-black to-[#1E2A4A] text-white">
