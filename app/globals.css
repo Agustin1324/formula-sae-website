@@ -28,7 +28,8 @@ div, section, nav, footer, header, main {
 
 .sponsor-track {
   display: flex;
-  animation: scroll 40s linear infinite forwards;
+  width: 200%;
+  animation: scroll 10s linear infinite forwards;
   will-change: transform;
 }
 
@@ -49,7 +50,7 @@ div, section, nav, footer, header, main {
 /* Velocidad más rápida en móvil */
 @media (max-width: 768px) {
   .sponsor-track {
-    animation-duration: 20s;
+    animation-duration: 5s;
   }
 }
 

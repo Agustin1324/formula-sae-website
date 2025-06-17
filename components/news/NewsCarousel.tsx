@@ -57,7 +57,7 @@ export default function NewsCarousel() {
         <div className="relative bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 overflow-hidden">
           <div className="flex items-center p-6">
             {/* Image */}
-            <div className="relative h-[250px] w-[350px] flex-shrink-0 rounded-lg overflow-hidden">
+            <div className="relative aspect-[4/3] w-full max-w-md rounded-lg overflow-hidden">
               <Image
                 src={news[currentIndex].image.src}
                 alt={news[currentIndex].image.alt}
@@ -66,6 +66,7 @@ export default function NewsCarousel() {
                 priority
               />
             </div>
+
 
             {/* Content */}
             <div className="ml-8 flex flex-col h-[250px] justify-between flex-grow">
@@ -80,11 +81,16 @@ export default function NewsCarousel() {
                 <h3 className="text-2xl font-bold text-white mb-4">{news[currentIndex].title}</h3>
                 <p className="text-gray-300 mb-6">{news[currentIndex].summary}</p>
               <div className="flex justify-center">
-                <Link href={news[currentIndex].link}>
-                  <Button className="bg-[#00A3FF] hover:bg-[#0082CC] text-white w-fit">
+                <a 
+                  href={news[currentIndex].link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                <Button className="bg-[#00A3FF] hover:bg-[#0082CC] text-white w-fit">
                     Leer más
-                  </Button>
-                </Link>
+                </Button>
+                </a>
+
               </div>
             </div>
           </div>

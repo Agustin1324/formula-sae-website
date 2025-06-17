@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { useState, FormEvent, useEffect } from "react";
-import { FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { useState, FormEvent } from "react";
+import { FaInstagram, FaLinkedin, FaYoutube, FaTiktok, FaTwitter } from 'react-icons/fa';
 import ReCAPTCHA from "react-google-recaptcha";
 import useRecaptcha from "@/lib/hooks/useRecaptcha";
 import LocationMapContainer from "@/components/maps/location-map-container";
@@ -294,6 +294,15 @@ export default function Contacto() {
                     >
                       <FaInstagram size={24} />
                     </a>
+                    <a
+                      href="https://www.tiktok.com/@fiuba.racing?_t=zm-8uthkxlyc2f&_r=1"
+                      className="text-white hover:text-[#00A3FF] transition-colors duration-300"
+                      aria-label="TikTok"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                    <FaTiktok size={24} />
+                    </a>
                     <a 
                       href="https://www.linkedin.com/company/fiuba-racing-team/" 
                       target="_blank" 
@@ -302,6 +311,24 @@ export default function Contacto() {
                     >
                       <FaLinkedin size={24} />
                     </a>
+                  <a 
+                    href="https://www.youtube.com/@FiubaRacing" 
+                    className="text-white hover:text-[#00A3FF] transition-colors duration-300"
+                    aria-label="Youtube"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaYoutube size={24} />
+                  </a>
+                  <a 
+                    href="https://x.com/fiubaracing/status/1933607559929475234?s=48" 
+                    className="text-white hover:text-[#00A3FF] transition-colors duration-300"
+                    aria-label="Twitter"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaTwitter size={24} />
+                  </a>
                   </div>
                 </div>
               </div>
