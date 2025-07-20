@@ -1,14 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ChassisIcon, PowertrainIcon, SuspensionIcon, AeroIcon } from "@/components/icons";
+import Values from "@/components/values";
+import { Timeline } from "@/components/ui/timeline";
 import * as fs from 'fs';
 import path from 'path';
-import { Timeline } from "@/components/ui/timeline";
-import NewsCarousel from "@/components/news/NewsCarousel";
 import JourneyButton from "@/components/JourneyButton";
-import Values from "@/components/values";
-
+import { ChassisIcon, PowertrainIcon, SuspensionIcon, AeroIcon } from "@/components/icons";
 
 async function getSponsors() {
 
@@ -110,8 +108,33 @@ export default async function Home() {
           <Timeline />
         </div>
       </section>
-      {/* News Carousel */}
-      <NewsCarousel />
+      {/* News Section */}
+      <section className="py-16 px-4 w-full bg-gradient-to-b from-[#1b2643] to-[#23376B]">
+        <div className="max-w-6xl mx-auto w-full">
+          <div className="flex flex-col items-center justify-center space-y-2 text-center mb-8">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-[#00A3FF] font-montserrat">
+              Noticias y Eventos
+            </h2>
+            <p className="font-Monserrat text-neutral-300 text-sm md:text-base max-w-md">
+              Mantenete al día con las últimas novedades y actividades de nuestro equipo.
+            </p>
+          </div>
+
+          <div className="bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 p-8 text-center">
+            <p className="text-gray-300 mb-6 text-lg">
+              Descubre todas nuestras noticias, eventos y logros más recientes
+            </p>
+            <Link href="/news">
+              <Button 
+                size="lg" 
+                className="bg-[#00A3FF] hover:bg-[#0082CC] text-white font-bold text-lg px-8 py-6 transform hover:scale-105 transition-all duration-300 hover:shadow-lg"
+              >
+                Ver Todas las Noticias
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
