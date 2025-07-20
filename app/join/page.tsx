@@ -116,7 +116,7 @@ export default function Contacto() {
       {/* Header */}
       <div className="relative h-[40vh] bg-[#1E2A4A]">
         <Image
-          src="https://images.pexels.com/photos/6894427/pexels-photo-6894427.jpeg"
+          src="/join_header.jpg"
           alt="Racing Team"
           fill
           className="object-cover opacity-40"
