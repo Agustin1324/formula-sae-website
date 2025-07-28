@@ -4,7 +4,13 @@ import { Button } from "@/components/ui/button";
 import * as fs from 'fs';
 import path from 'path';
 
-async function getSponsors() {
+interface Sponsor {
+  name: string;
+  logo: string;
+  url: string;
+}
+
+async function getSponsors(): Promise<Sponsor[]> {
   const jsonFile = fs.readFileSync(path.join(process.cwd(), 'data', 'sponsors.json'), 'utf-8');
   const jsonData = JSON.parse(jsonFile);
   return jsonData.sponsors;
