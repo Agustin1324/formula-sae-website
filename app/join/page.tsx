@@ -112,7 +112,7 @@ export default function Contacto() {
   };
 
   return (
-    <div className="min-h-screen bg-[#1E2A4A]"> {/* Changed bg-white to bg-[#1E2A4A] */}
+    <div className="min-h-screen bg-[#1E2A4A]"> {}
       {/* Header */}
       <div className="relative h-[40vh] bg-[#1E2A4A]">
         <Image
