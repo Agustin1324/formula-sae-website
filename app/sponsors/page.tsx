@@ -33,7 +33,7 @@ export default async function SponsorsPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {sponsors.map((sponsor, index) => (
+            {sponsors.map((sponsor: Sponsor, index: number) => (
               <div key={index} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <a href={sponsor.url} target="_blank" rel="noopener noreferrer" className="block">
                   <div className="flex items-center justify-center h-24 mb-4">
