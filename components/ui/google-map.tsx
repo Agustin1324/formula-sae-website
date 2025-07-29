@@ -32,32 +32,21 @@ const GoogleMapComponent = ({
   markerLabel = '',
   className = '',
 }: GoogleMapComponentProps) => {
-  // Estado para almacenar las coordenadas después de geocodificar la dirección
   const [center, setCenter] = useState<{ lat: number; lng: number } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Personalizar el estilo del contenedor con las props recibidas
   const containerStyle = {
     ...defaultContainerStyle,
     height,
     width,
   };
 
-  // Clave API para Google Maps
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
 
-  // Si no hay API key configurada, mostrar el mapa de respaldo
-  if (!apiKey) {
-    return <FallbackMap address={address} height={height} width={width} className={className} />;
-  }
-
-  // Geocodificar la dirección cuando el componente se monta
   useEffect(() => {
-    // Utilizamos la geocodificación estática con la API de Google Maps
     const geocodeAddress = async () => {
       try {
-        // Coordenadas precisas para la Facultad de Ingeniería UBA - Paseo Colón 850
         const facultadUbaCoords = {
           lat: -34.6176981,
           lng: -58.3682741
@@ -75,17 +64,18 @@ const GoogleMapComponent = ({
     geocodeAddress();
   }, [address]);
 
-  // Si todavía está cargando, mostrar un mensaje
+  if (!apiKey) {
+    return <FallbackMap address={address} height={height} width={width} className={className} />;
+  }
+
   if (isLoading) {
     return <div className="flex justify-center items-center bg-gray-100 rounded-md" style={containerStyle}>Cargando mapa...</div>;
   }
 
-  // Si hay un error, mostrar el mapa de respaldo
   if (error) {
     return <FallbackMap address={address} height={height} width={width} className={className} />;
   }
 
-  // Si no hay centro establecido, mostrar el mapa de respaldo
   if (!center) {
     return <FallbackMap address={address} height={height} width={width} className={className} />;
   }
