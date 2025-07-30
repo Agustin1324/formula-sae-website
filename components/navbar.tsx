@@ -8,6 +8,7 @@ import { ChassisLoader } from "@/components/chassis/ChassisLoader";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const pathname = usePathname();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -63,11 +64,17 @@ export default function Navbar() {
 
   const navItems = [
     { name: "Inicio", href: "/" },
-    { name: "Aerodinámica", href: "/subsystems/aero" },
-    { name: "Chasis", href: "/subsystems/chassis", loader: ChassisLoader },
-    { name: "Dinámica", href: "/subsystems/dynamics" },
-    { name: "Motor & Transmisión", href: "/subsystems/powertrain" },
-    { name: "Electrónica", href: "/subsystems/electronics" },
+    { 
+      name: "Equipos", 
+      href: "#",
+      subItems: [
+        { name: "Aerodinámica", href: "/subsystems/aero" },
+        { name: "Chasis", href: "/subsystems/chassis", loader: ChassisLoader },
+        { name: "Dinámica", href: "/subsystems/dynamics" },
+        { name: "Motor & Transmisión", href: "/subsystems/powertrain" },
+        { name: "Electrónica", href: "/subsystems/electronics" },
+      ]
+    },
     { name: "Contacto", href: "/join" },
   ];
 
@@ -88,7 +95,6 @@ export default function Navbar() {
               />
             </Link>
 
-            {/* Desktop Menu - Exact style from reference */}
             <div 
               className="hidden lg:flex items-center relative"
               onMouseEnter={handleMouseEnter}
@@ -110,28 +116,70 @@ export default function Navbar() {
                 </svg>
               </button>
 
-              {/* Dropdown Menu - Clean white style */}
+              {/* Dropdown Menu  */}
               <div 
-                className={`absolute top-full right-0 mt-2 w-48 bg-white shadow-lg z-50 transition-all duration-200 ease-out ${
+                className={`absolute top-full right-0 mt-2 w-48 bg-white shadow-lg z-[60] transition-all duration-200 ease-out ${
                   isMenuOpen 
                     ? 'opacity-100 visible translate-y-0' 
                     : 'opacity-0 invisible -translate-y-1'
                 }`}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
               >
                 {navItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="block px-4 py-3 text-gray-800 hover:bg-gray-50 hover:text-blue-600 transition-colors duration-150 text-sm border-b border-gray-100 last:border-b-0"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
+                  <div key={item.name} className="relative">
+                    {item.subItems ? (
+                      <>
+                        <div 
+                          className="px-4 py-3 text-gray-600 font-semibold text-sm border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
+                          onMouseEnter={() => setHoveredItem(item.name)}
+                          onMouseLeave={() => setHoveredItem(null)}
+                        >
+                          <div className="flex items-center justify-between">
+                            {item.name}
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                          </div>
+                        </div>
+                        
+                        {/* Submenu lateral */}
+                        <div 
+                          className={`absolute left-full top-0 w-48 bg-white shadow-lg border-l border-gray-200 transition-all duration-200 ${
+                            hoveredItem === item.name 
+                              ? 'opacity-100 visible translate-x-0' 
+                              : 'opacity-0 invisible -translate-x-2'
+                          }`}
+                          onMouseEnter={() => setHoveredItem(item.name)}
+                          onMouseLeave={() => setHoveredItem(null)}
+                        >
+                          {item.subItems.map((subItem) => (
+                            <Link
+                              key={subItem.name}
+                              href={subItem.href}
+                              className="block px-4 py-3 text-gray-800 hover:bg-gray-50 hover:text-blue-600 transition-colors duration-150 text-sm border-b border-gray-100 last:border-b-0"
+                              onClick={() => setIsMenuOpen(false)}
+                            >
+                              {subItem.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className="block px-4 py-3 text-gray-800 hover:bg-gray-50 hover:text-blue-600 transition-colors duration-150 text-sm border-b border-gray-100 last:border-b-0"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu  */}
             <div className="lg:hidden relative" ref={dropdownRef}>
               <button
                 ref={buttonRef}
@@ -174,25 +222,45 @@ export default function Navbar() {
           {navItems.map((item, index) => (
             <div key={item.name} className="py-1">
               <div className="relative">
-                <Link
-                  href={item.href}
-                  className={`block py-3 px-4 text-white text-lg font-semibold hover:bg-[#00A3FF]/20 rounded-md transition-colors duration-300 ${
-                    pathname === item.href ? 'bg-[#00A3FF]/20 text-[#00A3FF] border-l-4 border-[#00A3FF] pl-3' : ''
-                  }`}
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    if (buttonRef.current) {
-                      buttonRef.current.blur();
-                    }
-                    if (item.loader) {
-                      const Loader = item.loader;
-                      return <Loader />;
-                    }
-                  }}
-                >
-                  {item.name}
-                </Link>
-                {item.loader && pathname === item.href && <item.loader />}
+                {item.subItems ? (
+                  <>
+                    <div className="py-3 px-4 text-white text-lg font-semibold bg-[#00A3FF]/20 rounded-md mb-2">
+                      {item.name}
+                    </div>
+                    {item.subItems.map((subItem) => (
+                      <Link
+                        key={subItem.name}
+                        href={subItem.href}
+                        className={`block py-2 px-6 text-white text-base hover:bg-[#00A3FF]/20 rounded-md transition-colors duration-300 ${
+                          pathname === subItem.href ? 'bg-[#00A3FF]/20 text-[#00A3FF] border-l-4 border-[#00A3FF] pl-5' : ''
+                        }`}
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          if (buttonRef.current) {
+                            buttonRef.current.blur();
+                          }
+                        }}
+                      >
+                        {subItem.name}
+                      </Link>
+                    ))}
+                  </>
+                ) : (
+                  <Link
+                    href={item.href}
+                    className={`block py-3 px-4 text-white text-lg font-semibold hover:bg-[#00A3FF]/20 rounded-md transition-colors duration-300 ${
+                      pathname === item.href ? 'bg-[#00A3FF]/20 text-[#00A3FF] border-l-4 border-[#00A3FF] pl-3' : ''
+                    }`}
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      if (buttonRef.current) {
+                        buttonRef.current.blur();
+                      }
+                    }}
+                  >
+                    {item.name}
+                  </Link>
+                )}
               </div>
               {index < navItems.length - 1 && (
                 <div className="border-b border-white/10 my-1 mx-2" />
