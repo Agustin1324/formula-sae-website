@@ -11,18 +11,37 @@ export default function Navbar() {
   const pathname = usePathname();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
-  // Cerrar el menú cuando cambia la ruta
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleMouseEnter = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    setIsMenuOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsMenuOpen(false);
+    }, 150); 
+  };
+
   useEffect(() => {
     setIsMenuOpen(false);
   }, [pathname]);
 
-  // Cerrar el menú al hacer clic fuera de él
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) && isMenuOpen) {
         setIsMenuOpen(false);
-        // Asegurar que el botón pierda el foco cuando se cierra el menú
         if (buttonRef.current) {
           buttonRef.current.blur();
         }
@@ -35,10 +54,8 @@ export default function Navbar() {
     };
   }, [isMenuOpen]);
 
-  // Manejar la apertura/cierre del menú
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-    // Si el menú se está cerrando, quitar el foco del botón
     if (isMenuOpen && buttonRef.current) {
       buttonRef.current.blur();
     }
@@ -57,7 +74,7 @@ export default function Navbar() {
   return (
     <>
       {/* Navbar principal */}
-      <nav className="fixed top-0 w-full bg-[#1E2A4A]/80 backdrop-blur-md shadow-lg z-50 overflow-x-hidden">
+      <nav className="fixed top-0 w-full bg-[#1E2A4A]/80 backdrop-blur-md shadow-lg z-50">
         <div className="max-w-6xl mx-auto px-2 sm:px-4">
           <div className="flex justify-between items-center py-3 sm:py-4">
             <Link href="/" className="flex items-center">
@@ -71,33 +88,50 @@ export default function Navbar() {
               />
             </Link>
 
-            {/* Desktop Menu */}
-            <div className="hidden lg:flex items-center">
-              {navItems.map((item, index) => (
-                <React.Fragment key={item.name}>
-                  <div className="relative">
-                    <Link
-                      href={item.href}
-                      className={`text-white hover:text-[#00A3FF] transition-colors duration-300 font-semibold text-sm xl:text-base px-2 xl:px-3 py-2 flex items-center justify-center whitespace-nowrap ${pathname === item.href ? 'text-[#00A3FF] border-b-2 border-[#00A3FF]' : ''}`}
-                      onMouseEnter={() => {
-                        if (item.loader) {
-                          const Loader = item.loader;
-                          return <Loader />;
-                        }
-                      }}
-                    >
-                      {item.name}
-                    </Link>
-                    {item.loader && pathname === item.href && <item.loader />}
-                  </div>
-                  {index < navItems.length - 1 && (
-                    <div className="h-5 border-r border-white/30 mx-1 xl:mx-3" />
-                  )} 
-                </React.Fragment>
-              ))}
+            {/* Desktop Menu - Exact style from reference */}
+            <div 
+              className="hidden lg:flex items-center relative"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              <button
+                className="text-white hover:text-blue-400 transition-colors duration-200 px-4 py-2 flex items-center gap-1 text-base font-normal"
+                aria-label="Menu"
+                aria-expanded={isMenuOpen}
+              >
+                <span>Menu</span>
+                <svg
+                  className={`w-4 h-4 transition-transform duration-200 ${isMenuOpen ? 'rotate-180' : ''}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {/* Dropdown Menu - Clean white style */}
+              <div 
+                className={`absolute top-full right-0 mt-2 w-48 bg-white shadow-lg z-50 transition-all duration-200 ease-out ${
+                  isMenuOpen 
+                    ? 'opacity-100 visible translate-y-0' 
+                    : 'opacity-0 invisible -translate-y-1'
+                }`}
+              >
+                {navItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="block px-4 py-3 text-gray-800 hover:bg-gray-50 hover:text-blue-600 transition-colors duration-150 text-sm border-b border-gray-100 last:border-b-0"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
             </div>
-            
-            {/* Mobile Menu Button - Alineado a la derecha con más padding */}
+
+            {/* Mobile Menu Button */}
             <div className="lg:hidden relative" ref={dropdownRef}>
               <button
                 ref={buttonRef}
@@ -128,10 +162,9 @@ export default function Navbar() {
         </div>
       </nav>
       
-      {/* Dropdown Menu - Fullwidth */}
       <div 
-        id="mobile-menu"
-        className={`fixed left-0 top-[4.2rem] sm:top-[5.4rem] w-full bg-[#1E2A4A] shadow-lg z-40 lg:hidden transition-all duration-300 ease-in-out overflow-hidden ${
+        id="desktop-menu"
+        className={`lg:hidden fixed left-0 top-[4.2rem] sm:top-[5.4rem] w-full bg-[#1E2A4A] shadow-lg z-40 transition-all duration-300 ease-in-out overflow-hidden ${
           isMenuOpen 
             ? 'max-h-[calc(100vh-4.2rem)] sm:max-h-[calc(100vh-5.4rem)] opacity-100' 
             : 'max-h-0 opacity-0'
@@ -169,21 +202,18 @@ export default function Navbar() {
         </div>
       </div>
       
-      {/* Overlay para el fondo cuando el menú está abierto */}
       <div
         className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-30 lg:hidden transition-opacity duration-300 ${
           isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => {
           setIsMenuOpen(false);
-          // Asegurar que el botón pierda el foco cuando se hace clic en el overlay
           if (buttonRef.current) {
             buttonRef.current.blur();
           }
         }}
       />
       
-      {/* Espaciador para compensar la altura del navbar fijo */}
       <div className="h-[4.2rem] sm:h-[5.4rem] w-full"></div>
     </>
   );
