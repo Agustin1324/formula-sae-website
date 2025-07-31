@@ -1,67 +1,70 @@
 {
-    "sponsors": [
-        {
-            "name": "Fiuba",
-            "logo": "/sponsors/fiuba.png",   
-            "url": "https://www.ingenieria.uba.ar/"
-        },
-        {
-            "name": "Catia",
-            "logo": "/sponsors/catia.png",
-            "url": "https://www.3ds.com/es/products/catia"
-        },
-        {
-            "name": "MatLab",
-            "logo": "/sponsors/matlab.png",
-            "url": "https://www.mathworks.com/products/matlab.html"
-        },
-                {
-            "name": "Zeziola",
-            "logo": "/sponsors/zeziola.png",
-            "url": "https://zeziola.com/"
-        },
-        {
-            "name": "Azul Sport Team",
-            "logo": "/sponsors/azulSport.png",
-            "url": "https://www.instagram.com/azulsportteamok/?igsh=bXBnaDcxNTMxOTI3#"
-        },
-        {
-            "name": "Vi-Grade",
-            "logo": "/sponsors/vigrade.png",
-            "url": "https://www.vi-grade.com/en/"
-        },
-        {
-            "name": "RusMed",
-            "logo": "/sponsors/RusMed.webp",
-            "url": "https://www.rusmed.com.ar/tcp/index.html"
-        },
-        {
-            "name": "Gottert",
-            "logo": "/sponsors/gottert.webp",
-            "url": "https://gottert.com.ar/es"
-        },
-        {
-            "name": "Racetec",
-            "logo": "/sponsors/racetec.webp",
-            "url": "https://www.racetec.com.ar/"
-        },
-        {
-            "name": "SKF",
-            "logo": "/sponsors/skf.webp",
-            "url": "https://www.skf.com/ar"
-        },
-        {
-            "name": "Erhomtec",
-            "logo": "/sponsors/Erhomtec.webp",
-            "url": "https://www.erhomtec.com/energia-intercambiador-calor"
-        },
-        {
-            "name": "Argentec",
-            "logo": "/sponsors/argentec.webp",
-            "url": "https://argentecherramientas.com.ar/"
-        }
-
-
-
-    ]
+    "sponsors": {
+        "platino": [
+            {
+                "name": "Fiuba",
+                "logo": "/sponsors/fiuba.png",   
+                "url": "https://www.ingenieria.uba.ar/"
+            },
+            {
+                "name": "Catia",
+                "logo": "/sponsors/catia.png",
+                "url": "https://www.3ds.com/es/products/catia"
+            },
+            {
+                "name": "MatLab",
+                "logo": "/sponsors/matlab.png",
+                "url": "https://www.mathworks.com/products/matlab.html"
+            }
+        ],
+        "oro": [
+            {
+                "name": "SKF",
+                "logo": "/sponsors/skf.webp",
+                "url": "https://www.skf.com/ar"
+            },
+            {
+                "name": "Vi-Grade",
+                "logo": "/sponsors/vigrade.png",
+                "url": "https://www.vi-grade.com/en/"
+            },
+            {
+                "name": "Gottert",
+                "logo": "/sponsors/gottert.webp",
+                "url": "https://gottert.com.ar/es"
+            },
+            {
+                "name": "Racetec",
+                "logo": "/sponsors/racetec.webp",
+                "url": "https://www.racetec.com.ar/"
+            }
+        ],
+        "bronce": [
+            {
+                "name": "Zeziola",
+                "logo": "/sponsors/zeziola.png",
+                "url": "https://zeziola.com/"
+            },
+            {
+                "name": "Azul Sport Team",
+                "logo": "/sponsors/azulSport.png",
+                "url": "https://www.instagram.com/azulsportteamok/?igsh=bXBnaDcxNTMxOTI3#"
+            },
+            {
+                "name": "RusMed",
+                "logo": "/sponsors/RusMed.webp",
+                "url": "https://www.rusmed.com.ar/tcp/index.html"
+            },
+            {
+                "name": "Erhomtec",
+                "logo": "/sponsors/Erhomtec.webp",
+                "url": "https://www.erhomtec.com/energia-intercambiador-calor"
+            },
+            {
+                "name": "Argentec",
+                "logo": "/sponsors/argentec.webp",
+                "url": "https://argentecherramientas.com.ar/"
+            }
+        ]
+    }
 }

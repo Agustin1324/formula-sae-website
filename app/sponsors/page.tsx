@@ -10,7 +10,13 @@ interface Sponsor {
   url: string;
 }
 
-async function getSponsors(): Promise<Sponsor[]> {
+interface SponsorsByTier {
+  platino?: Sponsor[];
+  oro?: Sponsor[];
+  bronce?: Sponsor[];
+}
+
+async function getSponsors(): Promise<SponsorsByTier> {
   const jsonFile = fs.readFileSync(path.join(process.cwd(), 'data', 'sponsors.json'), 'utf-8');
   const jsonData = JSON.parse(jsonFile);
   return jsonData.sponsors;
@@ -18,6 +24,36 @@ async function getSponsors(): Promise<Sponsor[]> {
 
 export default async function SponsorsPage() {
   const sponsors = await getSponsors();
+
+  const tierConfig = {
+    platino: { 
+      name: 'Platino', 
+      color: 'white',
+      gridCols: 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3',
+      cardSize: 'p-8',
+      imageHeight: 'h-32',
+      imageWidth: 200,
+      imageHeightPx: 100
+    },
+    oro: { 
+      name: 'Oro', 
+      color: 'white',
+      gridCols: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4',
+      cardSize: 'p-6',
+      imageHeight: 'h-24',
+      imageWidth: 150,
+      imageHeightPx: 80
+    },
+    bronce: { 
+      name: 'Bronce', 
+      color: 'white',
+      gridCols: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5',
+      cardSize: 'p-4',
+      imageHeight: 'h-20',
+      imageWidth: 120,
+      imageHeightPx: 60
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#1E2A4A] via-[#2A3B5C] to-[#1E2A4A] text-white">
@@ -32,26 +68,39 @@ export default async function SponsorsPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {sponsors.map((sponsor: Sponsor, index: number) => (
-              <div key={index} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                <a href={sponsor.url} target="_blank" rel="noopener noreferrer" className="block">
-                  <div className="flex items-center justify-center h-24 mb-4">
-                    <Image 
-                      src={sponsor.logo} 
-                      alt={`${sponsor.name} logo`} 
-                      width={150}
-                      height={80} 
-                      className="object-contain max-h-full max-w-full"
-                    />
-                  </div>
-                  <h3 className="text-center text-gray-800 font-semibold text-lg">
-                    {sponsor.name}
-                  </h3>
-                </a>
+          {/* Render sponsors by tiers */}
+          {Object.entries(tierConfig).map(([tierKey, tierInfo]) => {
+            const tierSponsors = sponsors[tierKey as keyof SponsorsByTier];
+            if (!tierSponsors || tierSponsors.length === 0) return null;
+
+            return (
+              <div key={tierKey} className="mb-16">
+                <h2 className={`text-3xl font-bold text-center mb-8 ${tierInfo.color}`}>
+                  {tierInfo.name}
+                </h2>
+                <div className={`grid ${tierInfo.gridCols} gap-6 justify-items-center`}>
+                  {tierSponsors.map((sponsor: Sponsor, index: number) => (
+                    <div key={index} className={`bg-white rounded-xl ${tierInfo.cardSize} shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 w-full max-w-xs flex flex-col items-center justify-center`}>
+                      <a href={sponsor.url} target="_blank" rel="noopener noreferrer" className="block w-full text-center">
+                        <div className={`flex items-center justify-center ${tierInfo.imageHeight} mb-4`}>
+                          <Image 
+                            src={sponsor.logo} 
+                            alt={`${sponsor.name} logo`} 
+                            width={tierInfo.imageWidth}
+                            height={tierInfo.imageHeightPx} 
+                            className="object-contain max-h-full max-w-full"
+                          />
+                        </div>
+                        <h3 className="text-center text-gray-800 font-semibold text-lg">
+                          {sponsor.name}
+                        </h3>
+                      </a>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
 
           <div className="text-center mt-12">
             <Link href="/">
