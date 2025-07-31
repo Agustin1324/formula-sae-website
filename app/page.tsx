@@ -67,25 +67,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Sponsors Section */}
-      <section className="py-12 overflow-hidden w-full">
-        <div className="max-w-6xl mx-auto px-4 w-full">
-          <h2 className="text-3xl font-bold mb-8 text-center text-[#00A3FF] font-montserrat">Nuestros Sponsors</h2>
-          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-xl text-center">
-            <p className="text-gray-600 mb-6 text-lg">
-              Conoce a las empresas que hacen posible nuestro proyecto
-            </p>
-            <Link href="/sponsors">
-              <Button 
-                size="lg" 
-                className="bg-[#00A3FF] hover:bg-[#0082CC] text-white font-bold text-lg px-8 py-6 transform hover:scale-105 transition-all duration-300 hover:shadow-lg"
-              >
-                Ver Nuestros Sponsors
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
       {/* About Section */}
       <section id="about" className="py-16 px-4 w-full">
         <div className="max-w-6xl mx-auto w-full">

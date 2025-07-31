@@ -75,6 +75,7 @@ export default function Navbar() {
         { name: "Electrónica", href: "/subsystems/electronics" },
       ]
     },
+    { name: "Sponsors", href: "/sponsors" },
     { name: "Contacto", href: "/join" },
   ];
 
@@ -105,7 +106,7 @@ export default function Navbar() {
                 aria-label="Menu"
                 aria-expanded={isMenuOpen}
               >
-                <span>Menu</span>
+                <span>Menú</span>
                 <svg
                   className={`w-4 h-4 transition-transform duration-200 ${isMenuOpen ? 'rotate-180' : ''}`}
                   fill="none"

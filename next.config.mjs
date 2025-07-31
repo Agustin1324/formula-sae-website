@@ -4,7 +4,7 @@ const nextConfig = {
   experimental: {
     esmExternals: false,
   },
-  // Fix for Windows symbolic link issues
+
   webpack: (config, { isServer }) => {
     if (isServer) {
       config.watchOptions = {
@@ -14,7 +14,6 @@ const nextConfig = {
     }
     return config;
   },
-  // Additional configuration to prevent symlink issues
   swcMinify: true,
   images: {
     remotePatterns: [
