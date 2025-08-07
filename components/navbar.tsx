@@ -146,7 +146,7 @@ export default function Navbar() {
                         
                         {/* Submenu lateral */}
                         <div 
-                          className={`absolute left-full top-0 w-48 bg-white shadow-lg border-l border-gray-200 transition-all duration-200 ${
+                          className={`absolute right-full top-0 w-48 bg-white shadow-lg border-l border-gray-200 transition-all duration-200 ${
                             hoveredItem === item.name 
                               ? 'opacity-100 visible translate-x-0' 
                               : 'opacity-0 invisible -translate-x-2'
