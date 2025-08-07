@@ -1,6 +1,6 @@
 {
     "sponsors": {
-        "platino": [
+        "oro": [
             {
                 "name": "Fiuba",
                 "logo": "/sponsors/fiuba.png",   
@@ -12,16 +12,21 @@
                 "url": "https://www.3ds.com/es/products/catia"
             },
             {
-                "name": "MatLab",
-                "logo": "/sponsors/matlab.png",
-                "url": "https://www.mathworks.com/products/matlab.html"
+                "name": "RusMed",
+                "logo": "/sponsors/RusMed.webp",
+                "url": "https://www.rusmed.com.ar/tcp/index.html"
             }
         ],
-        "oro": [
+        "plata": [
             {
                 "name": "SKF",
                 "logo": "/sponsors/skf.webp",
                 "url": "https://www.skf.com/ar"
+            },
+            {
+                "name": "MatLab",
+                "logo": "/sponsors/matlab.png",
+                "url": "https://www.mathworks.com/products/matlab.html"
             },
             {
                 "name": "Vi-Grade",
@@ -49,11 +54,6 @@
                 "name": "Azul Sport Team",
                 "logo": "/sponsors/azulSport.png",
                 "url": "https://www.instagram.com/azulsportteamok/?igsh=bXBnaDcxNTMxOTI3#"
-            },
-            {
-                "name": "RusMed",
-                "logo": "/sponsors/RusMed.webp",
-                "url": "https://www.rusmed.com.ar/tcp/index.html"
             },
             {
                 "name": "Erhomtec",

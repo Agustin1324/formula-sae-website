@@ -11,8 +11,8 @@ interface Sponsor {
 }
 
 interface SponsorsByTier {
-  platino?: Sponsor[];
   oro?: Sponsor[];
+  plata?: Sponsor[];
   bronce?: Sponsor[];
 }
 
@@ -26,8 +26,8 @@ export default async function SponsorsPage() {
   const sponsors = await getSponsors();
 
   const tierConfig = {
-    platino: { 
-      name: 'Platino', 
+    oro: { 
+      name: 'Oro', 
       color: 'white',
       gridCols: 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3',
       cardSize: 'p-8',
@@ -35,8 +35,8 @@ export default async function SponsorsPage() {
       imageWidth: 200,
       imageHeightPx: 100
     },
-    oro: { 
-      name: 'Oro', 
+    plata: { 
+      name: 'Plata', 
       color: 'white',
       gridCols: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4',
       cardSize: 'p-6',
