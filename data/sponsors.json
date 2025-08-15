@@ -2,6 +2,13 @@
     "sponsors": {
         "oro": [
             {
+                "name": "RusMed",
+                "logo": "/sponsors/RusMed.webp",
+                "url": "https://www.rusmed.com.ar/tcp/index.html"
+            }
+        ],
+        "plata": [
+            {
                 "name": "Fiuba",
                 "logo": "/sponsors/fiuba.png",   
                 "url": "https://www.ingenieria.uba.ar/"
@@ -10,18 +17,6 @@
                 "name": "Catia",
                 "logo": "/sponsors/catia.png",
                 "url": "https://www.3ds.com/es/products/catia"
-            },
-            {
-                "name": "RusMed",
-                "logo": "/sponsors/RusMed.webp",
-                "url": "https://www.rusmed.com.ar/tcp/index.html"
-            }
-        ],
-        "plata": [
-            {
-                "name": "SKF",
-                "logo": "/sponsors/skf.webp",
-                "url": "https://www.skf.com/ar"
             },
             {
                 "name": "MatLab",
@@ -42,9 +37,7 @@
                 "name": "Racetec",
                 "logo": "/sponsors/racetec.webp",
                 "url": "https://www.racetec.com.ar/"
-            }
-        ],
-        "bronce": [
+            },            
             {
                 "name": "Zeziola",
                 "logo": "/sponsors/zeziola.png",
@@ -64,6 +57,18 @@
                 "name": "Argentec",
                 "logo": "/sponsors/argentec.webp",
                 "url": "https://argentecherramientas.com.ar/"
+            },
+            {
+                "name": "Engys",
+                "logo": "/sponsors/logo-engys.svg",
+                "url": "https://engys.com/"
+            }
+        ],
+        "bronce": [
+            {
+                "name": "SKF",
+                "logo": "/sponsors/skf.webp",
+                "url": "https://www.skf.com/ar"
             }
         ]
     }

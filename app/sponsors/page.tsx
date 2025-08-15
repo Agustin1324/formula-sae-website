@@ -29,8 +29,8 @@ export default async function SponsorsPage() {
     oro: { 
       name: 'Oro', 
       color: 'white',
-      gridCols: 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3',
-      cardSize: 'p-8',
+      gridCols: 'grid-cols-1',
+      cardSize: 'p-8 w-64 h-64',
       imageHeight: 'h-32',
       imageWidth: 200,
       imageHeightPx: 100
@@ -38,7 +38,7 @@ export default async function SponsorsPage() {
     plata: { 
       name: 'Plata', 
       color: 'white',
-      gridCols: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4',
+      gridCols: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5',
       cardSize: 'p-6',
       imageHeight: 'h-24',
       imageWidth: 150,
@@ -47,11 +47,12 @@ export default async function SponsorsPage() {
     bronce: { 
       name: 'Bronce', 
       color: 'white',
-      gridCols: 'grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5',
-      cardSize: 'p-4',
+      gridCols: 'grid-cols-1',
+      cardSize: 'p-4 w-60 h-60 ',
       imageHeight: 'h-20',
       imageWidth: 120,
       imageHeightPx: 60
+ 
     }
   };
 
@@ -68,7 +69,7 @@ export default async function SponsorsPage() {
             </p>
           </div>
 
-          {/* Render sponsors by tiers */}
+          
           {Object.entries(tierConfig).map(([tierKey, tierInfo]) => {
             const tierSponsors = sponsors[tierKey as keyof SponsorsByTier];
             if (!tierSponsors || tierSponsors.length === 0) return null;
