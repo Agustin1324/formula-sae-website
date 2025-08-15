@@ -66,6 +66,30 @@
         "src": "/timeline/dinamica_vehiculo.png",
         "alt": "Dinámica del Vehículo – Finalizada"
       }
+    },
+    {
+      "title": "Junio 2025",
+      "heading": "Finalización del Taller y Participación en FIMAQH",
+      "content": ["Finalización completa del espacio de trabajo del equipo.",
+                  "Participación del equipo en FIMAQH junto con el Departamento de Mecánica.",
+                  "Visita educativa de la escuela técnica de Arrecifes."],
+      "image": {
+        "src": "/timeline/finalizacion_taller.png",
+        "alt": "Finalización del Taller"
+      }
+    },
+    {
+      "title": "Julio 2025",
+      "heading": "Avances en Motor y Sistemas",
+      "content": ["Visita técnica a las instalaciones de SKF.",
+                  "Puesta en marcha exitosa del motor del monoplaza.",
+                  "Diseño del conjunto de dirección y sistema de cremallera.",
+                  "Primeros diseños del alerón delantero aerodinámico.",
+                  "Desarrollo de código para la adquisición de datos en pista."],
+      "image": {
+        "src": "/timeline/motor_sistemas.png",
+        "alt": "Avances en Motor y Sistemas"
+      }
     }
   ]
 }
